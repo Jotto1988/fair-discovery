@@ -1,6 +1,6 @@
 ============================ FAIR DISCOVERY ENGINE (v1)
 
-Setup Instructions for intpanelshop.co.za:
+Setup Instructions for YOUR_WEBSITE:
 
 Upload the 'fair-discovery' folder to your website root at intpanelshop.co.za.
 
