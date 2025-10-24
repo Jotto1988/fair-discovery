@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Fair Discovery Network — Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>🌍 Fair Discovery Network</h1>
+  <p class="lead">Client-side aggregator — free to host on GitHub Pages / Netlify.</p>
+</header>
+
+<section id="controls">
+  <label><input type="checkbox" id="autoRefresh"> Auto-refresh every 60s</label>
+  <button id="refreshBtn">Refresh now</button>
+  <span id="status" class="small"></span>
+</section>
+
+<main>
+  <table id="results"><thead><tr><th>Page</th><th>Score</th></tr></thead><tbody></tbody></table>
+</main>
+
+<footer>
+  <p class="small">Add your site by linking to <code>/fair-discovery/discovery.json</code> on your site.</p>
+  <p class="small"><a href="../FAIR_DISCOVERY_MANIFESTO.txt">Fair Discovery Manifesto</a></p>
+</footer>
+
+<script src="fair-discovery.js"></script>
+</body>
+</html>
