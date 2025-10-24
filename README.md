@@ -1,139 +1,49 @@
-🌍 Why It’s Different (and Stronger Than SEO)
-Traditional SEO	Fair Discovery Approach
-Optimizes for algorithms (keywords, backlinks, metadata)	Optimizes for people (real user engagement)
-Controlled by large search engines	Controlled by you and your users
-Expensive to scale	Free and self-hosted
-Ranking is opaque	Engagement data is transparent (open JSON)
-Can be gamed by bots or link farms	Harder to fake — only real user interaction increases score
-⚙️ How It Can “Push Your Site Ahead”
+# fair-discovery-aggregator
 
-Human Validation Layer
-Search engines increasingly rank based on “user signals” — bounce rate, dwell time, click depth, etc.
-Your Fair Discovery data mimics that behavior and can be published openly.
-→ If you share this JSON publicly (or let other sites reference it), it becomes a trust signal — a proof-of-engagement dataset.
+[![Forever Free](https://img.shields.io/badge/Forever-Free-brightgreen)](https://github.com/)
+[![Open Source](https://img.shields.io/badge/License-FDL%20v1.0-blue)](#license)
+[![Founder](https://img.shields.io/badge/Founder-Jarrit%20Hosking-orange)](#founders-note)
 
-Open Web Signals
-You can make your site’s /fair-discovery/discovery.json accessible for aggregation (a community-driven “engagement index”).
-That means you’re no longer waiting for Google’s crawlers — your site starts contributing to an independent discoverability network.
+Fair Discovery Aggregator — dual edition (frontend-only + optional hybrid backend)
+A community-first, open, and free discovery protocol that ranks pages by human engagement.
 
-Organic Sharing Multiplier
-High engagement correlates with real usefulness — the more people stay and interact, the more likely they’ll share your content.
-The system amplifies pages that truly engage people (the opposite of keyword-stuffing).
+## Contents
 
-Fairness by Design
-Every site running this system has the same base algorithm:
+- `public/` — Frontend dashboard (GitHub Pages / Netlify friendly)
+- `aggregator/` — Optional Python aggregator (server-side fetching)
+- `functions/` — Firebase Cloud Functions (your provided code integrated)
+- `LICENSE` — Fair Discovery License (FDL v1.0)
+- `.gitignore`
 
-score = time_spent + (interactions × weight)
+## Quick start — Frontend (recommended, free)
 
+1. Open `public/index.html`. Customize `public/sites.json` with seed discovery feeds.
+2. Deploy the `public/` folder to GitHub Pages, Netlify, or any static host.
+3. Visit the page and allow it to discover feeds automatically.
 
-No hidden bias, no paid boost.
-It’s like an open competition for attention where quality wins.
+## Optional — Hybrid backend
 
-🌍 Fair Discovery Manifesto
-A Declaration for a Free and Equal Web
-🧭 1. The Vision
+If you want server-side caching and faster responses, use the `aggregator/` Python script or run the `functions/` Firebase code.
 
-The web was meant to be open, equal, and discoverable — a place where ideas rise because of value, not because of budget.
-Fair Discovery exists to restore that balance.
+## Firebase setup (optional)
 
-It is a free, decentralized system that ranks web pages based purely on human engagement — not ads, manipulation, or corporate bias.
-Every site is given an equal chance to be seen, discovered, and celebrated by the people who visit it.
+1. Install Firebase CLI and login: `npm install -g firebase-tools` then `firebase login`.
+2. Initialize functions: `firebase init functions` (choose Node.js).
+3. Copy the `functions/` folder into your Firebase project root.
+4. Set environment variables for Gemini API as needed.
+5. Deploy: `firebase deploy --only functions`
 
-🤝 2. The Principles
-1. Freedom
+## Credits & Manifesto
 
-Participation is free. Forever.
-No one can be charged, restricted, or discriminated against for joining or hosting a Fair Discovery node.
+Founder: Jarrit Hosking
+Manifesto: `FAIR_DISCOVERY_MANIFESTO.txt`
 
-2. Transparency
+Medium article: https://medium.com/@jarrithosking/fair-web-discovery-30421c75bb3f
 
-All algorithms, files, and logic are open-source and visible.
-Every calculation, ranking, and discovery path can be audited by anyone.
+## License
 
-3. Decentralization
+This project is licensed under the **Fair Discovery License (FDL v1.0)** — see `LICENSE` for details.
 
-No central authority.
-Each website hosts its own /fair-discovery/discovery.json.
-Each aggregator reads from many sources to form a distributed, community-driven web index.
+## Founder's Note
 
-4. Equality
-
-No domain or brand receives special treatment.
-Engagement data is measured purely by interaction — not by name, fame, or funding.
-
-5. Privacy
-
-No personal data is collected.
-Engagement is measured anonymously and ethically — respecting visitors’ privacy and consent.
-
-6. Sustainability
-
-The network runs on open web standards — HTML, JSON, and JavaScript — without requiring expensive servers or external APIs.
-
-7. Neutrality
-
-Fair Discovery does not rank by politics, language, or geography.
-It rewards connection, not content bias.
-
-💡 3. The Method
-
-Each participating site hosts a small /fair-discovery folder containing:
-
-A discovery.json feed of engagement data
-
-A transparent script that records interaction (scrolls, clicks, and time)
-
-A dashboard to visualize engagement
-
-Aggregators — hosted anywhere, by anyone — simply read these public feeds, merge them, and show a global leaderboard of engagement.
-
-No crawling. No secrets.
-Just open cooperation between honest websites.
-
-🌱 4. The Promise
-
-Fair Discovery will:
-
-Never introduce monetization
-
-Never sell or prioritize data
-
-Never restrict participation
-
-It belongs to the web — not to one company, country, or individual.
-It is a commons — like the open ocean of knowledge.
-
-🛠 5. The Invitation
-
-Anyone can:
-
-Host their own Fair Discovery node
-
-Build their own aggregator
-
-Improve the algorithms
-
-Share or remix the code
-
-Translate the manifesto
-
-Together, we can create a search revolution — not by controlling discovery, but by liberating it.
-
-⚖️ 6. The License
-
-License: MIT Open License
-
-You may copy, modify, distribute, and host this project freely — as long as you preserve this manifesto and its promise of freedom.
-
-Fair Discovery will always remain free, open, and fair.
-Because discovery belongs to everyone.
-
-✍️ Founder’s Note
-
-Created by Jarrith Hosking
- — in the belief that fairness on the web should never be a luxury, but a right.
-
-“The goal isn’t to build another algorithm that decides what’s worthy.
-The goal is to give the web back its power to decide for itself.”
-
-— Jarrith Hosking, Founder of Fair Discovery
+Created by Jarrit Hosking — in the belief that fairness on the web should never be a luxury, but a right.
