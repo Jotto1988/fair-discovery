@@ -1,0 +1,16 @@
+{
+    "site": "your-website.com",
+    "visitors": {
+        "current_week_start": "2025-01-01",
+        "week_1": 0,
+        "week_2": 0,
+        "week_3": 0,
+        "week_4": 0
+    },
+    "pages": [
+        {
+            "url": "/example-page.html",
+            "score": 10
+        }
+    ]
+}

@@ -1,32 +1,136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Fair Discovery Network — Dashboard</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fair Discovery Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f4f6f9; padding: 40px; color: #333; max-width: 900px; margin: 0 auto; }
+    h1 { color: #1a73e8; font-size: 2.2em; display: flex; align-items: center; gap: 10px; margin-bottom: 10px;}
+    h1 span { font-size: 1.2rem; font-weight: normal; color: #555; }
+    
+    .visitor-panel {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .v-card { text-align: center; }
+    .v-card h3 { margin: 0 0 5px 0; font-size: 0.85em; text-transform: uppercase; color: #888; letter-spacing: 0.5px; }
+    .v-card .count { font-size: 1.8em; font-weight: bold; color: #333; }
+    .v-card.active .count { color: #1a73e8; }
+    .v-card.active h3 { color: #1a73e8; font-weight: bold; }
+    
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    th, td { padding: 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    th { background: #1a73e8; color: white; }
+    .bar { background: #e0e7ff; border-radius: 6px; height: 10px; margin-top: 6px; }
+    .fill { background: #1a73e8; height: 100%; }
+    
+    #controls { display: flex; justify-content: space-between; margin-top: 25px; }
+    #chartContainer { margin-top: 40px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    #footer { text-align: center; margin-top: 40px; color: #777; font-size: 0.9em; }
+    a { color: #1a73e8; text-decoration: none; }
+  </style>
 </head>
 <body>
-<header>
-  <h1>🌍 Fair Discovery Network</h1>
-  <p class="lead">Client-side aggregator — free to host on GitHub Pages / Netlify.</p>
-</header>
+  <h1>🌍 Fair Discovery <span>Live Engagement Dashboard</span></h1>
+  
+  <div class="visitor-panel">
+      <div class="v-card active">
+          <h3>Current Week</h3>
+          <div class="count" id="w1">--</div>
+      </div>
+      <div class="v-card">
+          <h3>Last Week</h3>
+          <div class="count" id="w2">--</div>
+      </div>
+      <div class="v-card">
+          <h3>2 Weeks Ago</h3>
+          <div class="count" id="w3">--</div>
+      </div>
+      <div class="v-card">
+          <h3>3 Weeks Ago</h3>
+          <div class="count" id="w4">--</div>
+      </div>
+  </div>
 
-<section id="controls">
-  <label><input type="checkbox" id="autoRefresh"> Auto-refresh every 60s</label>
-  <button id="refreshBtn">Refresh now</button>
-  <span id="status" class="small"></span>
-</section>
+  <div id="controls">
+    <span><strong>📊 Engagement Overview</strong></span>
+    <label><input type="checkbox" id="autoRefresh"> Auto-refresh (30s)</label>
+  </div>
 
-<main>
-  <table id="results"><thead><tr><th>Page</th><th>Score</th></tr></thead><tbody></tbody></table>
-</main>
+  <table id="results">
+    <tr><th>Page</th><th>Engagement Score</th></tr>
+  </table>
 
-<footer>
-  <p class="small">Add your site by linking to <code>/fair-discovery/discovery.json</code> on your site.</p>
-  <p class="small"><a href="../FAIR_DISCOVERY_MANIFESTO.txt">Fair Discovery Manifesto</a></p>
-</footer>
+  <div id="chartContainer"><canvas id="engagementChart"></canvas></div>
+  <div id="footer">
+    <p>Powered by <strong>Fair Discovery AI</strong><br><a href="discovery.json" target="_blank">View JSON Feed</a></p>
+  </div>
 
-<script src="fair-discovery.js"></script>
+  <script>
+    const chartCtx = document.getElementById("engagementChart").getContext("2d");
+    let engagementChart, refreshInterval;
+
+    async function loadData() {
+      try {
+        const res = await fetch("discovery.json?" + Date.now());
+        const data = await res.json();
+        
+        // 1. UPDATE WEEKLY STATS
+        if (data.visitors) {
+            document.getElementById('w1').innerText = data.visitors.week_1;
+            document.getElementById('w2').innerText = data.visitors.week_2;
+            document.getElementById('w3').innerText = data.visitors.week_3;
+            document.getElementById('w4').innerText = data.visitors.week_4;
+        }
+
+        // 2. UPDATE TABLE
+        const table = document.getElementById("results");
+        table.innerHTML = "<tr><th>Page</th><th>Engagement Score</th></tr>";
+        
+        if (data.pages && data.pages.length > 0) {
+            data.pages.sort((a, b) => b.score - a.score);
+            const maxScore = Math.max(...data.pages.map(p => p.score));
+
+            data.pages.forEach(p => {
+              const relativeWidth = maxScore > 0 ? Math.round(((p.score / maxScore) * 100)) : 0;
+              const row = `
+                <tr>
+                  <td><a href="${p.url}" target="_blank">${p.url}</a>
+                    <div class="bar"><div class="fill" style="width:${relativeWidth}%;"></div></div>
+                  </td>
+                  <td>${p.score}</td>
+                </tr>`;
+              table.insertAdjacentHTML("beforeend", row);
+            });
+            
+            // Chart Logic
+            const topPages = data.pages.slice(0, 5);
+            if (engagementChart) engagementChart.destroy();
+            engagementChart = new Chart(chartCtx, {
+              type: "bar",
+              data: {
+                labels: topPages.map(p => p.url),
+                datasets: [{ label: "Score", data: topPages.map(p => p.score), backgroundColor: "#1a73e8", borderRadius: 4 }]
+              },
+              options: { plugins: { legend: { display: false } } }
+            });
+        }
+      } catch (err) { console.error("Error:", err); }
+    }
+
+    document.getElementById("autoRefresh").addEventListener("change", (e) => {
+      if (e.target.checked) { loadData(); refreshInterval = setInterval(loadData, 30000); }
+      else clearInterval(refreshInterval);
+    });
+    document.addEventListener("DOMContentLoaded", loadData);
+  </script>
 </body>
 </html>
