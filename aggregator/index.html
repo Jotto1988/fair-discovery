@@ -6,7 +6,7 @@
     <title>Fair Discovery Directory</title>
     <style>
         :root { --primary: #1a73e8; --bg: #f8f9fa; --card-bg: #ffffff; }
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: #333; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
         
         /* Hero Search Section */
         header { background: white; padding: 60px 20px; text-align: center; border-bottom: 1px solid #ddd; }
@@ -24,13 +24,13 @@
         }
         input:focus { box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-color: var(--primary); }
 
-        /* NEW: Join Link Styling */
+        /* Join Link Styling */
         .join-link { margin-top: 25px; font-size: 0.95rem; color: #555; }
         .join-link a { color: var(--primary); text-decoration: none; font-weight: 600; }
         .join-link a:hover { text-decoration: underline; }
 
         /* Grid Results */
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; flex: 1; }
         .stats-bar { margin-bottom: 20px; color: #777; font-size: 0.9rem; display: flex; justify-content: space-between; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
@@ -59,9 +59,22 @@
         .score-fill { height: 100%; background: #34a853; }
 
         .loader { text-align: center; padding: 50px; color: #888; }
-        
-        /* Verification Tick */
         .verified { color: #34a853; font-size: 1rem; }
+
+        /* Footer & BMC Button */
+        footer {
+            text-align: center; padding: 40px 20px; margin-top: 60px; 
+            border-top: 1px solid #eaeaea; background: white; color: #777;
+        }
+        .bmc-button {
+            display: inline-flex; align-items: center; gap: 10px;
+            background-color: #FFDD00; color: #000000;
+            padding: 10px 25px; border-radius: 8px; margin-top: 15px;
+            text-decoration: none; font-weight: 700; font-size: 1rem; font-family: 'Lato', sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
+        }
+        .bmc-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .bmc-button img { height: 25px; }
     </style>
 </head>
 <body>
@@ -93,14 +106,20 @@
     </div>
 </div>
 
+<footer>
+    <p>Fair Discovery is open source and free for everyone.</p>
+    <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="bmc-button">
+        <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee">
+        <span>Support the Dev</span>
+    </a>
+</footer>
+
 <script>
     const FEED_URL = 'data.json'; 
     let allData = [];
 
-    // 1. Fetch the Aggregated Data
     async function init() {
         try {
-            // Add a timestamp to prevent caching
             const response = await fetch(FEED_URL + '?' + Date.now());
             if (!response.ok) throw new Error("Network response was not ok");
             const json = await response.json();
@@ -118,7 +137,6 @@
         }
     }
 
-    // 2. Render the Cards
     function render(items) {
         const grid = document.getElementById('resultsGrid');
         grid.innerHTML = '';
@@ -128,21 +146,15 @@
             return;
         }
 
-        // Determine max score for the progress bar scaling
         const maxScore = Math.max(...items.map(i => i.score)) || 100;
 
         items.forEach(item => {
-            // Clean up the URL for display
             const displayUrl = item.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
             const safeLink = item.url.startsWith('http') ? item.url : 'https://' + item.url;
-            
-            // Calculate "AI Strength" bar
             const percent = Math.min(100, Math.round((item.score / maxScore) * 100));
             
-            // Basic "Title" extraction (take the last part of URL or domain)
             let title = displayUrl.split('/').pop().replace(/-/g, ' ').replace('.html', '');
             if (!title || title === displayUrl.split('/')[0]) {
-                // If title is empty or just the domain, try to make it look nicer
                 title = displayUrl.split('/')[0]; 
             }
             title = title.charAt(0).toUpperCase() + title.slice(1);
@@ -167,19 +179,12 @@
         });
     }
 
-    // 3. "AI" Search Filter
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase();
-        
-        // Filter logic: matches URL or "Smart Title"
-        const filtered = allData.filter(item => {
-            return item.url.toLowerCase().includes(term);
-        });
-        
+        const filtered = allData.filter(item => item.url.toLowerCase().includes(term));
         render(filtered);
     });
 
-    // Start
     init();
 </script>
 
