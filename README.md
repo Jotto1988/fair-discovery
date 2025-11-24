@@ -35,6 +35,16 @@ If you want server-side caching and faster responses, use the `aggregator/` Pyth
 
 ## Credits & Manifesto
 
+## 🤝 The Fair Promise
+
+Fair Discovery is, and will always be, **100% Free and Open Source**.
+
+* **No Pay-to-Win:** You cannot buy a higher ranking. Rankings are based solely on real human engagement.
+* **No Hidden Tracking:** We do not track users across the web.
+* **No Gatekeeping:** The directory is open to everyone.
+
+If you find value in this tool and want to support the server costs or the developer's caffeine intake, you can [Buy Me a Coffee](https://www.buymeacoffee.com/Prinymity). ☕
+
 Founder: Jarrit Hosking
 Manifesto: `FAIR_DISCOVERY_MANIFESTO.txt`
 
