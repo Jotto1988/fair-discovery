@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
     <title>Fair Discovery Directory</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
+    
     <style>
         /* --- CSS VARIABLES FOR THEMING --- */
         :root {
@@ -130,8 +134,8 @@
 
 <script>
     const FEED_URL = 'data.json'; 
-    let rawData = [];      // The raw pages from JSON
-    let groupedData = [];  // Data grouped by domain
+    let rawData = [];      
+    let groupedData = [];  
     let currentPage = 1;
     let limit = 10;
 
@@ -150,13 +154,11 @@
             const json = await res.json();
             rawData = json.pages || [];
             
-            // GROUPING LOGIC: Combine pages into Domains
+            // GROUPING LOGIC
             const domainMap = {};
             
             rawData.forEach(page => {
                 try {
-                    // Extract Domain (e.g., www.intpanelshop.co.za)
-                    // If URL doesn't have protocol, add it to parse correctly
                     const urlStr = page.url.startsWith('http') ? page.url : 'https://' + page.url;
                     const urlObj = new URL(urlStr);
                     const domain = urlObj.hostname;
@@ -175,16 +177,14 @@
                 } catch (e) { console.warn("Invalid URL:", page.url); }
             });
 
-            // Convert map to array and sort by Total Score
             groupedData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
-            
             render();
         } catch (err) {
             document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Database Building... Check back soon.</p>`;
         }
     }
 
-    // 3. Flag Logic (Auto-detect based on TLD)
+    // 3. Flag Logic
     function getFlag(domain) {
         if (domain.endsWith('.za')) return '🇿🇦 Cape Town, SA';
         if (domain.endsWith('.uk')) return '🇬🇧 United Kingdom';
@@ -200,13 +200,11 @@
         const grid = document.getElementById('resultsGrid');
         grid.innerHTML = '';
         
-        // Search Filter
         const term = document.getElementById('searchInput').value.toLowerCase();
         const filtered = groupedData.filter(item => item.domain.toLowerCase().includes(term));
 
         document.getElementById('statsLabel').innerText = `Found ${filtered.length} sites`;
 
-        // Pagination Slice
         const totalPages = Math.ceil(filtered.length / limit);
         if (currentPage > totalPages) currentPage = 1;
         
@@ -248,26 +246,21 @@
         return num;
     }
 
-    // 5. Render Pagination Controls
+    // 5. Render Pagination
     function renderPagination(totalPages) {
         const container = document.getElementById('paginationControls');
         container.innerHTML = '';
         if (totalPages <= 1) return;
 
-        // Prev
         container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`);
 
-        // Numbers (Simplified logic for now)
         for (let i = 1; i <= totalPages; i++) {
-            // Show only first few, current, and last (simple version: show all if under 10)
             if (totalPages > 10 && Math.abs(currentPage - i) > 2 && i !== 1 && i !== totalPages) continue; 
-            
             container.insertAdjacentHTML('beforeend', 
                 `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`
             );
         }
 
-        // Next
         container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`);
     }
 
