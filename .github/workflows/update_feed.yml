@@ -1,9 +1,39 @@
-- name: Install dependencies
-        # Now looking for requirements.txt in the ROOT (no folder prefix)
+name: Update Discovery Feed
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  # Allow manual trigger button
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Aggregator Script
-        # Now running the script from the ROOT (no folder prefix)
         run: python aggregator.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "FairDiscovery Bot"
+          git config --global user.email "bot@fairdiscovery.org"
+          git add data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update database" && git push)
