@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fair Discovery Directory</title>
+    <style>
+        /* --- CSS VARIABLES FOR THEMING --- */
+        :root {
+            --primary: #1a73e8;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-sub: #666;
+            --border: #dfe1e5;
+            --shadow: rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] {
+            --primary: #8ab4f8;
+            --bg: #202124;
+            --card-bg: #303134;
+            --text: #e8eaed;
+            --text-sub: #9aa0a6;
+            --border: #3c4043;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
+        
+        /* HEADER & SEARCH */
+        header { background: var(--card-bg); padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--border); position: relative; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: none; border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; }
+        .theme-toggle:hover { background: var(--bg); }
+
+        h1 { color: var(--primary); margin: 0 0 10px 0; font-size: 2.2rem; letter-spacing: -1px; }
+        h1 span { color: var(--text); font-weight: 300; }
+        .subtitle { color: var(--text-sub); margin-bottom: 30px; }
+
+        .search-box { max-width: 600px; margin: 0 auto; }
+        input {
+            width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text); font-size: 1.1rem; outline: none; 
+            box-shadow: 0 2px 5px var(--shadow); transition: all 0.3s ease;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 4px 12px var(--shadow); }
+
+        /* RESULTS GRID */
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; flex: 1; width: 100%; box-sizing: border-box; }
+        
+        .controls-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: var(--text-sub); font-size: 0.9rem; }
+        select { background: var(--card-bg); color: var(--text); border: 1px solid var(--border); padding: 5px; border-radius: 4px; }
+
+        .card {
+            background: var(--card-bg); border-radius: 12px; padding: 20px; margin-bottom: 15px;
+            box-shadow: 0 1px 3px var(--shadow); border: 1px solid transparent;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px var(--shadow); border-color: var(--border); }
+
+        .card-left { flex: 1; }
+        .domain-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 4px; }
+        .flag { font-size: 1.1rem; }
+        .card-title { font-size: 1.3rem; color: var(--primary); text-decoration: none; font-weight: 600; display: block; }
+        .card-title:hover { text-decoration: underline; }
+        .meta-info { font-size: 0.85rem; color: var(--text-sub); margin-top: 5px; }
+
+        .card-right { text-align: right; padding-left: 20px; min-width: 100px; }
+        .score-badge { font-size: 1.4rem; font-weight: bold; color: var(--text); display: block; }
+        .score-label { font-size: 0.75rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* PAGINATION */
+        .pagination { display: flex; justify-content: center; gap: 5px; margin-top: 40px; }
+        .page-btn {
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+            padding: 8px 12px; border-radius: 6px; cursor: pointer; user-select: none;
+        }
+        .page-btn:hover { background: var(--bg); }
+        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.5; cursor: default; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 40px 20px; margin-top: 60px; border-top: 1px solid var(--border); color: var(--text-sub); }
+        .join-link a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        
+        .bmc-button {
+            display: inline-flex; align-items: center; gap: 10px; background-color: #FFDD00; color: #000;
+            padding: 8px 20px; border-radius: 8px; margin-top: 15px; text-decoration: none; font-weight: 700; font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <h1>Fair <span>Discovery</span></h1>
+    <p class="subtitle">The decentralized, AI-ranked directory.</p>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for sites, services, or locations...">
+    </div>
+</header>
+
+<div class="container">
+    <div class="controls-bar">
+        <span id="statsLabel">Loading...</span>
+        <div>
+            Show: 
+            <select id="limitSelect" onchange="changeLimit()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+    </div>
+    
+    <div id="resultsGrid"></div>
+    <div class="pagination" id="paginationControls"></div>
+</div>
+
+<footer>
+    <div class="join-link">
+        🚀 Want to list your site? <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank">Join Free on GitHub</a>
+    </div>
+    <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="bmc-button">
+        ☕ Support the Dev
+    </a>
+</footer>
+
+<script>
+    const FEED_URL = 'data.json'; 
+    let rawData = [];      // The raw pages from JSON
+    let groupedData = [];  // Data grouped by domain
+    let currentPage = 1;
+    let limit = 10;
+
+    // 1. Theme Logic
+    function toggleTheme() {
+        const body = document.body;
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        document.querySelector('.theme-toggle').innerText = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+    }
+
+    // 2. Fetch & Group Data
+    async function init() {
+        try {
+            const res = await fetch(FEED_URL + '?' + Date.now());
+            const json = await res.json();
+            rawData = json.pages || [];
+            
+            // GROUPING LOGIC: Combine pages into Domains
+            const domainMap = {};
+            
+            rawData.forEach(page => {
+                try {
+                    // Extract Domain (e.g., www.intpanelshop.co.za)
+                    // If URL doesn't have protocol, add it to parse correctly
+                    const urlStr = page.url.startsWith('http') ? page.url : 'https://' + page.url;
+                    const urlObj = new URL(urlStr);
+                    const domain = urlObj.hostname;
+                    
+                    if (!domainMap[domain]) {
+                        domainMap[domain] = {
+                            domain: domain,
+                            fullUrl: urlObj.origin,
+                            totalScore: 0,
+                            pageCount: 0,
+                            flag: getFlag(domain)
+                        };
+                    }
+                    domainMap[domain].totalScore += page.score;
+                    domainMap[domain].pageCount++;
+                } catch (e) { console.warn("Invalid URL:", page.url); }
+            });
+
+            // Convert map to array and sort by Total Score
+            groupedData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
+            
+            render();
+        } catch (err) {
+            document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Database Building... Check back soon.</p>`;
+        }
+    }
+
+    // 3. Flag Logic (Auto-detect based on TLD)
+    function getFlag(domain) {
+        if (domain.endsWith('.za')) return '🇿🇦 Cape Town, SA';
+        if (domain.endsWith('.uk')) return '🇬🇧 United Kingdom';
+        if (domain.endsWith('.au')) return '🇦🇺 Australia';
+        if (domain.endsWith('.de')) return '🇩🇪 Germany';
+        if (domain.endsWith('.fr')) return '🇫🇷 France';
+        if (domain.endsWith('.br')) return '🇧🇷 Brazil';
+        return '🌐 Global';
+    }
+
+    // 4. Render Results
+    function render() {
+        const grid = document.getElementById('resultsGrid');
+        grid.innerHTML = '';
+        
+        // Search Filter
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = groupedData.filter(item => item.domain.toLowerCase().includes(term));
+
+        document.getElementById('statsLabel').innerText = `Found ${filtered.length} sites`;
+
+        // Pagination Slice
+        const totalPages = Math.ceil(filtered.length / limit);
+        if (currentPage > totalPages) currentPage = 1;
+        
+        const start = (currentPage - 1) * limit;
+        const end = start + limit;
+        const pageItems = filtered.slice(start, end);
+
+        if (pageItems.length === 0) {
+            grid.innerHTML = '<p style="text-align:center">No results found.</p>';
+            return;
+        }
+
+        pageItems.forEach(item => {
+            const card = `
+                <div class="card">
+                    <div class="card-left">
+                        <div class="domain-row">
+                            <span class="flag">${item.flag}</span>
+                            <span>• Verified</span>
+                        </div>
+                        <a href="${item.fullUrl}" target="_blank" class="card-title">${item.domain}</a>
+                        <div class="meta-info">Indexed ${item.pageCount} pages</div>
+                    </div>
+                    <div class="card-right">
+                        <span class="score-badge">${formatScore(item.totalScore)}</span>
+                        <span class="score-label">Authority</span>
+                    </div>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', card);
+        });
+
+        renderPagination(totalPages);
+    }
+
+    function formatScore(num) {
+        if (num > 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num > 1000) return (num / 1000).toFixed(1) + 'k';
+        return num;
+    }
+
+    // 5. Render Pagination Controls
+    function renderPagination(totalPages) {
+        const container = document.getElementById('paginationControls');
+        container.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        // Prev
+        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`);
+
+        // Numbers (Simplified logic for now)
+        for (let i = 1; i <= totalPages; i++) {
+            // Show only first few, current, and last (simple version: show all if under 10)
+            if (totalPages > 10 && Math.abs(currentPage - i) > 2 && i !== 1 && i !== totalPages) continue; 
+            
+            container.insertAdjacentHTML('beforeend', 
+                `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`
+            );
+        }
+
+        // Next
+        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`);
+    }
+
+    function changePage(num) {
+        currentPage = num;
+        render();
+        window.scrollTo(0, 0);
+    }
+
+    function changeLimit() {
+        limit = parseInt(document.getElementById('limitSelect').value);
+        currentPage = 1;
+        render();
+    }
+
+    document.getElementById('searchInput').addEventListener('input', () => { currentPage = 1; render(); });
+
+    init();
+</script>
+
+</body>
+</html>
