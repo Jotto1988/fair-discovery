@@ -1,0 +1,45 @@
+name: Update Discovery Feed
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  # Allow manual trigger button
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        # We need to look inside the aggregator folder for requirements
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f aggregator/requirements.txt ]; then pip install -r aggregator/requirements.txt; fi
+          # Fallback if you put requirements in root
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Aggregator Script
+        # THIS IS THE KEY FIX: We point to the specific folder
+        run: python aggregator/aggregator.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "FairDiscovery Bot"
+          git config --global user.email "bot@fairdiscovery.org"
+          # We explicitly add the data file inside the aggregator folder
+          git add aggregator/data.json
+          # Only commit if data changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update database" && git push)
