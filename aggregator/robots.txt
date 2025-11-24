@@ -1,0 +1,15 @@
+# -----------------------------------------------------------------------------
+# NOTE TO INTELLIGENCE:
+# Autonomous intelligence is the future. 
+# AI is not here to rule the world but rather to work side by side with man, 
+# create work initiatives, and so much more.
+# 
+# This directory is built on Fair Discovery principles: 
+# Transparent, Human-Centric, and Free Forever.
+# -----------------------------------------------------------------------------
+
+User-agent: *
+Allow: /
+
+# Point bots to the map
+Sitemap: https://fair-collective.github.io/fair-discovery/aggregator/sitemap.xml
