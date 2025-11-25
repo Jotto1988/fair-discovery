@@ -9,6 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
     
     <style>
+        /* --- THEME VARIABLES --- */
         :root {
             --primary: #1a73e8; --bg: #f0f2f5; --card-bg: #ffffff;
             --text: #1f1f1f; --text-sub: #5f6368; --border: #dadce0;
@@ -32,12 +33,26 @@
         .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
         .header-controls-left { position: absolute; top: 20px; left: 20px; }
 
-        .btn-control { 
+        /* BUTTONS & DROPDOWNS */
+        .btn-control, .lang-select, .theme-toggle { 
             background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
             transition: 0.2s; outline: none; text-decoration: none; display: inline-block;
+            font-family: inherit;
         }
-        .btn-control:hover { background: var(--bg); border-color: var(--primary); color: var(--primary); }
+        
+        /* Specific fix for the Language Dropdown */
+        .lang-select {
+            -webkit-appearance: none; /* Remove default square styling on Mac/Chrome */
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 25px; /* Room for the arrow */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+        }
+
+        .btn-control:hover, .lang-select:hover, .theme-toggle:hover { background: var(--bg); border-color: var(--primary); color: var(--primary); }
         .btn-primary { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
         .btn-primary:hover { background: #155db1; color: white; }
 
