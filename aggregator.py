@@ -16,7 +16,7 @@ SITES_FILE = os.path.join(ROOT, "sites.json")
 OUT_FILE = os.path.join(ROOT, "data.json")
 
 # ---------------------------------------------------------
-# CURATOR AI
+# CURATOR AI (Classification Logic)
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
     valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
@@ -25,7 +25,7 @@ def ai_classify(domain, description, current_category):
 
     text = (domain + " " + description).lower()
     vectors = {
-        "Auto": ["panel", "motor", "car", "repair", "spray", "dent", "auto", "vehicle", "garage", "tires"],
+        "Auto": ["panel", "motor", "car", "repair", "spray", "dent", "auto", "vehicle", "garage", "tires", "mechanic", "parts"],
         "Tech": ["soft", "app", "code", "data", "cyber", "web", "digital", "cloud", "bot", "ai"],
         "Health": ["med", "health", "care", "clinic", "doctor", "pharm", "skin", "dental", "wellness"],
         "Retail": ["shop", "store", "buy", "fashion", "gift", "sale", "mart", "boutique"],
@@ -123,10 +123,10 @@ def main():
     output_list = list(merged_data.values())
 
     # ---------------------------------------------------------
-    # 🛑 SAFETY NET (MANUAL INJECTIONS)
+    # 🛑 MANUAL OVERRIDES (BACKDOOR INJECTIONS)
     # ---------------------------------------------------------
     
-    # 1. IntPanelShop (Hosted on Axxess - Strict Firewall)
+    # 1. IntPanelShop
     intpanel = {
         "url": "https://www.intpanelshop.co.za/",
         "score": 66100000, 
@@ -136,7 +136,7 @@ def main():
         "location": "Cape Town, SA"
     }
 
-    # 2. Sky Rope Specialist (Hosted on Vehost - Strict Firewall)
+    # 2. Sky Rope Specialist
     sky_rope = {
         "url": "https://www.skyropespecialist.co.za/",
         "score": 2200, 
@@ -146,7 +146,7 @@ def main():
         "location": "Cape Town, SA"
     }
 
-    # 3. Jotto's Portfolio (GitHub Pages)
+    # 3. Jotto's Portfolio
     jotto_portfolio = {
         "url": "https://jotto1988.github.io/jotto.github.io/",
         "score": 500, 
@@ -156,17 +156,17 @@ def main():
         "location": "Global"
     }
 
-    # 4. Seriti PBO (Vehost - Strict Firewall)
+    # 4. Seriti PBO
     seriti = {
         "url": "https://www.seritipbo.org/",
         "score": 150, 
         "category": "Service",
-        "description": "Public Benefit Organization (PBO) dedicated to community upliftment and social welfare.",
+        "description": "Non-profit organization providing skill development training in plumbing and community upliftment.",
         "whatsapp": "", 
         "location": "South Africa"
     }
 
-    # 5. Bookkeepers in Cape Town (Vehost - Strict Firewall)
+    # 5. Bookkeepers in Cape Town
     bookkeeper = {
         "url": "https://bookkeepersincapetown.co.za/",
         "score": 150, 
@@ -176,24 +176,58 @@ def main():
         "location": "Cape Town, SA"
     }
 
-    # Check and Inject
+    # 6. Grey Zone Auto Parts (Using Share Link)
+    grey_zone = {
+        "url": "https://share.google/1O2Kl72Vige48vGsB", 
+        "score": 150, 
+        "category": "Auto",
+        "description": "Automotive parts sales based in Pretoria, delivering nationwide.",
+        "whatsapp": "27000000000", 
+        "location": "Pretoria, SA"
+    }
+
+    # 7. AO Locksmith (Using Share Link)
+    ao_locksmith = {
+        "url": "https://share.google/WNjzMAwNlj9tC3u6F",
+        "score": 150, 
+        "category": "Service",
+        "description": "Specialist car locksmith. Cutting, coding, and programming car keys.",
+        "whatsapp": "27000000000", 
+        "location": "Pretoria, SA"
+    }
+
+    # 8. AutoDS (Cape Town Mobile Mechanic)
+    mobile_mechanic = {
+        "url": "https://autods.co.za/",
+        "score": 150, 
+        "category": "Auto",
+        "description": "Top-rated mobile mechanic in Cape Town. We come to you.",
+        "whatsapp": "27000000000", 
+        "location": "Cape Town, SA"
+    }
+
+    # 9. Save Our Children (Scouts)
+    scouts = {
+        "url": "https://scoutsforkids.org/",
+        "score": 150, 
+        "category": "Service",
+        "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.",
+        "whatsapp": "27717990196", 
+        "location": "Cape Town, SA"
+    }
+
+    # Inject if missing
     current_urls = [p['url'] for p in output_list]
     
-    if intpanel['url'] not in current_urls:
-        print("\n🔧 MANUAL: Restoring IntPanelShop")
-        output_list.append(intpanel)
-
-    if sky_rope['url'] not in current_urls:
-        output_list.append(sky_rope)
-
-    if jotto_portfolio['url'] not in current_urls:
-        output_list.append(jotto_portfolio)
-
-    if seriti['url'] not in current_urls:
-        output_list.append(seriti)
-
-    if bookkeeper['url'] not in current_urls:
-        output_list.append(bookkeeper)
+    if intpanel['url'] not in current_urls: output_list.append(intpanel)
+    if sky_rope['url'] not in current_urls: output_list.append(sky_rope)
+    if jotto_portfolio['url'] not in current_urls: output_list.append(jotto_portfolio)
+    if seriti['url'] not in current_urls: output_list.append(seriti)
+    if bookkeeper['url'] not in current_urls: output_list.append(bookkeeper)
+    if grey_zone['url'] not in current_urls: output_list.append(grey_zone)
+    if ao_locksmith['url'] not in current_urls: output_list.append(ao_locksmith)
+    if mobile_mechanic['url'] not in current_urls: output_list.append(mobile_mechanic)
+    if scouts['url'] not in current_urls: output_list.append(scouts)
         
     # ---------------------------------------------------------
 
