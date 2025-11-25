@@ -16,7 +16,7 @@ SITES_FILE = os.path.join(ROOT, "sites.json")
 OUT_FILE = os.path.join(ROOT, "data.json")
 
 # ---------------------------------------------------------
-# CURATOR AI (Classification Logic)
+# CURATOR AI
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
     valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
@@ -62,7 +62,7 @@ def main():
     print(f"🔍 Scanning {len(sites)} network nodes...")
     merged_data = {}
 
-    # Browser Headers to try and trick firewalls
+    # Headers
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "text/html,application/json",
@@ -72,7 +72,6 @@ def main():
     for feed_url in sites:
         print(f"\n👉 Connecting to: {feed_url}")
         try:
-            # Verify=False ignores SSL errors
             response = requests.get(feed_url, headers=headers, timeout=20, verify=False)
             
             if response.status_code != 200: 
@@ -85,7 +84,6 @@ def main():
                 print("   ⚠️ Content is not valid JSON.")
                 continue
 
-            # Parse Data
             parts = feed_url.split("/")
             origin = parts[0] + "//" + parts[2]
             domain = parts[2]
@@ -125,28 +123,40 @@ def main():
     output_list = list(merged_data.values())
 
     # ---------------------------------------------------------
-    # 🛑 MANUAL OVERRIDE (BACKDOOR FOR BLOCKED SITES)
+    # 🛑 MANUAL OVERRIDES (BACKDOOR INJECTIONS)
     # ---------------------------------------------------------
-    # We manually inject Sky Rope here because Vehost blocks the robot.
-    sky_rope_manual = {
+    
+    # 1. Sky Rope Specialist (Firewall Bypass)
+    sky_rope = {
         "url": "https://www.skyropespecialist.co.za/",
-        "score": 100, # Placeholder score (You can update this manually later)
+        "score": 100, 
         "category": "Service",
         "description": "Professional rope access and high-altitude maintenance specialists.",
-        "whatsapp": "27000000000", # PLEASE UPDATE THIS NUMBER IF NEEDED
+        "whatsapp": "27000000000",
         "location": "Cape Town, SA"
     }
-
-    # Check if the robot found it automatically. If not, inject it.
-    found_automatically = False
-    for p in output_list:
-        if "skyropespecialist.co.za" in p['url']:
-            found_automatically = True
-            break
     
-    if not found_automatically:
-        print("\n🔧 MANUAL INJECTION: Adding Sky Rope Specialist (Bypassing Firewall)")
-        output_list.append(sky_rope_manual)
+    # 2. Jotto's Portfolio (Static Node)
+    jotto_portfolio = {
+        "url": "https://jotto1988.github.io/jotto.github.io/",
+        "score": 500, 
+        "category": "Tech",
+        "description": "Jotto's Portfolio: Open Source projects, Fair Discovery development, and AI innovations.",
+        "whatsapp": "",
+        "location": "Global"
+    }
+
+    # Inject if missing
+    current_urls = [p['url'] for p in output_list]
+    
+    if sky_rope['url'] not in current_urls:
+        print("\n🔧 MANUAL: Adding Sky Rope Specialist")
+        output_list.append(sky_rope)
+
+    if jotto_portfolio['url'] not in current_urls:
+        print("\n🔧 MANUAL: Adding Jotto Portfolio")
+        output_list.append(jotto_portfolio)
+        
     # ---------------------------------------------------------
 
     # 3. FINAL SORT & SAVE
