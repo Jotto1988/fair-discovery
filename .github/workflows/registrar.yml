@@ -1,0 +1,125 @@
+name: The Registrar
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  register-site:
+    # Only run if the issue title starts with "Add Site"
+    if: startsWith(github.event.issue.title, 'Add Site')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Process Registration
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          python -c "
+          import os, json, requests, re, sys
+
+          # 1. Get URL from Issue Body
+          body = os.environ.get('ISSUE_BODY', '')
+          # Look for a URL ending in discovery.json
+          match = re.search(r'(https?://[^\s]+/discovery\.json)', body)
+          
+          if not match:
+              print('::error::No valid discovery.json URL found in issue body.')
+              sys.exit(1)
+          
+          new_url = match.group(1)
+          print(f'Found URL: {new_url}')
+
+          # 2. Verify the Site (Security Check)
+          try:
+              print('Verifying site...')
+              r = requests.get(new_url, timeout=5)
+              if r.status_code != 200:
+                  raise Exception('URL not reachable')
+              
+              data = r.json()
+              if 'site' not in data or 'visitors' not in data:
+                  raise Exception('Invalid JSON format (missing site or visitors)')
+                  
+              print('✅ Site is valid Fair Discovery node.')
+              
+          except Exception as e:
+              print(f'::error::Validation failed: {e}')
+              sys.exit(1)
+
+          # 3. Update sites.json
+          try:
+              with open('sites.json', 'r+') as f:
+                  db = json.load(f)
+                  
+                  # Deduplication
+                  if new_url in db['sites']:
+                      print('Site already exists.')
+                      sys.exit(0) 
+                      
+                  db['sites'].append(new_url)
+                  f.seek(0)
+                  json.dump(db, f, indent=2)
+                  f.truncate()
+                  print(f'🚀 Added {new_url} to the registry.')
+          except Exception as e:
+              print(f'::error::Failed to write database: {e}')
+              sys.exit(1)
+          "
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Registrar Bot"
+          git config --global user.email "bot@fairdiscovery.org"
+          git add sites.json
+          # Only commit if changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-registered new site" && git push)
+
+      - name: Close Issue (Success)
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ **Approved!** Your site has been verified and added to the network. It will appear in the search engine after the next aggregation cycle (approx 6 hours).'
+            });
+            github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
+
+      - name: Comment (Failure)
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '❌ **Registration Failed.** I could not verify your link. Please ensure it is a valid public URL ending in `/discovery.json` and try again.'
+            });
