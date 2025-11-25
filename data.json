@@ -1,13 +1,21 @@
 {
-  "generated_at": 1764090729,
+  "generated_at": 1764091601,
   "node_count": 0,
   "pages": [
+    {
+      "url": "https://www.intpanelshop.co.za/",
+      "score": 66100000,
+      "category": "Auto",
+      "description": "Expert panel beating and spray painting in Cape Town.",
+      "whatsapp": "27821234567",
+      "location": "Cape Town, SA"
+    },
     {
       "url": "https://www.skyropespecialist.co.za/",
       "score": 2200,
       "category": "Service",
       "description": "Professional rope access and high-altitude maintenance specialists.",
-      "whatsapp": "27711234567",
+      "whatsapp": "27000000000",
       "location": "Cape Town, SA"
     },
     {
@@ -22,7 +30,7 @@
       "url": "https://www.seritipbo.org/",
       "score": 150,
       "category": "Service",
-      "description": "Non-profit organization providing skill development training in plumbing and community upliftment.",
+      "description": "Public Benefit Organization (PBO) dedicated to community upliftment and social welfare.",
       "whatsapp": "",
       "location": "South Africa"
     },
@@ -31,7 +39,7 @@
       "score": 150,
       "category": "Service",
       "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
-      "whatsapp": "",
+      "whatsapp": "27000000000",
       "location": "Cape Town, SA"
     }
   ]
