@@ -1,4 +1,4 @@
-# Fair Discovery Engine 🌍
+# Fair Discovery Engine 🌍 
 
 **The decentralized, human-first website directory.** Fair Discovery ranks websites based on *verified human interaction*, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, protecting your budget.
 
