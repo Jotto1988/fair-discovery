@@ -1,16 +1,24 @@
 {
-    "site": "your-website.com",
-    "visitors": {
-        "current_week_start": "2025-01-01",
-        "week_1": 0,
-        "week_2": 0,
-        "week_3": 0,
-        "week_4": 0
+  "site": "your-website.com",
+  "category": "Tech",
+  "description": "A short, punchy summary of what you do (Max 140 chars).",
+  "whatsapp": "27820000000",
+  "location": "Cape Town, SA",
+  "visitors": {
+    "current_week_start": "2025-01-01",
+    "week_1": 0,
+    "week_2": 0,
+    "week_3": 0,
+    "week_4": 0
+  },
+  "pages": [
+    {
+      "url": "/",
+      "score": 0
     },
-    "pages": [
-        {
-            "url": "/example-page.html",
-            "score": 10
-        }
-    ]
+    {
+      "url": "/services.html",
+      "score": 0
+    }
+  ]
 }
