@@ -1,53 +1,13 @@
 {
-  "generated_at": 1764088727,
-  "node_count": 3,
+  "generated_at": 1764090729,
+  "node_count": 0,
   "pages": [
     {
-      "url": "https://www.intpanelshop.co.za/page7.html",
-      "score": 51557380,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
-    },
-    {
-      "url": "https://www.intpanelshop.co.za/index.html",
-      "score": 13268699,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
-    },
-    {
-      "url": "https://www.intpanelshop.co.za/",
-      "score": 1297133,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
-    },
-    {
-      "url": "https://www.intpanelshop.co.za/international-panel-shop-areas-of-operation-in-cape-town.html",
-      "score": 2016,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
-    },
-    {
       "url": "https://www.skyropespecialist.co.za/",
-      "score": 1343,
+      "score": 2200,
       "category": "Service",
-      "description": "Professional rope access and high-altitude maintenance specialists in Cape Town.",
-      "whatsapp": "27000000000",
-      "location": "Cape Town, SA"
-    },
-    {
-      "url": "https://www.skyropespecialist.co.za/gallery.html",
-      "score": 890,
-      "category": "Service",
-      "description": "Professional rope access and high-altitude maintenance specialists in Cape Town.",
-      "whatsapp": "27000000000",
+      "description": "Professional rope access and high-altitude maintenance specialists.",
+      "whatsapp": "27711234567",
       "location": "Cape Town, SA"
     },
     {
@@ -59,20 +19,20 @@
       "location": "Global"
     },
     {
-      "url": "https://www.intpanelshop.co.za/insurance.html",
-      "score": 497,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
+      "url": "https://www.seritipbo.org/",
+      "score": 150,
+      "category": "Service",
+      "description": "Non-profit organization providing skill development training in plumbing and community upliftment.",
+      "whatsapp": "",
+      "location": "South Africa"
     },
     {
-      "url": "https://www.intpanelshop.co.za/int-panel-shop-gardens-cape-town.html",
-      "score": 0,
-      "category": "Auto",
-      "description": "Expert panel beating and spray painting in Cape Town.",
-      "whatsapp": "27821234567",
-      "location": "Cape Town"
+      "url": "https://bookkeepersincapetown.co.za/",
+      "score": 150,
+      "category": "Service",
+      "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
+      "whatsapp": "",
+      "location": "Cape Town, SA"
     }
   ]
 }
