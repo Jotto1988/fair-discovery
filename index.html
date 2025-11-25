@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory. Free, open, and transparent.">
+    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
     <title>Fair Discovery Directory</title>
     
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -22,22 +22,35 @@
             --success: #81c995; --badge-bg: #3c4043;
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
 
         /* HEADER */
-        header { background: var(--card-bg); padding: 30px 20px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        header { 
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
+            padding: 30px 20px 20px; 
+            border-bottom: 1px solid var(--border); 
+            position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+        }
         .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 20px; flex-wrap: wrap; gap: 10px; }
         
         h1 { margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
         h1 span { font-weight: 300; opacity: 0.8; }
         
-        .theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+
+        .theme-toggle, .lang-select { 
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
+            padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; 
+            outline: none;
+        }
+        .theme-toggle:hover, .lang-select:hover { background: var(--bg); }
 
         /* SEARCH & CATEGORIES */
         .search-container { max-width: 600px; margin: 0 auto; }
         input {
             width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid var(--border);
-            background: var(--bg); color: var(--text); font-size: 1rem; outline: none; box-sizing: border-box;
+            background: var(--card-bg); color: var(--text); font-size: 1rem; outline: none; box-sizing: border-box;
             transition: all 0.2s;
         }
         input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); }
@@ -68,8 +81,8 @@
         .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--primary); }
 
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .card-brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; } /* min-width fix for text overflow */
-        .card-logo { width: 40px; height: 40px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .card-brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+        .card-logo { width: 40px; height: 40px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; border: 1px solid var(--border); }
         
         .card-text { min-width: 0; flex: 1; }
         .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); text-decoration: none; margin: 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
@@ -92,18 +105,37 @@
         .btn-whatsapp { color: #25D366; border-color: #25D366; }
         .btn-whatsapp:hover { background: #25D366; color: white; }
 
-        /* PAGINATION & FOOTER */
+        /* PAGINATION */
         .pagination { display: flex; justify-content: center; gap: 5px; margin: 40px 0; }
         .page-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; cursor: pointer; color: var(--text); }
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
+        /* WIDGET SECTION */
+        .widget-box {
+            max-width: 800px; margin: 60px auto 20px; padding: 30px; 
+            background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); 
+            text-align: center;
+        }
+        .widget-preview { margin: 20px 0; }
+        .code-area { position: relative; max-width: 500px; margin: 0 auto; }
+        textarea {
+            width: 100%; height: 80px; padding: 10px; background: var(--bg); 
+            border: 1px solid var(--border); border-radius: 8px; font-family: monospace; 
+            font-size: 0.8rem; color: var(--text-sub); resize: none; box-sizing: border-box;
+        }
+        .copy-btn { margin-top: 10px; background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+
+        /* FOOTER */
         footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
         .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
+        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
+        .credits a:hover { text-decoration: underline; color: var(--primary); }
         
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
             .header-top { flex-direction: column; align-items: flex-start; }
-            .theme-toggle { position: absolute; top: 30px; right: 20px; }
+            .header-controls { margin-top: 10px; }
             .categories { padding-bottom: 10px; }
         }
     </style>
@@ -113,40 +145,78 @@
 <header>
     <div class="header-top">
         <h1>Fair <span>Discovery</span></h1>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
+        
+        <div class="header-controls">
+            <select class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="pt">🇧🇷 Português</option>
+            </select>
+            <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
+        </div>
     </div>
 
+    <p class="subtitle" data-i18n="subtitle">The decentralized, AI-ranked directory.</p>
+
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Try 'auto cape town' or 'tech services'...">
+        <input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Try 'auto cape town' or 'tech services'...">
     </div>
 
     <div class="categories" id="catFilters">
-        <div class="cat-pill active" onclick="filterCat('all')">All</div>
-        <div class="cat-pill" onclick="filterCat('Auto')">🚗 Auto</div>
-        <div class="cat-pill" onclick="filterCat('Tech')">💻 Tech</div>
-        <div class="cat-pill" onclick="filterCat('Health')">🏥 Health</div>
-        <div class="cat-pill" onclick="filterCat('Service')">🛠️ Services</div>
-        <div class="cat-pill" onclick="filterCat('Retail')">🛍️ Retail</div>
+        <div class="cat-pill active" onclick="filterCat('all')" data-i18n="cat_all">All</div>
+        <div class="cat-pill" onclick="filterCat('Auto')" data-i18n="cat_auto">🚗 Auto</div>
+        <div class="cat-pill" onclick="filterCat('Tech')" data-i18n="cat_tech">💻 Tech</div>
+        <div class="cat-pill" onclick="filterCat('Health')" data-i18n="cat_health">🏥 Health</div>
+        <div class="cat-pill" onclick="filterCat('Service')" data-i18n="cat_service">🛠️ Services</div>
+        <div class="cat-pill" onclick="filterCat('Retail')" data-i18n="cat_retail">🛍️ Retail</div>
     </div>
 </header>
 
 <div class="container">
     <div class="stats-bar">
         <span id="statsLabel">Loading...</span>
-        <span>Global Feed</span>
+        <span data-i18n="global_feed">Global Feed</span>
     </div>
     
     <div id="resultsGrid" class="grid"></div>
     <div class="pagination" id="paginationControls"></div>
+
+    <div class="widget-box">
+        <h3 style="margin-top: 0; color: var(--text);" data-i18n="badge_title">🏆 Show off your Authority</h3>
+        <p style="color: var(--text-sub); font-size: 0.95rem;" data-i18n="badge_desc">Are you listed? Add the Fair Discovery seal to your website footer to build trust.</p>
+        
+        <div class="widget-preview">
+            <a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 0.85rem; font-weight: 600;">
+                <img src="https://fairdiscovery.org/favicon.ico" alt="" style="width: 16px; height: 16px;">
+                <span>Verified on Fair Discovery</span>
+            </a>
+        </div>
+
+        <div class="code-area">
+            <textarea id="badgeCode" readonly><a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 13px; font-weight: 600;"><span>🛡️ Verified on Fair Discovery</span></a></textarea>
+            <button class="copy-btn" onclick="copyBadge()" data-i18n="copy_code">Copy Code</button>
+        </div>
+    </div>
 </div>
 
 <footer>
-    <p>Fair Discovery is a decentralized, human-first directory.</p>
-    <p>🚀 Developers: <a href="data.json" target="_blank" class="api-link">Get the JSON API</a></p>
-    <br>
-    <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="text-decoration:none;">
-        <span style="background:#FFDD00; color:black; padding:8px 16px; border-radius:6px; font-weight:bold;">☕ Support the Dev</span>
-    </a>
+    <p data-i18n="footer_desc">Fair Discovery is a decentralized, human-first directory.</p>
+    <p>🚀 <a href="data.json" target="_blank" class="api-link" data-i18n="footer_api">Get the JSON API</a></p>
+    <p>🚀 <a href="https://github.com/fair-collective/fair-discovery/tree/main" target="_blank" class="api-link" data-i18n="footer_join">Join Free on GitHub</a></p>
+    
+    <div style="margin: 25px 0;">
+        <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="text-decoration:none;">
+            <span style="background:#FFDD00; color:black; padding:8px 16px; border-radius:6px; font-weight:bold; font-size:0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">☕ <span data-i18n="support">Support the Dev</span></span>
+        </a>
+    </div>
+
+    <div class="credits">
+        Powered by <a href="https://gemini.google.com" target="_blank">Gemini</a> • 
+        <a href="https://github.com" target="_blank">GitHub</a> • 
+        <a href="https://github.com/fair-collective" target="_blank">The Fair Collective</a>
+    </div>
 </footer>
 
 <script>
@@ -156,6 +226,112 @@
     let currentPage = 1;
     const limit = 12;
     let currentCategory = 'all';
+
+    // --- TRANSLATION DATA ---
+    const i18n = {
+        en: {
+            subtitle: "The decentralized, AI-ranked directory.",
+            search_ph: "Try 'auto cape town' or 'tech services'...",
+            theme: "🌙 Theme",
+            cat_all: "All", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Health", cat_service: "🛠️ Services", cat_retail: "🛍️ Retail",
+            global_feed: "Global Feed",
+            badge_title: "🏆 Show off your Authority",
+            badge_desc: "Are you listed? Add the Fair Discovery seal to your website footer to build trust.",
+            copy_code: "Copy Code",
+            footer_desc: "Fair Discovery is a decentralized, human-first directory.",
+            footer_api: "Get the JSON API",
+            footer_join: "Join Free on GitHub",
+            support: "Support the Dev",
+            lbl_auth: "Authority",
+            lbl_verified: "✓ Verified"
+        },
+        es: {
+            subtitle: "El directorio descentralizado y clasificado por IA.",
+            search_ph: "Prueba 'autos madrid' o 'servicios tec'...",
+            theme: "🌙 Tema",
+            cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas",
+            global_feed: "Feed Global",
+            badge_title: "🏆 Muestra tu Autoridad",
+            badge_desc: "¿Estás en la lista? Añade el sello de Fair Discovery a tu web.",
+            copy_code: "Copiar Código",
+            footer_desc: "Fair Discovery es un directorio humano y descentralizado.",
+            footer_api: "Obtener API JSON",
+            footer_join: "Únete gratis en GitHub",
+            support: "Apoyar al Dev",
+            lbl_auth: "Autoridad",
+            lbl_verified: "✓ Verificado"
+        },
+        fr: {
+            subtitle: "L'annuaire décentralisé classé par IA.",
+            search_ph: "Essayez 'auto paris' ou 'services tech'...",
+            theme: "🌙 Thème",
+            cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce",
+            global_feed: "Flux Global",
+            badge_title: "🏆 Montrez votre Autorité",
+            badge_desc: "Vous êtes listé ? Ajoutez le sceau Fair Discovery à votre site.",
+            copy_code: "Copier le Code",
+            footer_desc: "Fair Discovery est un annuaire décentralisé et humain.",
+            footer_api: "Obtenir l'API JSON",
+            footer_join: "Rejoindre sur GitHub",
+            support: "Soutenir le Dev",
+            lbl_auth: "Autorité",
+            lbl_verified: "✓ Vérifié"
+        },
+        de: {
+            subtitle: "Das dezentrale, KI-gestützte Verzeichnis.",
+            search_ph: "Versuchen Sie 'auto berlin' oder 'tech'...",
+            theme: "🌙 Thema",
+            cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel",
+            global_feed: "Globaler Feed",
+            badge_title: "🏆 Zeigen Sie Autorität",
+            badge_desc: "Sind Sie gelistet? Fügen Sie das Fair Discovery-Siegel hinzu.",
+            copy_code: "Code kopieren",
+            footer_desc: "Fair Discovery ist ein dezentrales, menschliches Verzeichnis.",
+            footer_api: "JSON-API abrufen",
+            footer_join: "Kostenlos beitreten",
+            support: "Entwickler unterstützen",
+            lbl_auth: "Autorität",
+            lbl_verified: "✓ Verifiziert"
+        },
+        pt: {
+            subtitle: "O diretório descentralizado classificado por IA.",
+            search_ph: "Tente 'auto lisboa' ou 'serviços tech'...",
+            theme: "🌙 Tema",
+            cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo",
+            global_feed: "Feed Global",
+            badge_title: "🏆 Mostre sua Autoridade",
+            badge_desc: "Está listado? Adicione o selo Fair Discovery ao seu site.",
+            copy_code: "Copiar Código",
+            footer_desc: "Fair Discovery é um diretório humano e descentralizado.",
+            footer_api: "Obter API JSON",
+            footer_join: "Junte-se no GitHub",
+            support: "Apoie o Dev",
+            lbl_auth: "Autoridade",
+            lbl_verified: "✓ Verificado"
+        }
+    };
+    
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        const dict = i18n[lang];
+        
+        // Update simple text elements
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key]) el.innerText = dict[key];
+        });
+        
+        // Update attributes (like placeholder)
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+            const key = el.getAttribute('data-i18n-ph');
+            if (dict[key]) el.placeholder = dict[key];
+        });
+
+        // Re-render cards to update labels
+        render();
+    }
 
     function toggleTheme() {
         const body = document.body;
@@ -168,7 +344,6 @@
             const res = await fetch(FEED_URL + '?' + Date.now());
             const json = await res.json();
             
-            // GROUPING: Combine pages into Domains
             const domainMap = {};
             (json.pages || []).forEach(page => {
                 try {
@@ -182,18 +357,15 @@
                             fullUrl: urlObj.origin,
                             totalScore: 0,
                             pageCount: 0,
-                            // READ NEW FIELDS HERE
                             category: page.category || inferCategory(domain), 
                             description: page.description || "Verified decentralized listing.",
                             whatsapp: page.whatsapp || null,
                             location: page.location || inferLocation(domain)
                         };
                     }
-                    // Aggregate Score
                     domainMap[domain].totalScore += page.score;
                     domainMap[domain].pageCount++;
                     
-                    // If a sub-page has better metadata, upgrade the domain record
                     if (page.category && !domainMap[domain].category) domainMap[domain].category = page.category;
                     if (page.description && domainMap[domain].description.startsWith("Verified")) domainMap[domain].description = page.description;
                     
@@ -207,7 +379,6 @@
         }
     }
 
-    // Fallback Logic
     function inferCategory(domain) {
         const d = domain.toLowerCase();
         if (d.includes('panel') || d.includes('auto') || d.includes('motor')) return 'Auto';
@@ -221,7 +392,6 @@
          return 'Global';
     }
 
-    // SMART FILTER LOGIC
     function filterCat(cat) {
         currentCategory = cat;
         document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
@@ -231,17 +401,12 @@
 
     function applyFilters() {
         const rawInput = document.getElementById('searchInput').value.toLowerCase();
-        // Split input into words: "salon cape town" -> ["salon", "cape", "town"]
         const searchTokens = rawInput.split(' ').filter(token => token.length > 0);
         
         filteredData = allData.filter(item => {
-            // Check Category Match
             const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-            
-            // Check Search Match (ALL tokens must exist in the record)
             const searchableText = `${item.domain} ${item.description} ${item.category} ${item.location}`.toLowerCase();
             const matchesSearch = searchTokens.every(token => searchableText.includes(token));
-            
             return matchesCat && matchesSearch;
         });
 
@@ -252,6 +417,8 @@
     function render() {
         const grid = document.getElementById('resultsGrid');
         grid.innerHTML = '';
+        const dict = i18n[currentLang]; // Get current language dict
+        
         document.getElementById('statsLabel').innerText = `Found ${filteredData.length} sites`;
 
         const totalPages = Math.ceil(filteredData.length / limit);
@@ -259,7 +426,7 @@
         const pageItems = filteredData.slice(start, start + limit);
 
         if (pageItems.length === 0) {
-            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found matching all terms.</p>';
+            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>';
             return;
         }
 
@@ -280,7 +447,7 @@
                             <div class="card-text">
                                 <a href="${item.fullUrl}" target="_blank" class="card-title">${formatTitle(item.domain)}</a>
                                 <span class="card-domain">${item.domain}</span>
-                                <span class="verified-badge">✓ Verified</span>
+                                <span class="verified-badge">${dict.lbl_verified}</span>
                             </div>
                         </div>
                     </div>
@@ -291,7 +458,7 @@
                         <div class="actions">${actions}</div>
                         <div class="score-box">
                             <div class="score-val">${formatScore(item.totalScore)}</div>
-                            <div class="score-lbl">Authority</div>
+                            <div class="score-lbl">${dict.lbl_auth}</div>
                         </div>
                     </div>
                 </div>
@@ -318,15 +485,26 @@
         container.innerHTML = '';
         if (totalPages <= 1) return;
 
+        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`);
+
         for (let i = 1; i <= totalPages; i++) {
             if (totalPages > 10 && Math.abs(currentPage - i) > 2 && i !== 1 && i !== totalPages) continue; 
             container.insertAdjacentHTML('beforeend', 
                 `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`
             );
         }
+
+        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`);
     }
 
     function changePage(num) { currentPage = num; render(); window.scrollTo(0, 0); }
+    
+    function copyBadge() {
+        const copyText = document.getElementById("badgeCode");
+        copyText.select();
+        navigator.clipboard.writeText(copyText.value);
+        alert("Code copied!");
+    }
 
     document.getElementById('searchInput').addEventListener('input', applyFilters);
     init();
