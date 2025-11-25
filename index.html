@@ -24,20 +24,24 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
 
-        /* HEADER */
+        /* HEADER - CENTERED & NON-STICKY */
         header { 
             background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
-            padding: 30px 20px 20px; 
+            padding: 60px 20px 40px; /* More top padding for centering */
             border-bottom: 1px solid var(--border); 
-            position: sticky; top: 0; z-index: 100; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+            position: relative; /* Changed from sticky to relative */
+            text-align: center; /* Center everything */
         }
-        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 20px; flex-wrap: wrap; gap: 10px; }
-        
-        h1 { margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
-        h1 span { font-weight: 300; opacity: 0.8; }
-        
-        .header-controls { display: flex; gap: 10px; align-items: center; }
+
+        /* Controls moved to top-right absolute position */
+        .header-controls { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            display: flex; 
+            gap: 10px; 
+            align-items: center; 
+        }
 
         .theme-toggle, .lang-select { 
             background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
@@ -46,22 +50,43 @@
         }
         .theme-toggle:hover, .lang-select:hover { background: var(--bg); }
 
-        /* SEARCH & CATEGORIES */
-        .search-container { max-width: 600px; margin: 0 auto; }
-        input {
-            width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid var(--border);
-            background: var(--card-bg); color: var(--text); font-size: 1rem; outline: none; box-sizing: border-box;
-            transition: all 0.2s;
+        /* BIG CENTERED LOGO */
+        h1 { 
+            margin: 0 auto 10px; 
+            font-size: 2.5rem; /* Bigger Google-style size */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 10px; 
+            letter-spacing: -1px;
         }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); }
+        h1 span { font-weight: 300; opacity: 0.8; }
+        
+        .subtitle { 
+            color: var(--text-sub); 
+            margin-bottom: 35px; 
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* SEARCH & CATEGORIES */
+        .search-container { max-width: 584px; margin: 0 auto 25px; } /* Google's exact width is ~584px */
+        input {
+            width: 100%; padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--card-bg); color: var(--text); font-size: 1.1rem; outline: none; box-sizing: border-box;
+            transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
         .categories { 
-            display: flex; gap: 10px; overflow-x: auto; padding: 15px 0 5px; 
-            max-width: 1000px; margin: 0 auto; scrollbar-width: none; 
+            display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; 
+            max-width: 1000px; margin: 0 auto; justify-content: center; scrollbar-width: none; 
         }
         .cat-pill {
-            white-space: nowrap; padding: 6px 14px; background: var(--card-bg); 
-            border: 1px solid var(--border); border-radius: 16px; font-size: 0.9rem; 
+            white-space: nowrap; padding: 8px 16px; background: var(--card-bg); 
+            border: 1px solid var(--border); border-radius: 20px; font-size: 0.9rem; 
             cursor: pointer; color: var(--text-sub); transition: 0.2s;
         }
         .cat-pill:hover, .cat-pill.active { background: var(--badge-bg); color: var(--primary); border-color: var(--primary); }
@@ -132,32 +157,34 @@
         .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
         .credits a:hover { text-decoration: underline; color: var(--primary); }
         
+        /* MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
-            .header-top { flex-direction: column; align-items: flex-start; }
-            .header-controls { margin-top: 10px; }
-            .categories { padding-bottom: 10px; }
+            
+            /* Keep controls top-right but ensure enough padding so logo doesn't overlap */
+            header { padding-top: 80px; } 
+            .header-controls { top: 15px; right: 15px; }
+            
+            h1 { font-size: 2rem; }
+            .categories { justify-content: flex-start; padding-bottom: 10px; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-top">
-        <h1>Fair <span>Discovery</span></h1>
-        
-        <div class="header-controls">
-            <select class="lang-select" onchange="changeLanguage(this.value)">
-                <option value="en">🇺🇸 English</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="pt">🇧🇷 Português</option>
-            </select>
-            <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
-        </div>
+    <div class="header-controls">
+        <select class="lang-select" onchange="changeLanguage(this.value)">
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="pt">🇧🇷 Português</option>
+        </select>
+        <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
     </div>
 
+    <h1>Fair <span>Discovery</span></h1>
     <p class="subtitle" data-i18n="subtitle">The decentralized, AI-ranked directory.</p>
 
     <div class="search-container">
@@ -227,7 +254,6 @@
     const limit = 12;
     let currentCategory = 'all';
 
-    // --- TRANSLATION DATA ---
     const i18n = {
         en: {
             subtitle: "The decentralized, AI-ranked directory.",
@@ -317,19 +343,16 @@
         currentLang = lang;
         const dict = i18n[lang];
         
-        // Update simple text elements
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (dict[key]) el.innerText = dict[key];
         });
         
-        // Update attributes (like placeholder)
         document.querySelectorAll('[data-i18n-ph]').forEach(el => {
             const key = el.getAttribute('data-i18n-ph');
             if (dict[key]) el.placeholder = dict[key];
         });
 
-        // Re-render cards to update labels
         render();
     }
 
@@ -337,6 +360,7 @@
         const body = document.body;
         const isDark = body.getAttribute('data-theme') === 'dark';
         body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        document.querySelector('.theme-toggle').innerText = isDark ? (currentLang === 'en' ? '🌙 Theme' : '🌙') : (currentLang === 'en' ? '☀️ Theme' : '☀️');
     }
 
     async function init() {
@@ -417,7 +441,7 @@
     function render() {
         const grid = document.getElementById('resultsGrid');
         grid.innerHTML = '';
-        const dict = i18n[currentLang]; // Get current language dict
+        const dict = i18n[currentLang];
         
         document.getElementById('statsLabel').innerText = `Found ${filteredData.length} sites`;
 
