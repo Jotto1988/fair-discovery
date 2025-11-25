@@ -1,13 +1,12 @@
-#### Step 2: Update `aggregator.py` (The Brain)
-1.  Open **`aggregator.py`**.
-2.  **Paste this Python code** (It contains the Python logic):
-
-```python
 #!/usr/bin/env python3
 import json
 import requests
 import time
 import os
+import urllib3
+
+# Disable annoying SSL warnings for the bypass
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ---------------------------------------------------------
 # CONFIGURATION
@@ -17,7 +16,7 @@ SITES_FILE = os.path.join(ROOT, "sites.json")
 OUT_FILE = os.path.join(ROOT, "data.json")
 
 # ---------------------------------------------------------
-# CURATOR AI
+# CURATOR AI (Classification Logic)
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
     valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
@@ -50,7 +49,7 @@ def ai_classify(domain, description, current_category):
 # MAIN ENGINE
 # ---------------------------------------------------------
 def main():
-    print("--- Fair Discovery Engine Starting ---")
+    print("--- Fair Discovery Heavy-Duty Engine Starting ---")
     
     try:
         with open(SITES_FILE, "r") as f:
@@ -63,33 +62,48 @@ def main():
     print(f"🔍 Scanning {len(sites)} network nodes...")
     merged_data = {}
 
-    # Stealth Headers (The ID Card)
+    # HEAVY DUTY HEADERS (Mimic Chrome on Windows perfectly)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1"
     }
+
+    session = requests.Session()
+    session.headers.update(headers)
 
     for feed_url in sites:
         print(f"\n👉 Connecting to: {feed_url}")
         try:
-            # Use headers to bypass firewalls
-            response = requests.get(feed_url, headers=headers, timeout=15)
+            # TIMEOUT increased to 20s
+            # VERIFY=FALSE bypasses SSL handshake issues
+            response = session.get(feed_url, timeout=20, verify=False)
             
             if response.status_code != 200: 
-                print(f"   ⚠️ Blocked/Error: {response.status_code}")
+                print(f"   ⚠️ BLOCKED: Status {response.status_code}")
+                # DEBUG: Print what the server actually said (first 200 chars)
+                print(f"   🔎 Server Message: {response.text[:200]}...") 
                 continue
             
             try:
                 feed_json = response.json()
-            except:
-                print("   ⚠️ Invalid JSON content.")
+            except json.JSONDecodeError:
+                print("   ⚠️ Content is not JSON. Server likely returned an HTML error page.")
+                print(f"   🔎 Content preview: {response.text[:100]}...")
                 continue
 
-            # Debug: Check if pages exist
             page_count = len(feed_json.get("pages", []))
             print(f"   ✅ Success! Found {page_count} pages.")
 
             if page_count == 0:
-                print("   ⚠️ Skipping: Page list is empty. (Did you seed the DB?)")
+                print("   ⚠️ Skipping: Page list is empty.")
                 continue
 
             # Parse & Aggregate
