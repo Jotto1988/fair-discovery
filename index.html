@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
+    <meta name="description" content="Fair Discovery ranks websites by real human interaction, blocking bots to prevent ad fraud and reveal true authority.">
     <title>Fair Discovery Directory</title>
     
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -24,16 +24,15 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
 
-        /* HEADER - CENTERED & NON-STICKY */
+        /* HEADER */
         header { 
             background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
-            padding: 60px 20px 40px; /* More top padding for centering */
+            padding: 60px 20px 40px; 
             border-bottom: 1px solid var(--border); 
-            position: relative; /* Changed from sticky to relative */
-            text-align: center; /* Center everything */
+            position: relative; 
+            text-align: center; 
         }
 
-        /* Controls moved to top-right absolute position */
         .header-controls { 
             position: absolute; 
             top: 20px; 
@@ -50,10 +49,9 @@
         }
         .theme-toggle:hover, .lang-select:hover { background: var(--bg); }
 
-        /* BIG CENTERED LOGO */
         h1 { 
             margin: 0 auto 10px; 
-            font-size: 2.5rem; /* Bigger Google-style size */
+            font-size: 2.5rem; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -72,7 +70,7 @@
         }
 
         /* SEARCH & CATEGORIES */
-        .search-container { max-width: 584px; margin: 0 auto 25px; } /* Google's exact width is ~584px */
+        .search-container { max-width: 584px; margin: 0 auto 25px; }
         input {
             width: 100%; padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border);
             background: var(--card-bg); color: var(--text); font-size: 1.1rem; outline: none; box-sizing: border-box;
@@ -152,19 +150,16 @@
 
         /* FOOTER */
         footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
+        .footer-desc { max-width: 700px; margin: 0 auto 15px; line-height: 1.6; }
         .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
         .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
         .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
         .credits a:hover { text-decoration: underline; color: var(--primary); }
         
-        /* MOBILE RESPONSIVENESS */
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
-            
-            /* Keep controls top-right but ensure enough padding so logo doesn't overlap */
             header { padding-top: 80px; } 
             .header-controls { top: 15px; right: 15px; }
-            
             h1 { font-size: 2rem; }
             .categories { justify-content: flex-start; padding-bottom: 10px; }
         }
@@ -185,7 +180,7 @@
     </div>
 
     <h1>Fair <span>Discovery</span></h1>
-    <p class="subtitle" data-i18n="subtitle">The decentralized, AI-ranked directory.</p>
+    <p class="subtitle" data-i18n="subtitle">The directory ranked by real humans, not bots.</p>
 
     <div class="search-container">
         <input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Try 'auto cape town' or 'tech services'...">
@@ -229,7 +224,11 @@
 </div>
 
 <footer>
-    <p data-i18n="footer_desc">Fair Discovery is a decentralized, human-first directory.</p>
+    <p class="footer-desc" data-i18n="footer_desc">
+        Fair Discovery ranks websites based on <strong>verified human interaction</strong>, blocking bots to reveal true authority. 
+        This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.
+    </p>
+
     <p>🚀 <a href="data.json" target="_blank" class="api-link" data-i18n="footer_api">Get the JSON API</a></p>
     <p>🚀 <a href="https://github.com/fair-collective/fair-discovery/tree/main" target="_blank" class="api-link" data-i18n="footer_join">Join Free on GitHub</a></p>
     
@@ -256,7 +255,7 @@
 
     const i18n = {
         en: {
-            subtitle: "The decentralized, AI-ranked directory.",
+            subtitle: "The directory ranked by real humans, not bots.",
             search_ph: "Try 'auto cape town' or 'tech services'...",
             theme: "🌙 Theme",
             cat_all: "All", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Health", cat_service: "🛠️ Services", cat_retail: "🛍️ Retail",
@@ -264,7 +263,7 @@
             badge_title: "🏆 Show off your Authority",
             badge_desc: "Are you listed? Add the Fair Discovery seal to your website footer to build trust.",
             copy_code: "Copy Code",
-            footer_desc: "Fair Discovery is a decentralized, human-first directory.",
+            footer_desc: "Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.",
             footer_api: "Get the JSON API",
             footer_join: "Join Free on GitHub",
             support: "Support the Dev",
@@ -272,7 +271,7 @@
             lbl_verified: "✓ Verified"
         },
         es: {
-            subtitle: "El directorio descentralizado y clasificado por IA.",
+            subtitle: "El directorio clasificado por humanos, no bots.",
             search_ph: "Prueba 'autos madrid' o 'servicios tec'...",
             theme: "🌙 Tema",
             cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas",
@@ -280,7 +279,7 @@
             badge_title: "🏆 Muestra tu Autoridad",
             badge_desc: "¿Estás en la lista? Añade el sello de Fair Discovery a tu web.",
             copy_code: "Copiar Código",
-            footer_desc: "Fair Discovery es un directorio humano y descentralizado.",
+            footer_desc: "Fair Discovery clasifica sitios web basándose en interacción humana verificada, bloqueando bots. Esto obliga a las redes publicitarias a enviar tráfico real y protege tu presupuesto.",
             footer_api: "Obtener API JSON",
             footer_join: "Únete gratis en GitHub",
             support: "Apoyar al Dev",
@@ -288,7 +287,7 @@
             lbl_verified: "✓ Verificado"
         },
         fr: {
-            subtitle: "L'annuaire décentralisé classé par IA.",
+            subtitle: "L'annuaire classé par des humains, pas des bots.",
             search_ph: "Essayez 'auto paris' ou 'services tech'...",
             theme: "🌙 Thème",
             cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce",
@@ -296,7 +295,7 @@
             badge_title: "🏆 Montrez votre Autorité",
             badge_desc: "Vous êtes listé ? Ajoutez le sceau Fair Discovery à votre site.",
             copy_code: "Copier le Code",
-            footer_desc: "Fair Discovery est un annuaire décentralisé et humain.",
+            footer_desc: "Fair Discovery classe les sites selon l'interaction humaine réelle, en bloquant les bots. Cela force les réseaux publicitaires à fournir un trafic réel et protège votre budget.",
             footer_api: "Obtenir l'API JSON",
             footer_join: "Rejoindre sur GitHub",
             support: "Soutenir le Dev",
@@ -304,7 +303,7 @@
             lbl_verified: "✓ Vérifié"
         },
         de: {
-            subtitle: "Das dezentrale, KI-gestützte Verzeichnis.",
+            subtitle: "Das Verzeichnis von echten Menschen, nicht Bots.",
             search_ph: "Versuchen Sie 'auto berlin' oder 'tech'...",
             theme: "🌙 Thema",
             cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel",
@@ -312,7 +311,7 @@
             badge_title: "🏆 Zeigen Sie Autorität",
             badge_desc: "Sind Sie gelistet? Fügen Sie das Fair Discovery-Siegel hinzu.",
             copy_code: "Code kopieren",
-            footer_desc: "Fair Discovery ist ein dezentrales, menschliches Verzeichnis.",
+            footer_desc: "Fair Discovery bewertet Websites nach echter menschlicher Interaktion und blockiert Bots. Dies zwingt Werbenetzwerke dazu, echten Traffic zu liefern und schützt Ihr Budget.",
             footer_api: "JSON-API abrufen",
             footer_join: "Kostenlos beitreten",
             support: "Entwickler unterstützen",
@@ -320,7 +319,7 @@
             lbl_verified: "✓ Verifiziert"
         },
         pt: {
-            subtitle: "O diretório descentralizado classificado por IA.",
+            subtitle: "O diretório classificado por humanos, não bots.",
             search_ph: "Tente 'auto lisboa' ou 'serviços tech'...",
             theme: "🌙 Tema",
             cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo",
@@ -328,7 +327,7 @@
             badge_title: "🏆 Mostre sua Autoridade",
             badge_desc: "Está listado? Adicione o selo Fair Discovery ao seu site.",
             copy_code: "Copiar Código",
-            footer_desc: "Fair Discovery é um diretório humano e descentralizado.",
+            footer_desc: "Fair Discovery classifica sites com base na interação humana real, bloqueando bots. Isso força as redes de anúncios a entregar tráfego real, protegendo seu orçamento.",
             footer_api: "Obter API JSON",
             footer_join: "Junte-se no GitHub",
             support: "Apoie o Dev",
@@ -450,7 +449,7 @@
         const pageItems = filteredData.slice(start, start + limit);
 
         if (pageItems.length === 0) {
-            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>';
+            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found matching all terms.</p>';
             return;
         }
 
