@@ -1,5 +1,5 @@
 {
-  "generated_at": 1764091601,
+  "generated_at": 1764093057,
   "node_count": 0,
   "pages": [
     {
@@ -30,7 +30,7 @@
       "url": "https://www.seritipbo.org/",
       "score": 150,
       "category": "Service",
-      "description": "Public Benefit Organization (PBO) dedicated to community upliftment and social welfare.",
+      "description": "Non-profit organization providing skill development training in plumbing and community upliftment.",
       "whatsapp": "",
       "location": "South Africa"
     },
@@ -40,6 +40,38 @@
       "category": "Service",
       "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
       "whatsapp": "27000000000",
+      "location": "Cape Town, SA"
+    },
+    {
+      "url": "https://share.google/1O2Kl72Vige48vGsB",
+      "score": 150,
+      "category": "Auto",
+      "description": "Automotive parts sales based in Pretoria, delivering nationwide.",
+      "whatsapp": "27000000000",
+      "location": "Pretoria, SA"
+    },
+    {
+      "url": "https://share.google/WNjzMAwNlj9tC3u6F",
+      "score": 150,
+      "category": "Service",
+      "description": "Specialist car locksmith. Cutting, coding, and programming car keys.",
+      "whatsapp": "27000000000",
+      "location": "Pretoria, SA"
+    },
+    {
+      "url": "https://autods.co.za/",
+      "score": 150,
+      "category": "Auto",
+      "description": "Top-rated mobile mechanic in Cape Town. We come to you.",
+      "whatsapp": "27000000000",
+      "location": "Cape Town, SA"
+    },
+    {
+      "url": "https://scoutsforkids.org/",
+      "score": 150,
+      "category": "Service",
+      "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.",
+      "whatsapp": "27717990196",
       "location": "Cape Town, SA"
     }
   ]
