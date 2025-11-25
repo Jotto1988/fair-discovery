@@ -1,11 +1,6 @@
 {
-  "generated_at": 1764086622,
+  "generated_at": 1764087433,
   "node_count": 2,
-  "system_version": "Fair-Discovery-v3.2",
-  "ai_modules": [
-    "Edge-Behavioral",
-    "Curator-Semantic"
-  ],
   "pages": [
     {
       "url": "https://www.intpanelshop.co.za/page7.html",
@@ -38,6 +33,22 @@
       "description": "Expert panel beating and spray painting in Cape Town.",
       "whatsapp": "27821234567",
       "location": "Cape Town"
+    },
+    {
+      "url": "https://www.skyropespecialist.co.za/",
+      "score": 1337,
+      "category": "Service",
+      "description": "Professional rope access and high-altitude maintenance specialists in Cape Town.",
+      "whatsapp": "27000000000",
+      "location": "Cape Town, SA"
+    },
+    {
+      "url": "https://www.skyropespecialist.co.za/gallery.html",
+      "score": 890,
+      "category": "Service",
+      "description": "Professional rope access and high-altitude maintenance specialists in Cape Town.",
+      "whatsapp": "27000000000",
+      "location": "Cape Town, SA"
     },
     {
       "url": "https://www.intpanelshop.co.za/insurance.html",
