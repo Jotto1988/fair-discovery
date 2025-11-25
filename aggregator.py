@@ -5,7 +5,7 @@ import time
 import os
 import urllib3
 
-# Disable annoying SSL warnings for the bypass
+# Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ---------------------------------------------------------
@@ -62,51 +62,30 @@ def main():
     print(f"🔍 Scanning {len(sites)} network nodes...")
     merged_data = {}
 
-    # HEAVY DUTY HEADERS (Mimic Chrome on Windows perfectly)
+    # Browser Headers to try and trick firewalls
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1"
+        "Accept": "text/html,application/json",
     }
 
-    session = requests.Session()
-    session.headers.update(headers)
-
+    # 1. AUTOMATED SCANNING LOOP
     for feed_url in sites:
         print(f"\n👉 Connecting to: {feed_url}")
         try:
-            # TIMEOUT increased to 20s
-            # VERIFY=FALSE bypasses SSL handshake issues
-            response = session.get(feed_url, timeout=20, verify=False)
+            # Verify=False ignores SSL errors
+            response = requests.get(feed_url, headers=headers, timeout=20, verify=False)
             
             if response.status_code != 200: 
-                print(f"   ⚠️ BLOCKED: Status {response.status_code}")
-                # DEBUG: Print what the server actually said (first 200 chars)
-                print(f"   🔎 Server Message: {response.text[:200]}...") 
+                print(f"   ⚠️ BLOCKED/ERROR: Status {response.status_code}")
                 continue
             
             try:
                 feed_json = response.json()
-            except json.JSONDecodeError:
-                print("   ⚠️ Content is not JSON. Server likely returned an HTML error page.")
-                print(f"   🔎 Content preview: {response.text[:100]}...")
+            except:
+                print("   ⚠️ Content is not valid JSON.")
                 continue
 
-            page_count = len(feed_json.get("pages", []))
-            print(f"   ✅ Success! Found {page_count} pages.")
-
-            if page_count == 0:
-                print("   ⚠️ Skipping: Page list is empty.")
-                continue
-
-            # Parse & Aggregate
+            # Parse Data
             parts = feed_url.split("/")
             origin = parts[0] + "//" + parts[2]
             domain = parts[2]
@@ -116,6 +95,9 @@ def main():
             final_cat = ai_classify(domain, desc, raw_cat)
             
             pages = feed_json.get("pages", [])
+            page_count = len(pages)
+            print(f"   ✅ Success! Found {page_count} pages.")
+
             for page in pages:
                 raw_url = page.get("url", "")
                 score = int(page.get("score", 0))
@@ -139,8 +121,35 @@ def main():
             print(f"   ❌ Connection Failed: {e}")
             continue
 
-    # Save
+    # 2. PREPARE OUTPUT LIST
     output_list = list(merged_data.values())
+
+    # ---------------------------------------------------------
+    # 🛑 MANUAL OVERRIDE (BACKDOOR FOR BLOCKED SITES)
+    # ---------------------------------------------------------
+    # We manually inject Sky Rope here because Vehost blocks the robot.
+    sky_rope_manual = {
+        "url": "https://www.skyropespecialist.co.za/",
+        "score": 100, # Placeholder score (You can update this manually later)
+        "category": "Service",
+        "description": "Professional rope access and high-altitude maintenance specialists.",
+        "whatsapp": "27000000000", # PLEASE UPDATE THIS NUMBER IF NEEDED
+        "location": "Cape Town, SA"
+    }
+
+    # Check if the robot found it automatically. If not, inject it.
+    found_automatically = False
+    for p in output_list:
+        if "skyropespecialist.co.za" in p['url']:
+            found_automatically = True
+            break
+    
+    if not found_automatically:
+        print("\n🔧 MANUAL INJECTION: Adding Sky Rope Specialist (Bypassing Firewall)")
+        output_list.append(sky_rope_manual)
+    # ---------------------------------------------------------
+
+    # 3. FINAL SORT & SAVE
     output_list.sort(key=lambda x: x["score"], reverse=True)
 
     final_json = {
