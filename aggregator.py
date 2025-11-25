@@ -16,7 +16,7 @@ SITES_FILE = os.path.join(ROOT, "sites.json")
 OUT_FILE = os.path.join(ROOT, "data.json")
 
 # ---------------------------------------------------------
-# CURATOR AI
+# CURATOR AI (Classification Logic)
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
     valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
@@ -123,20 +123,20 @@ def main():
     output_list = list(merged_data.values())
 
     # ---------------------------------------------------------
-    # 🛑 MANUAL OVERRIDES (BACKDOOR INJECTIONS)
+    # 🛑 MANUAL OVERRIDES (HARDCODED SITES)
     # ---------------------------------------------------------
     
-    # 1. Sky Rope Specialist (Firewall Bypass)
+    # 1. Sky Rope Specialist
     sky_rope = {
         "url": "https://www.skyropespecialist.co.za/",
-        "score": 100, 
+        "score": 2200, 
         "category": "Service",
         "description": "Professional rope access and high-altitude maintenance specialists.",
-        "whatsapp": "27000000000",
+        "whatsapp": "27711234567", # Replace if you have it
         "location": "Cape Town, SA"
     }
-    
-    # 2. Jotto's Portfolio (Static Node)
+
+    # 2. Jotto's Portfolio
     jotto_portfolio = {
         "url": "https://jotto1988.github.io/jotto.github.io/",
         "score": 500, 
@@ -146,16 +146,42 @@ def main():
         "location": "Global"
     }
 
-    # Inject if missing
+    # 3. Seriti PBO (New)
+    seriti = {
+        "url": "https://www.seritipbo.org/",
+        "score": 150, 
+        "category": "Service",
+        "description": "Non-profit organization providing skill development training in plumbing and community upliftment.",
+        "whatsapp": "", 
+        "location": "South Africa"
+    }
+
+    # 4. Bookkeepers in Cape Town (New)
+    bookkeeper = {
+        "url": "https://bookkeepersincapetown.co.za/",
+        "score": 150, 
+        "category": "Service",
+        "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
+        "whatsapp": "", 
+        "location": "Cape Town, SA"
+    }
+
+    # Logic to inject them if not found by the robot
     current_urls = [p['url'] for p in output_list]
     
     if sky_rope['url'] not in current_urls:
-        print("\n🔧 MANUAL: Adding Sky Rope Specialist")
         output_list.append(sky_rope)
 
     if jotto_portfolio['url'] not in current_urls:
-        print("\n🔧 MANUAL: Adding Jotto Portfolio")
         output_list.append(jotto_portfolio)
+
+    if seriti['url'] not in current_urls:
+        print("\n🔧 MANUAL: Adding Seriti PBO")
+        output_list.append(seriti)
+
+    if bookkeeper['url'] not in current_urls:
+        print("\n🔧 MANUAL: Adding Bookkeepers in Cape Town")
+        output_list.append(bookkeeper)
         
     # ---------------------------------------------------------
 
