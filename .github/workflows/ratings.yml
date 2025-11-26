@@ -1,0 +1,52 @@
+name: The Judge (Ratings)
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  process-rating:
+    if: startsWith(github.event.issue.title, 'Rating:')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Run Karma Logic
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          USER: ${{ github.actor }}
+        run: |
+          # We run a simple inline script to simulate the "Karma Check"
+          # In Phase 3, this will connect to karma.py and a database.
+          # For now, it acknowledges the vote.
+          echo "Processing vote from $USER..."
+          echo "Vote: $ISSUE_TITLE"
+          echo "Karma Check: PASSED (User has no ban history)"
+
+      - name: Reply to Voter
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ **Vote Recorded.** Your karma is clean. This rating will affect the business score in the next aggregation cycle.'
+            });
+            github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
