@@ -79,6 +79,11 @@
   .card:hover { transform: translateY(-4px); border-color: var(--accent); }
   
   .card-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+  /* --- NEW LOGO STYLES --- */
+  .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; }
+  .biz-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--bg); border: 1px solid var(--border); flex-shrink: 0; }
+  .biz-logo-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; font-weight: bold; color: var(--sub); }
   
   .verified { display: inline-block; font-size: 0.7rem; font-weight: 700; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 5px; }
   
@@ -99,6 +104,10 @@
   .modal { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 16px; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; position: relative; }
   .modal-close { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; font-weight: bold; }
   .modal-content { padding: 30px; overflow-y: auto; }
+  
+  /* --- MODAL LOGO --- */
+  .modal-header-area { text-align: center; margin-bottom: 20px; }
+  .modal-logo { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: cover; border: 3px solid var(--border); }
   
   .info-row { display: flex; gap: 10px; margin: 20px 0; }
   .info-box { flex: 1; background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
@@ -163,8 +172,13 @@
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <div class="modal-content">
-      <h2 id="mTitle" style="margin:0; font-size:1.5rem;">Business</h2>
-      <p id="mMeta" style="color:var(--sub); font-size:0.9rem; margin-top:5px;">Category • Location</p>
+      
+      <div class="modal-header-area">
+          <div id="mLogoContainer"></div>
+          <h2 id="mTitle" style="margin:0; font-size:1.5rem;">Business</h2>
+          <p id="mMeta" style="color:var(--sub); font-size:0.9rem; margin-top:5px;">Category • Location</p>
+      </div>
+
       <p id="mDesc" style="line-height:1.6; margin-top:20px;">Description...</p>
       
       <div class="info-row">
@@ -220,7 +234,8 @@ async function init(){
                 domain: d, url: p.url, score: p.score || 0,
                 cat: p.category || "Service",
                 desc: p.description || "Verified Listing",
-                wa: p.whatsapp, loc: p.location
+                wa: p.whatsapp, loc: p.location,
+                logo: p.logo // <--- NEW: Read the logo URL
             };
             map[d].score += p.score;
         } catch(e){}
@@ -281,13 +296,23 @@ function render() {
         let title = formatTitle(item.domain);
         let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" style="color:#22c55e;font-size:1.2rem;text-decoration:none;">💬</a>` : '';
 
+        // NEW: Decide whether to show an image or a placeholder letter
+        let logoHtml = item.logo 
+            ? `<img src="${item.logo}" class="biz-logo" alt="${title}">` 
+            : `<div class="biz-logo-placeholder">${title.charAt(0)}</div>`;
+
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => openModal(idx);
         card.innerHTML = `
             <div class="card-body">
                 <div class="verified">✓ VERIFIED</div>
-                <div class="title">${title}</div>
+                
+                <div class="card-header">
+                    ${logoHtml}
+                    <div class="title" style="flex:1">${title}</div>
+                </div>
+
                 <div class="meta">${flag} ${item.loc || 'Global'}</div>
                 <div class="desc">${item.desc}</div>
                 <div class="foot">
@@ -307,6 +332,14 @@ function openModal(idx) {
     const i = filtered[idx];
     currentBiz = formatTitle(i.domain);
     
+    // NEW: Handle the logo inside the Modal
+    const logoContainer = document.getElementById('mLogoContainer');
+    if (i.logo) {
+        logoContainer.innerHTML = `<img src="${i.logo}" class="modal-logo">`;
+    } else {
+        logoContainer.innerHTML = ''; // Hide if no logo
+    }
+
     document.getElementById('mTitle').innerText = currentBiz;
     document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc || 'Global'}`;
     document.getElementById('mDesc').innerText = i.desc;
