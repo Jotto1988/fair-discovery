@@ -50,7 +50,6 @@
   .btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; font-size: 0.85rem; display: inline-block; }
   .btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* SPECIAL STYLE FOR PORTAL BUTTON */
   .btn-primary { 
       background-color: var(--accent); 
       color: white !important; 
@@ -79,12 +78,12 @@
   .card:hover { transform: translateY(-4px); border-color: var(--accent); }
   
   .card-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-
-  /* --- NEW LOGO STYLES --- */
+  
+  /* LOGO STYLES */
   .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; }
   .biz-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--bg); border: 1px solid var(--border); flex-shrink: 0; }
   .biz-logo-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; font-weight: bold; color: var(--sub); }
-  
+
   .verified { display: inline-block; font-size: 0.7rem; font-weight: 700; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 5px; }
   
   .title { font-size: 1.2rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -92,8 +91,11 @@
   .desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
   
   .foot { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .wa-btn { background: #25D366; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px; }
-  .wa-btn:hover { filter: brightness(1.1); }
+  .contact-icons { display: flex; gap: 8px; align-items: center; }
+  .icon-btn { background: var(--glass); color: var(--sub); padding: 5px 10px; border-radius: 15px; font-size: 1rem; text-decoration: none; transition: 0.2s; }
+  .icon-btn:hover { background: var(--accent); color: white; }
+  .wa-btn { color: #25D366; }
+  .wa-btn:hover { background: #25D366; color: white; }
 
   /* FOOTER */
   footer { text-align: center; padding: 40px 0; margin-top: auto; border-top: 1px solid var(--border); color: var(--sub); font-size: 0.9rem; }
@@ -105,11 +107,10 @@
   .modal-close { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; font-weight: bold; }
   .modal-content { padding: 30px; overflow-y: auto; }
   
-  /* --- MODAL LOGO --- */
   .modal-header-area { text-align: center; margin-bottom: 20px; }
   .modal-logo { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: cover; border: 3px solid var(--border); }
   
-  .info-row { display: flex; gap: 10px; margin: 20px 0; }
+  .info-row { display: flex; gap: 10px; margin: 10px 0; }
   .info-box { flex: 1; background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
   .visit-btn { display: block; background: var(--accent); color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
   
@@ -128,7 +129,6 @@
       </div>
       <div class="controls">
         <a href="portal.html" class="btn btn-primary">🔑 Merchant Portal</a>
-        
         <button class="btn" onclick="openJoin()">🚀 Join</button>
         <button class="btn" onclick="toggleTheme()">🌙</button>
       </div>
@@ -183,8 +183,11 @@
       
       <div class="info-row">
         <div class="info-box"><strong>📍 Location</strong><br><span id="mLoc">City</span></div>
-        <div class="info-box"><strong>📞 Contact</strong><br><span id="mPhone">Num</span></div>
+        <div class="info-box"><strong>💬 WhatsApp</strong><br><span id="mPhone">Num</span></div>
       </div>
+      
+      <div class="info-row" id="extraContacts">
+          </div>
       
       <a id="mLink" href="#" target="_blank" class="visit-btn">Visit Website ↗</a>
       
@@ -219,7 +222,6 @@ const FEED = 'data.json';
 let allData = [], filtered = [], curCat = 'all';
 let currentBiz = "";
 
-// Theme Memory
 if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
 
 async function init(){
@@ -235,7 +237,9 @@ async function init(){
                 cat: p.category || "Service",
                 desc: p.description || "Verified Listing",
                 wa: p.whatsapp, loc: p.location,
-                logo: p.logo // <--- NEW: Read the logo URL
+                logo: p.logo,
+                email: p.email,      // NEW
+                tel: p.telephone     // NEW
             };
             map[d].score += p.score;
         } catch(e){}
@@ -294,9 +298,12 @@ function render() {
     filtered.forEach((item, idx) => {
         let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
         let title = formatTitle(item.domain);
-        let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" style="color:#22c55e;font-size:1.2rem;text-decoration:none;">💬</a>` : '';
+        
+        // NEW ICON LOGIC
+        let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" class="icon-btn wa-btn">💬</a>` : '';
+        let emailBtn = item.email ? `<a href="mailto:${item.email}" onclick="event.stopPropagation()" class="icon-btn">✉️</a>` : '';
+        let telBtn = item.tel ? `<a href="tel:${item.tel}" onclick="event.stopPropagation()" class="icon-btn">📞</a>` : '';
 
-        // NEW: Decide whether to show an image or a placeholder letter
         let logoHtml = item.logo 
             ? `<img src="${item.logo}" class="biz-logo" alt="${title}">` 
             : `<div class="biz-logo-placeholder">${title.charAt(0)}</div>`;
@@ -317,9 +324,8 @@ function render() {
                 <div class="desc">${item.desc}</div>
                 <div class="foot">
                     <span style="font-weight:bold; color:var(--primary);">${item.cat}</span>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        ${waBtn}
-                        <span style="font-weight:bold; color:var(--text);">${formatScore(item.score)} AUTH</span>
+                    <div class="contact-icons">
+                        ${waBtn} ${emailBtn} ${telBtn}
                     </div>
                 </div>
             </div>
@@ -332,12 +338,11 @@ function openModal(idx) {
     const i = filtered[idx];
     currentBiz = formatTitle(i.domain);
     
-    // NEW: Handle the logo inside the Modal
     const logoContainer = document.getElementById('mLogoContainer');
     if (i.logo) {
         logoContainer.innerHTML = `<img src="${i.logo}" class="modal-logo">`;
     } else {
-        logoContainer.innerHTML = ''; // Hide if no logo
+        logoContainer.innerHTML = '';
     }
 
     document.getElementById('mTitle').innerText = currentBiz;
@@ -346,6 +351,12 @@ function openModal(idx) {
     document.getElementById('mLoc').innerText = i.loc || 'Global';
     document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
     
+    // NEW: Populate extra contacts in Modal
+    let extras = '';
+    if(i.email) extras += `<div class="info-box"><strong>✉️ Email</strong><br><a href="mailto:${i.email}" style="color:var(--accent)">${i.email}</a></div>`;
+    if(i.tel) extras += `<div class="info-box"><strong>📞 Tel</strong><br><a href="tel:${i.tel}" style="color:var(--accent)">${i.tel}</a></div>`;
+    document.getElementById('extraContacts').innerHTML = extras;
+
     let link = i.url;
     if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
     document.getElementById('mLink').href = link;
@@ -370,7 +381,6 @@ function rate(s) {
     const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
     window.open(`https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${s}`, '_blank');
 }
-function geoFindMe() { alert("Location services coming in V2"); }
 
 document.getElementById('search').addEventListener('input', filter);
 init();
