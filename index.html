@@ -27,61 +27,57 @@
 
         /* HEADER */
         header {
-            background: var(--card-bg); padding: 20px; text-align: center;
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
+            padding: 40px 20px 30px; text-align: center;
             border-bottom: 1px solid var(--border); position: relative;
         }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        
-        h1 { 
-            font-size: 1.8rem; margin: 0; letter-spacing: -0.5px; 
-            display: flex; align-items: center; gap: 10px; color: var(--text);
-        }
-        
-        .controls { display: flex; gap: 10px; }
-        .icon-btn { 
-            background: transparent; border: 1px solid var(--border); color: var(--text);
-            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .icon-btn:hover { background: var(--bg); border-color: var(--accent); }
+        .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
+        .header-controls-left { position: absolute; top: 20px; left: 20px; }
 
-        /* SEARCH & FILTERS */
+        .btn-control, .lang-select, .theme-toggle, #installBtn { 
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
+            transition: 0.2s; outline: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+            font-family: inherit;
+        }
+        .lang-select {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            padding-right: 25px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat; background-position: right 8px center;
+        }
+        .btn-control:hover, .lang-select:hover, .theme-toggle:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
+
+        h1 { 
+            margin: 0 auto 10px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 12px; letter-spacing: -0.5px; 
+            color: var(--text);
+        }
+        .subtitle { color: var(--text-sub); margin-bottom: 25px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* FILTER BAR */
         .filter-bar {
             display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 800px; margin: 0 auto;
         }
         
-        .search-wrapper {
-            flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;
-        }
+        .search-wrapper { flex: 1; min-width: 250px; position: relative; display: flex; align-items: center; }
         
         .search-box {
             width: 100%; padding: 12px 45px 12px 20px; border-radius: 24px; 
-            border: 1px solid var(--border); background: var(--bg); color: var(--text);
-            font-size: 1rem; outline: none; transition: 0.2s;
+            border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+            font-size: 1rem; outline: none; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); box-sizing: border-box;
         }
-        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); background: var(--card-bg); }
+        .search-box:focus { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
         .geo-btn { position: absolute; right: 12px; background: none; border: none; cursor: pointer; font-size: 1.2rem; opacity: 0.6; }
         .geo-btn:hover { opacity: 1; color: var(--accent); }
         .geo-btn.loading { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .loc-select {
+        .custom-select {
             padding: 12px 30px 12px 20px; border-radius: 24px; border: 1px solid var(--border);
-            background: var(--bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23555"><path d="M2 4l4 4 4-4"/></svg>') no-repeat right 12px center;
+            background: var(--card-bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23555"><path d="M2 4l4 4 4-4"/></svg>') no-repeat right 12px center;
             color: var(--text); font-size: 0.9rem; cursor: pointer; appearance: none; min-width: 140px;
         }
-
-        .category-scroll { 
-            display: flex; gap: 8px; overflow-x: auto; padding: 15px 0 5px; 
-            justify-content: center; scrollbar-width: none; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        }
-        .cat-pill {
-            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
-            background: var(--bg); border: 1px solid var(--border); cursor: pointer;
-            color: var(--text-sub); transition: 0.2s; white-space: nowrap;
-        }
-        .cat-pill:hover, .cat-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
 
         /* GRID */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
@@ -92,32 +88,33 @@
         .card {
             background: var(--card-bg); border-radius: 12px; overflow: hidden;
             border: 1px solid var(--border); box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+            transition: transform 0.2s; cursor: pointer;
             display: flex; flex-direction: column; position: relative;
         }
         .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); }
         
-        .card-banner { height: 80px; background-size: cover; background-position: center; opacity: 0.9; }
+        .card-banner { height: 90px; background-size: cover; background-position: center; position: relative; }
+        .card-banner::after { content:''; position:absolute; inset:0; background: rgba(0,0,0,0.1); } /* Slight dim */
         
-        .card-content { padding: 0 16px 16px; flex: 1; display: flex; flex-direction: column; margin-top: -24px; }
+        .card-content { padding: 0 16px 16px; flex: 1; display: flex; flex-direction: column; margin-top: -30px; position: relative; z-index: 2; }
         
-        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; position: relative; }
+        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
         .card-logo { 
-            width: 48px; height: 48px; border-radius: 10px; background: var(--card-bg); 
-            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
-            border: 2px solid var(--card-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 56px; height: 56px; border-radius: 12px; background: var(--card-bg); 
+            display: flex; align-items: center; justify-content: center; font-size: 1.6rem; 
+            border: 2px solid var(--card-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
         .verified-tag { 
-            background: rgba(24,128,56,0.1); color: var(--success); padding: 2px 6px; 
+            background: rgba(24,128,56,0.1); color: var(--success); padding: 2px 8px; 
             border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
             margin-bottom: 5px;
         }
 
-        .card-title { font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.3; }
-        .card-meta { font-size: 0.8rem; color: var(--text-sub); margin: 4px 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-title { font-size: 1.15rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.3; }
+        .card-meta { font-size: 0.85rem; color: var(--text-sub); margin: 4px 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .deal-badge { 
-            background: #ffeff5; color: #d63384; font-size: 0.7rem; padding: 4px 8px; 
+            background: #fff0f3; color: #d63384; font-size: 0.7rem; padding: 4px 8px; 
             border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 8px;
             border: 1px solid #f8d7da;
         }
@@ -130,7 +127,7 @@
         }
         .score-val { font-weight: 700; color: var(--accent); font-size: 1rem; }
 
-        /* BANNER IMAGES */
+        /* BANNER IMAGES (The Flavor) */
         .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80'); }
         .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'); }
         .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80'); }
@@ -145,37 +142,42 @@
         .modal-card { background: var(--card-bg); width: 90%; max-width: 550px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.2s ease-out; display: flex; flex-direction: column; max-height: 90vh; }
         @keyframes slideUp { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
 
-        .modal-banner { height: 130px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
-        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
-        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.9rem; width: 90%; }
+        .modal-banner { height: 140px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
+        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.9rem; width: 90%; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         
         /* FIXED CLOSE BUTTON */
         .modal-close { 
             position: absolute; top: 15px; right: 15px; 
-            background: rgba(255,255,255,0.2); color: white; 
+            background: rgba(0,0,0,0.4); color: white; 
             width: 32px; height: 32px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             cursor: pointer; backdrop-filter: blur(4px); z-index: 20; 
-            font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.3);
+            font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.2);
         }
-        .modal-close:hover { background: rgba(255,255,255,0.4); }
+        .modal-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
 
         .modal-body { padding: 20px; overflow-y: auto; }
         .modal-header { display: flex; gap: 15px; align-items: flex-end; margin-top: -40px; margin-bottom: 15px; position: relative; z-index: 5; }
-        .modal-logo { width: 70px; height: 70px; background: var(--card-bg); border-radius: 12px; font-size: 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .modal-logo { width: 70px; height: 70px; background: var(--card-bg); border-radius: 12px; font-size: 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .info-box { background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; }
+        .info-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-sub); font-weight: 700; display: block; margin-bottom: 4px; }
         
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: block; text-align: center; text-decoration: none; }
-        
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: block; text-align: center; text-decoration: none; margin-top: 10px; }
+        .btn-primary:hover { filter: brightness(1.1); }
+
+        .rating-stars { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+        .star { font-size: 1.6rem; color: #ddd; cursor: pointer; transition: 0.2s; background: none; border: none; }
+        .star:hover { color: #fbbc04; transform: scale(1.2); }
+
         /* FOOTER */
         footer { margin-top: 40px; padding: 30px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.85rem; }
         #installBtn { display: none; }
 
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
-            .categories { justify-content: flex-start; padding-left: 20px; }
             .modal-card { width: 100%; height: 100%; border-radius: 0; margin: 0; max-width: none; }
             .filter-bar { flex-direction: column; align-items: stretch; }
         }
@@ -184,24 +186,27 @@
 <body>
 
 <header>
-    <div class="header-top">
-        <div class="controls">
-            <button class="icon-btn" onclick="openJoin()" title="Join Network">🚀</button>
-            <button id="installBtn" class="icon-btn" onclick="installPWA()" style="display:none" title="Install App">📲</button>
-        </div>
-        <h1>
-            <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
-                <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
-                <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
-                <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
-                <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
-            </svg>
-            Fair Discovery
-        </h1>
-        <div class="controls">
-            <button class="icon-btn" onclick="toggleTheme()" title="Theme">🌙</button>
-        </div>
+    <div class="header-controls-left">
+        <button class="btn-control" onclick="openJoin()">🚀 Join</button>
     </div>
+    <div class="header-controls-right">
+        <button id="installBtn" class="btn-control" onclick="installPWA()" style="display:none; margin-right:10px;">📲 Install</button>
+        <select class="lang-select" onchange="changeLanguage(this.value)">
+            <option value="en">🇺🇸 EN</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="de">🇩🇪 DE</option><option value="pt">🇧🇷 PT</option>
+        </select>
+        <button class="theme-toggle" onclick="toggleTheme()" style="margin-left:10px;">🌙</button>
+    </div>
+
+    <h1>
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
+            <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
+            <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
+            <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <span>Fair Discovery</span>
+    </h1>
+    <p class="subtitle" data-i18n="subtitle">The directory ranked by real humans, not bots.</p>
 
     <div class="filter-bar">
         <div class="search-wrapper">
@@ -209,21 +214,21 @@
             <button class="geo-btn" onclick="geoFindMe()">📍</button>
         </div>
         
-        <select id="locFilter" class="loc-select" onchange="filter()">
+        <select id="catFilter" class="custom-select" onchange="filter()">
+            <option value="all">All Categories</option>
+            <option value="Auto">🚗 Auto</option>
+            <option value="Tech">💻 Tech</option>
+            <option value="Health">🏥 Health</option>
+            <option value="Service">🛠️ Services</option>
+            <option value="Retail">🛍️ Retail</option>
+            <option value="Artists">🎨 Artists</option>
+            <option value="Real Estate">🏠 Property</option>
+            <option value="Travel">✈️ Holiday</option>
+        </select>
+
+        <select id="locFilter" class="custom-select" onchange="filter()">
             <option value="all">🌍 Global</option>
         </select>
-    </div>
-
-    <div class="category-scroll">
-        <div class="cat-pill active" onclick="setCat('all')">All</div>
-        <div class="cat-pill" onclick="setCat('Auto')">Auto</div>
-        <div class="cat-pill" onclick="setCat('Tech')">Tech</div>
-        <div class="cat-pill" onclick="setCat('Health')">Health</div>
-        <div class="cat-pill" onclick="setCat('Service')">Services</div>
-        <div class="cat-pill" onclick="setCat('Retail')">Retail</div>
-        <div class="cat-pill" onclick="setCat('Artists')">Artists</div>
-        <div class="cat-pill" onclick="setCat('Real Estate')">Property</div>
-        <div class="cat-pill" onclick="setCat('Travel')">Holiday</div>
     </div>
 </header>
 
@@ -236,7 +241,7 @@
     <div class="pagination" id="pagination"></div>
 </div>
 
-<footer style="text-align:center; padding:40px; color:var(--text-sub); border-top:1px solid var(--border); font-size:0.9rem; margin-top:40px;">
+<footer>
     <p>Fair Discovery &copy; 2025 • Decentralized & Open Source</p>
     <div style="margin: 20px 0;">
         <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00; color:black; padding:8px 16px; border-radius:20px; font-weight:bold; text-decoration:none;">☕ Support the Dev</a>
@@ -244,11 +249,11 @@
     <p style="opacity:0.6;">Powered by Gemini • GitHub • The Fair Collective</p>
 </footer>
 
-<div id="modal" class="modal-backdrop" onclick="closeModal()">
+<div id="profileModal" class="modal-backdrop" onclick="closeModal('profile')">
     <div class="modal-card" onclick="event.stopPropagation()">
-        <div id="modalBanner" class="modal-banner bg-service">
-            <div class="modal-close" onclick="closeModal()">✕</div>
-            <div class="modal-quote" id="modalQuote">"Trust is the currency of the future."</div>
+        <div id="mBanner" class="modal-banner bg-service">
+            <div class="modal-close" onclick="closeModal('profile')">✕</div>
+            <div class="modal-quote" id="mQuote">"Truth is the only safe ground."</div>
         </div>
         <div class="modal-body">
             <div class="modal-header">
@@ -259,7 +264,7 @@
                 </div>
             </div>
             
-            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:25px;">Desc</p>
+            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:20px;">Desc</p>
 
             <div class="info-grid">
                 <div class="info-box">
@@ -296,6 +301,16 @@
             <h2 style="margin-top:0;">🚀 How to Join</h2>
             <p>1. Download the `fair-discovery` folder from GitHub.<br>2. Upload to your site root.<br>3. Submit your URL below.</p>
             <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="btn-primary">Submit Site</a>
+            
+            <div class="fallback-details">
+                <p>Site not showing up after 15 minutes?</p>
+                <span class="fallback-toggle" onclick="toggleFallback()">Click here for manual submission</span>
+                <div id="fallbackContent" class="fallback-content">
+                    <p><strong>Firewall Blocking?</strong> If your host blocks our robot, please open a "Manual Entry" issue on GitHub with this info:</p>
+                    <pre>{ "url": "https://your-site.com/", "score": 100, "category": "Service", "description": "Desc", "whatsapp": "27000", "location": "City" }</pre>
+                    <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Manual%20Entry" target="_blank" style="display:block; margin-top:10px; color:var(--primary); font-weight:bold;">👉 Open Manual Ticket</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -305,15 +320,9 @@
     let allData = [], filtered = [];
     let curCat = 'all';
     let currentBiz = "";
-    
-    const quotes = [
-        "\"Quality means doing it right when no one is looking.\"",
-        "\"Truth is the only safe ground to stand upon.\"",
-        "\"Honesty is the first chapter in the book of wisdom.\"",
-        "\"Fairness is a professional skill.\""
-    ];
+    const quotes = ["\"Quality means doing it right when no one is looking.\"", "\"Truth is the only safe ground.\"", "\"Honesty is the first chapter of wisdom.\""];
 
-    // --- PWA INSTALLER ---
+    // PWA
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); deferredPrompt = e;
@@ -322,13 +331,12 @@
     function installPWA() { if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } }
     if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-    // --- INIT ---
     async function init() {
         try {
             const res = await fetch(FEED + '?' + Date.now());
             const json = await res.json();
             processData(json.pages || []);
-        } catch (e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading network...</p>'; }
+        } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
     }
 
     function processData(pages) {
@@ -362,18 +370,16 @@
         sortedLocs.forEach(l => {
             if(l && l !== "Global") sel.innerHTML += `<option value="${l}">${l}</option>`;
         });
-
         filter();
     }
 
     function inferCat(d) {
         d = d.toLowerCase();
-        if(d.includes('auto')||d.includes('panel')||d.includes('motor')) return 'Auto';
+        if(d.includes('auto')||d.includes('panel')) return 'Auto';
         if(d.includes('tech')||d.includes('app')) return 'Tech';
         if(d.includes('health')) return 'Health';
-        if(d.includes('property')||d.includes('estate')) return 'Real Estate';
-        if(d.includes('travel')||d.includes('bnb')) return 'Travel';
         if(d.includes('art')) return 'Artists';
+        if(d.includes('property')) return 'Real Estate';
         return 'Service';
     }
 
@@ -402,19 +408,13 @@
         return 'bg-service';
     }
 
-    function setCat(c) {
-        curCat = c;
-        document.querySelectorAll('.cat-pill').forEach(e => e.classList.remove('active'));
-        event.target.classList.add('active');
-        filter();
-    }
-
     function filter() {
+        const cat = document.getElementById('catFilter').value;
         const term = document.getElementById('searchInput').value.toLowerCase();
         const loc = document.getElementById('locFilter').value;
         
         filtered = allData.filter(i => {
-            const matchCat = curCat === 'all' || i.cat === curCat;
+            const matchCat = cat === 'all' || i.cat === cat;
             let matchLoc = loc === 'all';
             if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
             const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
@@ -427,17 +427,14 @@
         const grid = document.getElementById('grid'); grid.innerHTML = '';
         document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
         
-        const start = (currentPage - 1) * limit;
-        const slice = filtered.slice(start, start + limit);
-        
-        slice.forEach((item, idx) => {
+        filtered.forEach((item, idx) => {
             let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
             let bannerClass = getBannerClass(item.cat);
             let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
             
             const card = document.createElement('div');
             card.className = 'card';
-            card.onclick = () => openModal(start + idx);
+            card.onclick = () => openModal(idx);
             card.innerHTML = `
                 <div class="card-banner ${bannerClass}"></div>
                 <div class="card-content">
@@ -467,9 +464,9 @@
         const i = filtered[idx];
         currentBiz = formatTitle(i.domain);
         
-        const banner = document.getElementById('modalBanner');
+        const banner = document.getElementById('mBanner');
         banner.className = 'modal-banner ' + getBannerClass(i.cat);
-        document.getElementById('modalQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        document.getElementById('mQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
         
         document.getElementById('mTitle').innerText = currentBiz;
         document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc}`;
@@ -481,27 +478,32 @@
         if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
         document.getElementById('mLink').href = link;
         
-        document.getElementById('modal').style.display = 'flex';
+        let map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentBiz + ' ' + i.loc)}`;
+        if(i.domain.includes('greyzone')) map = "https://share.google/1O2Kl72Vige48vGsB";
+        if(i.domain.includes('aolocksmith')) map = "https://share.google/WNjzMAwNlj9tC3u6F";
+        if(i.domain.includes('autods')) map = "https://share.google/gMf8klyi8heLXT7PQ";
+        document.getElementById('pMapBtn').href = map;
+        
+        document.getElementById('profileModal').style.display = 'flex';
     }
 
     function closeModal(id) {
         if(id === 'join') document.getElementById('joinModal').style.display = 'none';
-        else document.getElementById('modal').style.display = 'none';
+        else document.getElementById('profileModal').style.display = 'none';
     }
     
     function rate(stars) {
         const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
-        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${stars}`;
+        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBusiness)}&entry.741708013=${stars}`;
         window.open(url, '_blank');
     }
 
-    function toggleTheme() {
-        const b = document.body;
-        b.setAttribute('data-theme', b.getAttribute('data-theme')==='dark'?'light':'dark');
-    }
-
+    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='dark'?'light':'dark'); }
     function openJoin() { document.getElementById('joinModal').style.display = 'flex'; }
-    function geoFindMe() { alert("Location search coming soon in v2!"); }
+    function geoFindMe() { alert("Location search coming soon!"); }
+    function toggleFallback() { const el = document.getElementById("fallbackContent"); el.style.display = (el.style.display === "block") ? "none" : "block"; }
+    function changeLanguage(v) { alert("Language support in V2"); }
+    
     function renderPag() {
         const el = document.getElementById('pagination'); el.innerHTML = '';
         const pages = Math.ceil(filtered.length / limit);
