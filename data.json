@@ -1,5 +1,5 @@
 {
-  "generated_at": 1764166028,
+  "generated_at": 1764166135,
   "node_count": 0,
   "pages": [
     {
@@ -27,6 +27,24 @@
       "description": "Professional rope access and high-altitude maintenance specialists.",
       "whatsapp": "27655038871",
       "location": "Cape Town, SA",
+      "deal": ""
+    },
+    {
+      "url": "https://www.franic.co.za/",
+      "score": 1500,
+      "category": "Service",
+      "description": "Reliable trailer rentals with a 15-year guarantee.",
+      "whatsapp": "27849953076",
+      "location": "Milnerton, Cape Town, SA",
+      "deal": ""
+    },
+    {
+      "url": "https://www.boxman.co.za/",
+      "score": 1500,
+      "category": "Service",
+      "description": "Secure self-storage and moving box solutions.",
+      "whatsapp": "27748805160",
+      "location": "Milnerton, Cape Town, SA",
       "deal": ""
     },
     {
@@ -90,24 +108,6 @@
       "description": "Windscreens, door glass, truck windscreens, and panel shop refits.",
       "whatsapp": "27828990541",
       "location": "Cape Town, SA",
-      "deal": ""
-    },
-    {
-      "url": "https://www.franic.co.za/",
-      "score": 150,
-      "category": "Service",
-      "description": "Reliable trailer rentals with a 15-year guarantee.",
-      "whatsapp": "27849953076",
-      "location": "Milnerton, Cape Town, SA",
-      "deal": ""
-    },
-    {
-      "url": "https://www.boxman.co.za/",
-      "score": 150,
-      "category": "Service",
-      "description": "Secure self-storage and moving box solutions.",
-      "whatsapp": "27748805160",
-      "location": "Milnerton, Cape Town, SA",
       "deal": ""
     }
   ]
