@@ -213,7 +213,7 @@ def main():
     # 11. Franic Trailers
     franic = { 
         "url": "https://www.franic.co.za/", 
-        "score": 150, "category": "Service", 
+        "score": 1500, "category": "Service", 
         "description": "Reliable trailer rentals with a 15-year guarantee.", 
         "whatsapp": "27849953076", "location": "Milnerton, Cape Town, SA", "deal": "" 
     }
@@ -221,7 +221,7 @@ def main():
     # 12. Boxman
     boxman = { 
         "url": "https://www.boxman.co.za/", 
-        "score": 150, "category": "Service", 
+        "score": 1500, "category": "Service", 
         "description": "Secure self-storage and moving box solutions.", 
         "whatsapp": "27748805160", "location": "Milnerton, Cape Town, SA", "deal": "" 
     }
