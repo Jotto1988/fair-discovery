@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -7,344 +7,189 @@
 <meta name="theme-color" content="#1a73e8" />
 <title>Fair Discovery Directory</title>
 
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%231a73e8'/%3E%3Cstop offset='1' stop-color='%236ce0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 6 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 Z' fill='url(%23g)'/%3E%3Ccircle cx='50' cy='44' r='14' stroke='white' stroke-width='5' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
 
 <style>
-  /* ---------- PREMIUM VARIABLES ---------- */
+  /* ---------- THEME ---------- */
   :root {
-    --bg: #0f1723;
-    --surface: #0b1220;
-    --card-bg: #151b26; /* Slightly lighter for contrast */
+    --bg: #0f1723; 
+    --card-bg: #08101a;
     --text: #e6eef7;
     --sub: #9fb0c8;
-    --muted: #64748b;
     --border: rgba(255,255,255,0.08);
-    --accentA: #1a73e8;
-    --accentB: #6ce0ff;
+    --accent: #1a73e8;
     --glass: rgba(255,255,255,0.05);
-    --shadow: 0 8px 32px rgba(0,0,0,0.4);
-    --success: #1e8e3e;
-    font-family: Inter, "Google Sans", Roboto, sans-serif;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
   [data-theme="light"] {
-    --bg: #f0f4f8;
-    --surface: #ffffff;
-    --card-bg: #ffffff;
-    --text: #1a202c;
-    --sub: #4a5568;
-    --muted: #a0aec0;
-    --border: #e2e8f0;
-    --glass: rgba(255,255,255,0.8);
-    --shadow: 0 4px 20px rgba(0,0,0,0.06);
+    --bg: #f6f8fb; 
+    --card-bg: #ffffff; 
+    --text: #0b1220; 
+    --sub: #4b5563; 
+    --border: #e6e9ef; 
+    --glass: rgba(16,24,40,0.02);
   }
 
-  /* ---------- BASE ---------- */
-  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
+  body { margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; display: flex; flex-direction: column; min-height: 100vh; }
   * { box-sizing: border-box; }
   a { text-decoration: none; color: inherit; }
-  
-  .app-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 20px; min-height: 100vh; display: flex; flex-direction: column; }
 
-  /* ---------- HEADER ---------- */
-  header {
-    padding: 25px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50;
-    background: rgba(15, 23, 35, 0.95); backdrop-filter: blur(10px); /* Glass Effect */
-  }
-  [data-theme="light"] header { background: rgba(240, 244, 248, 0.95); }
+  /* CONTAINER */
+  .app-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; width: 100%; }
 
-  .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+  /* HEADER */
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; background: var(--bg); }
   
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand svg { width: 38px; height: 38px; flex-shrink: 0; }
-  h1 { font-size: 1.5rem; margin: 0; background: linear-gradient(90deg, var(--accentA), var(--accentB)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+  .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: bold; }
+  .brand svg { width: 32px; height: 32px; }
+  
+  .controls { display: flex; gap: 8px; }
+  .btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; font-size: 0.85rem; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  .controls { display: flex; gap: 8px; align-items: center; }
+  /* FILTERS */
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+  input, select { padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--glass); color: var(--text); font-size: 1rem; outline: none; }
+  input { flex: 1; min-width: 200px; }
+  select { cursor: pointer; }
   
-  /* BUTTONS */
-  .btn {
-    background: linear-gradient(135deg, var(--accentA), var(--accentB)); color: white;
-    padding: 8px 18px; border-radius: 50px; border: none; cursor: pointer;
-    font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; gap: 6px;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26, 115, 232, 0.5); }
-  
-  .btn-ghost {
-    background: var(--glass); border: 1px solid var(--border); color: var(--text);
-    width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: 0.2s;
-  }
-  .btn-ghost:hover { border-color: var(--accentA); color: var(--accentA); }
+  .cats { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
+  .pill { white-space: nowrap; padding: 6px 14px; border-radius: 20px; background: var(--glass); border: 1px solid var(--border); cursor: pointer; color: var(--sub); transition: 0.2s; font-size: 0.9rem; }
+  .pill.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-  /* SELECT DROPDOWN FIX */
-  select.lang-select {
-    background: var(--glass); border: 1px solid var(--border); color: var(--text);
-    padding: 8px 12px; border-radius: 8px; outline: none; cursor: pointer; appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="%23888"><path d="M0 0L5 5L10 0H0Z"/></svg>');
-    background-repeat: no-repeat; background-position: right 8px center; padding-right: 25px;
-  }
-  /* Force option colors to be visible */
-  select.lang-select option { background-color: var(--card-bg); color: var(--text); }
-
-  /* ---------- FILTERS ---------- */
-  .filters { display: flex; gap: 12px; margin: 25px 0; flex-wrap: wrap; }
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding-bottom: 40px; }
   
-  .search-box { flex: 2; min-width: 250px; position: relative; }
-  .search-box input {
-    width: 100%; padding: 14px 45px 14px 18px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--glass); color: var(--text);
-    font-size: 1rem; outline: none; transition: 0.2s;
-  }
-  .search-box input:focus { border-color: var(--accentA); background: var(--card-bg); }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column; }
+  .card:hover { transform: translateY(-4px); border-color: var(--accent); }
   
-  .geo-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.2rem; opacity: 0.7; color: var(--text); cursor: pointer; }
-  .geo-btn:hover { opacity: 1; color: var(--accentA); }
-
-  .select-box {
-    flex: 1; min-width: 160px; padding: 14px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--glass); color: var(--text);
-    cursor: pointer; outline: none;
-  }
-  .select-box option { background-color: var(--card-bg); color: var(--text); }
-
-  /* ---------- CATEGORIES ---------- */
-  .category-scroll { 
-    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; 
-    scrollbar-width: none; -ms-overflow-style: none;
-  }
-  .category-scroll::-webkit-scrollbar { display: none; }
+  .banner { height: 100px; background-size: cover; background-position: center; }
+  .card-body { padding: 15px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
   
-  .cat-pill {
-    white-space: nowrap; padding: 8px 20px; background: var(--glass); 
-    border: 1px solid var(--border); border-radius: 50px; font-size: 0.9rem; 
-    cursor: pointer; color: var(--sub); transition: 0.2s; font-weight: 500;
-  }
-  .cat-pill:hover, .cat-pill.active { background: var(--accentA); color: white; border-color: var(--accentA); }
-
-  /* ---------- GRID ---------- */
-  .stats { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 15px; font-weight: 500; }
+  .logo { width: 48px; height: 48px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-top: -40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
   
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; padding-bottom: 40px; }
-
-  /* PREMIUM CARD */
-  .card {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
-    overflow: hidden; display: flex; flex-direction: column; position: relative;
-    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
-    box-shadow: var(--shadow);
-  }
-  .card:hover { transform: translateY(-6px); border-color: var(--accentA); }
-  
-  .banner { height: 110px; background-size: cover; background-position: center; position: relative; }
-  .banner::after { content:''; position: absolute; inset:0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8)); }
-
-  .card-body { padding: 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; position: relative; margin-top: -35px; }
-  
-  .logo-wrapper { display: flex; justify-content: space-between; align-items: flex-end; }
-  .logo {
-    width: 60px; height: 60px; border-radius: 14px; background: var(--card-bg);
-    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
-    border: 2px solid var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 2;
-  }
-  
-  .verified { 
-    background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 4px 10px; 
-    border-radius: 6px; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.5px;
-    border: 1px solid rgba(34, 197, 94, 0.2); z-index: 2;
-  }
-  
-  .title { font-weight: 700; font-size: 1.2rem; margin: 10px 0 0; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .title { font-size: 1.1rem; font-weight: bold; margin: 5px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { font-size: 0.85rem; color: var(--sub); }
-  .desc { font-size: 0.9rem; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; flex: 1; }
+  .desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; margin-bottom: 10px; }
   
-  .deal-badge { 
-    margin-top: 10px; display: inline-block; background: linear-gradient(135deg, #ff0055, #ff5500); 
-    color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; 
-    box-shadow: 0 2px 8px rgba(255, 85, 0, 0.3);
-  }
+  .foot { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sub); }
 
-  .card-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--sub); }
-  .score { font-weight: 800; color: var(--accentA); font-size: 1rem; }
+  /* FOOTER */
+  footer { text-align: center; padding: 40px 0; margin-top: auto; border-top: 1px solid var(--border); color: var(--sub); font-size: 0.9rem; }
+  .coffee-btn { background: #FFDD00; color: black; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin: 15px 0; }
 
-  /* ---------- FOOTER ---------- */
-  footer { text-align: center; padding: 50px 0; border-top: 1px solid var(--border); margin-top: auto; color: var(--muted); font-size: 0.9rem; }
-  footer a { color: var(--accentB); text-decoration: none; font-weight: 500; }
+  /* MODAL */
+  .modal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 16px; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; position: relative; }
+  .modal-close { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; font-weight: bold; }
+  .modal-scroll { overflow-y: auto; padding: 20px; }
   
-  .btn-coffee {
-    background: #FFDD00; color: black; padding: 12px 25px; border-radius: 50px; 
-    text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;
-    box-shadow: 0 4px 15px rgba(255, 221, 0, 0.2); transition: transform 0.2s;
-  }
-  .btn-coffee:hover { transform: translateY(-2px); }
-
-  /* ---------- MODALS ---------- */
-  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
-  .modal { width: 100%; max-width: 550px; border-radius: 24px; overflow: hidden; background: var(--card-bg); box-shadow: 0 25px 80px rgba(0,0,0,0.6); max-height: 90vh; display: flex; flex-direction: column; position: relative; border: 1px solid var(--border); }
+  .info-row { display: flex; gap: 10px; margin: 15px 0; }
+  .info-box { flex: 1; background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
+  .visit-btn { display: block; background: var(--accent); color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
   
-  .modal-banner { height: 160px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; color: white; flex-shrink: 0; }
-  .modal-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-  .modal-close { position: absolute; right: 15px; top: 15px; background: rgba(0,0,0,0.4); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; z-index: 10; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; }
-  .modal-close:hover { background: rgba(0,0,0,0.8); transform: scale(1.1); }
-  .modal-quote { position: relative; z-index: 2; font-style: italic; font-size: 0.95rem; opacity: 0.9; }
-
-  .modal-body { padding: 30px; overflow-y: auto; }
-  .modal-header { display: flex; gap: 15px; align-items: flex-end; margin-top: -60px; position: relative; z-index: 5; margin-bottom: 20px; }
-  .modal-logo { width: 90px; height: 90px; border-radius: 20px; background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 4px solid var(--card-bg); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-  
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
-  .info-box { background: var(--bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); font-size: 0.9rem; }
-  .info-label { font-size: 0.7rem; color: var(--sub); font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 6px; }
-  
-  .btn-visit { background: linear-gradient(135deg, var(--accentA), var(--accentB)); color: white; padding: 14px; border-radius: 12px; width: 100%; font-weight: 700; font-size: 1rem; text-align: center; display: block; transition: 0.2s; box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3); }
-  .btn-visit:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-  .star-row { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
-  .star { font-size: 2rem; color: var(--border); cursor: pointer; transition: 0.2s; background: none; border: none; }
-  .star:hover { color: #fbbf24; transform: scale(1.2); }
-
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-    .filters { flex-direction: column; }
-    .search-box, .select-box { width: 100%; }
-  }
+  .stars { display: flex; justify-content: center; gap: 8px; margin-top: 20px; font-size: 1.5rem; cursor: pointer; }
+  .stars span:hover { color: gold; }
 </style>
 </head>
-
 <body>
-<div class="app-wrapper">
-    <header>
-      <div class="header-inner">
-        <div class="brand">
-          <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
-            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#6ce0ff"/></linearGradient></defs>
-            <path d="M50 6 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 Z" fill="url(#g)"/>
-            <circle cx="50" cy="44" r="14" stroke="white" stroke-width="5" fill="none"/>
-          </svg>
-          <h1>Fair Discovery</h1>
-        </div>
-    
-        <div class="controls">
-          <button class="btn" onclick="openJoin()">🚀 <span data-i18n="join">Join</span></button>
-          <select class="lang-select" onchange="setLang(this.value)">
-            <option value="en">🇺🇸 EN</option>
-            <option value="es">🇪🇸 ES</option>
-            <option value="fr">🇫🇷 FR</option>
-            <option value="de">🇩🇪 DE</option>
-          </select>
-          <button class="btn-ghost" onclick="toggleTheme()">🌓</button>
-        </div>
+
+<div class="app-wrap">
+  <header>
+    <div class="top-row">
+      <div class="brand">
+        <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#1a73e8"/><circle cx="42" cy="42" r="24" stroke="white" stroke-width="12" fill="none"/><line x1="60" y1="60" x2="85" y2="85" stroke="white" stroke-width="12" stroke-linecap="round"/></svg>
+        Fair Discovery
       </div>
-    
-      <div class="filters">
-        <div class="search-box">
-          <input id="searchInput" placeholder="Search services..." aria-label="Search" />
-          <button class="geo-btn" onclick="geoFindMe()">📍</button>
-        </div>
-    
-        <select id="locFilter" class="select-box" onchange="filter()">
-           <option value="all">🌍 Global</option>
+      <div class="controls">
+        <button class="btn" onclick="openJoin()">🚀 Join</button>
+        <select class="btn" onchange="alert('Languages in V2')">
+          <option>🇺🇸 EN</option><option>🇪🇸 ES</option><option>🇫🇷 FR</option><option>🇩🇪 DE</option><option>🇧🇷 PT</option>
         </select>
+        <button class="btn" onclick="toggleTheme()">🌙</button>
       </div>
-
-      <div class="category-scroll">
-          <div class="cat-pill active" onclick="setCat('all', this)">All</div>
-          <div class="cat-pill" onclick="setCat('Auto', this)">🚗 Auto</div>
-          <div class="cat-pill" onclick="setCat('Tech', this)">💻 Tech</div>
-          <div class="cat-pill" onclick="setCat('Health', this)">🏥 Health</div>
-          <div class="cat-pill" onclick="setCat('Service', this)">🛠️ Services</div>
-          <div class="cat-pill" onclick="setCat('Retail', this)">🛍️ Retail</div>
-          <div class="cat-pill" onclick="setCat('Artists', this)">🎨 Artists</div>
-          <div class="cat-pill" onclick="setCat('Real Estate', this)">🏠 Property</div>
-          <div class="cat-pill" onclick="setCat('Travel', this)">✈️ Holiday</div>
-      </div>
-    </header>
-    
-    <main>
-      <div class="stats">
-        <span id="countLabel">Loading...</span>
-        <span>Network Live</span>
-      </div>
-    
-      <div id="grid" class="grid"></div>
-    </main>
-    
-    <footer>
-      <p>Fair Discovery 2025 • Decentralized & Open Source</p>
-      <div style="margin: 25px 0;">
-          <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="btn-coffee">☕ Buy me a coffee</a>
-      </div>
-      <p style="opacity:0.6; font-size: 0.85rem;">Powered by Gemini • GitHub • The Fair Collective • <a href="data.json" target="_blank">API</a></p>
-    </footer>
-</div>
-
-<div id="profileModal" class="modal-backdrop" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div id="mBanner" class="modal-banner" style="background-color:#1a73e8">
-      <div class="modal-close" onclick="closeModal()">✕</div>
-      <div class="modal-quote" id="mQuote"></div>
     </div>
 
-    <div class="modal-body">
-      <div class="modal-header">
-        <div class="modal-logo" id="mLogo">🌐</div>
-        <div>
-          <h2 id="mTitle" style="margin:0; font-size:1.5rem;">Business Name</h2>
-          <div id="mMeta" style="color:var(--sub);margin-top:4px">Category • Location</div>
-        </div>
+    <div class="filters">
+      <input type="text" id="search" placeholder="Search...">
+      <select id="locFilter" onchange="filter()">
+        <option value="all">🌍 Global</option>
+      </select>
+    </div>
+
+    <div class="cats">
+      <div class="pill active" onclick="setCat('all', this)">All</div>
+      <div class="pill" onclick="setCat('Auto', this)">🚗 Auto</div>
+      <div class="pill" onclick="setCat('Tech', this)">💻 Tech</div>
+      <div class="pill" onclick="setCat('Health', this)">🏥 Health</div>
+      <div class="pill" onclick="setCat('Service', this)">🛠️ Services</div>
+      <div class="pill" onclick="setCat('Retail', this)">🛍️ Retail</div>
+      <div class="pill" onclick="setCat('Artists', this)">🎨 Artists</div>
+      <div class="pill" onclick="setCat('Real Estate', this)">🏠 Property</div>
+      <div class="pill" onclick="setCat('Travel', this)">✈️ Holiday</div>
+    </div>
+  </header>
+
+  <div style="padding: 20px 0; display:flex; justify-content:space-between; color:var(--sub); font-size:0.9rem;">
+    <span id="count">Loading...</span>
+    <span>Network Live</span>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <footer>
+    <p>Fair Discovery 2025 • Open Source Directory</p>
+    <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="coffee-btn">☕ Buy me a coffee</a>
+    <p style="margin-top:15px">Powered by Gemini • GitHub • The Fair Collective • <a href="data.json" target="_blank" style="color:var(--accent)">API</a></p>
+  </footer>
+</div>
+
+<div id="modal" class="modal-bg" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div id="mBanner" class="banner" style="height:140px;">
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div class="modal-scroll">
+      <div class="logo" id="mLogo" style="margin-top:-40px; position:relative; z-index:2;">🌐</div>
+      <h2 id="mTitle" style="margin:10px 0 5px;">Business</h2>
+      <div id="mMeta" style="color:var(--sub); font-size:0.9rem;">Category • Location</div>
+      <p id="mDesc" style="line-height:1.6;">Description...</p>
+      
+      <div class="info-row">
+        <div class="info-box"><strong>📍 Location</strong><br><span id="mLoc">City</span></div>
+        <div class="info-box"><strong>📞 Contact</strong><br><span id="mPhone">Num</span></div>
       </div>
-
-      <p id="mDesc" style="color:var(--text); line-height:1.6;">Description</p>
-
-      <div class="info-grid">
-        <div class="info-box"><span class="info-label">📍 Location</span><div id="mLoc">City</div></div>
-        <div class="info-box"><span class="info-label">📞 Contact</span><div id="mPhone">N/A</div></div>
-      </div>
-
-      <a id="mLink" class="btn-visit" href="#" target="_blank">Visit Website ↗</a>
-
-      <div style="margin-top:25px; text-align:center; border-top:1px solid var(--border); padding-top:20px;">
-        <span class="info-label" style="margin-bottom:10px;">Rate this Business</span>
-        <div class="rating-stars">
-          <span class="star" onclick="rate(1)">★</span>
-          <span class="star" onclick="rate(2)">★</span>
-          <span class="star" onclick="rate(3)">★</span>
-          <span class="star" onclick="rate(4)">★</span>
-          <span class="star" onclick="rate(5)">★</span>
+      
+      <a id="mLink" href="#" target="_blank" class="visit-btn">Visit Website ↗</a>
+      
+      <div style="text-align:center; margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+        <small style="text-transform:uppercase; font-weight:bold; color:var(--sub);">Rate this Business</small>
+        <div class="stars">
+          <span onclick="rate(1)">★</span><span onclick="rate(2)">★</span><span onclick="rate(3)">★</span><span onclick="rate(4)">★</span><span onclick="rate(5)">★</span>
         </div>
-        <p style="color:var(--muted); font-size:0.8rem; margin-top:8px;">Anonymous via Google Forms</p>
       </div>
     </div>
   </div>
 </div>
 
-<div id="joinModal" class="modal-backdrop" onclick="closeJoin()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div style="padding:40px; text-align:center;">
-      <div class="modal-close" onclick="closeJoin()" style="background:var(--border); top:15px; right:15px;">✕</div>
-      <h2 style="margin-top:0; color:var(--text);">🚀 How to Join</h2>
-      <p style="color:var(--sub); line-height:1.6; margin-bottom:25px;">
-        1. Download the kit from GitHub.<br>
-        2. Upload to your website.<br>
-        3. Submit your link below.
-      </p>
-      <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="btn-visit">🚀 Submit Site</a>
-      
-      <div style="margin-top:25px; padding-top:20px; border-top:1px solid var(--border); font-size:0.9rem;">
-         <p style="color:var(--muted);">Firewall blocking you? <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Manual%20Entry" style="color:var(--accentB); font-weight:bold;">Request Manual Entry</a></p>
-      </div>
-    </div>
+<div id="joinModal" class="modal-bg" onclick="closeJoin()">
+  <div class="modal" onclick="event.stopPropagation()" style="padding:30px; text-align:center; height:auto;">
+    <div class="modal-close" onclick="closeJoin()" style="top:10px; right:10px; background:transparent; color:var(--text);">✕</div>
+    <h2>🚀 How to Join</h2>
+    <p style="color:var(--sub); margin-bottom:20px;">1. Download kit from GitHub.<br>2. Upload to your site.<br>3. Submit URL below.</p>
+    <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="visit-btn">Submit Site</a>
   </div>
 </div>
 
 <script>
+// THEME MEMORY
+if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
+
 const FEED = 'data.json';
 let allData = [], filtered = [], curCat = 'all';
 let currentBiz = "";
-
-// Load Theme from LocalStorage
-if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
 
 const images = {
     'Auto': 'https://images.unsplash.com/photo-1486262715619-01b8c22973f5?w=600&q=80',
@@ -357,13 +202,6 @@ const images = {
     'Travel': 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80'
 };
 
-const quotes = [
-    "\"Quality means doing it right when no one is looking.\"",
-    "\"Truth is the only safe ground.\"",
-    "\"Honesty is the first chapter of wisdom.\"",
-    "\"Fairness is a professional skill.\""
-];
-
 async function init(){
   try {
     const res = await fetch(FEED + '?' + Date.now());
@@ -373,7 +211,7 @@ async function init(){
         try {
             let d = new URL(p.url.startsWith('http')?p.url:'https://'+p.url).hostname;
             if(!map[d]) map[d] = {
-                domain: d, url: p.url, score: 0,
+                domain: d, url: p.url, score: p.score || 0,
                 cat: p.category || "Service",
                 desc: p.description || "Verified Listing",
                 wa: p.whatsapp, loc: p.location, deal: p.deal
@@ -395,11 +233,11 @@ async function init(){
     [...locs].sort().forEach(l => sel.innerHTML += `<option value="${l}">${l}</option>`);
 
     filter();
-  } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center; color:var(--muted)">Loading network...</p>'; }
+  } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
 }
 
 function filter() {
-    const term = document.getElementById('searchInput').value.toLowerCase();
+    const term = document.getElementById('search').value.toLowerCase();
     const loc = document.getElementById('locFilter').value;
     
     filtered = allData.filter(i => {
@@ -414,13 +252,13 @@ function filter() {
 
 function render() {
     const grid = document.getElementById('grid'); grid.innerHTML = '';
-    document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
+    document.getElementById('count').innerText = `Found ${filtered.length}`;
     
     filtered.forEach((item, idx) => {
         let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
         let img = images[item.cat] || images['Service'];
         let title = formatTitle(item.domain);
-        let deal = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
+        let deal = item.deal ? `<div style="color:#e11d48; font-weight:bold; font-size:0.7rem; margin-top:5px;">🔥 ${item.deal}</div>` : '';
 
         const card = document.createElement('div');
         card.className = 'card';
@@ -428,17 +266,15 @@ function render() {
         card.innerHTML = `
             <div class="banner" style="background-image:url('${img}')"></div>
             <div class="card-body">
-                <div class="logo-wrapper">
-                   <div class="logo">${flag}</div>
-                   <span class="verified">✓ VERIFIED</span>
-                </div>
-                <h3 class="title">${title}</h3>
+                <div class="logo">${flag}</div>
+                <div style="position:absolute; top:10px; right:10px; font-size:0.7rem; font-weight:bold; color:#22c55e; background:rgba(34,197,94,0.1); padding:4px 8px; border-radius:4px;">✓ VERIFIED</div>
+                <div class="title">${title}</div>
                 <div class="meta">${item.domain.replace('.local','')}</div>
+                <div class="desc">${item.desc}</div>
                 ${deal}
-                <p class="desc">${item.desc}</p>
-                <div class="card-footer">
+                <div class="foot">
                     <span>${item.cat}</span>
-                    <span class="score">${formatScore(item.score)} AUTH</span>
+                    <span style="font-weight:bold; color:var(--accent);">${formatScore(item.score)} AUTH</span>
                 </div>
             </div>
         `;
@@ -452,7 +288,6 @@ function openModal(idx) {
     let img = images[i.cat] || images['Service'];
     
     document.getElementById('mBanner').style.backgroundImage = `url('${img}')`;
-    document.getElementById('mQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
     document.getElementById('mTitle').innerText = currentBiz;
     document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc || 'Global'}`;
     document.getElementById('mDesc').innerText = i.desc;
@@ -463,10 +298,10 @@ function openModal(idx) {
     if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
     document.getElementById('mLink').href = link;
     
-    document.getElementById('profileModal').style.display = 'flex';
+    document.getElementById('modal').style.display = 'flex';
 }
 
-function closeModal() { document.getElementById('profileModal').style.display = 'none'; }
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
 function openJoin() { document.getElementById('joinModal').style.display = 'flex'; }
 function closeJoin() { document.getElementById('joinModal').style.display = 'none'; }
 
@@ -475,18 +310,6 @@ function toggleTheme() {
     const theme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     root.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-}
-
-function setLang(lang) {
-    // Placeholder for v2 language logic
-    alert("Language packs loading... (Coming V2)");
-}
-
-function setCat(c, el) { 
-    curCat = c; 
-    document.querySelectorAll('.cat-pill').forEach(e=>e.classList.remove('active')); 
-    el.classList.add('active'); 
-    filter(); 
 }
 
 function formatTitle(d) {
@@ -499,20 +322,18 @@ function formatTitle(d) {
     if(d.includes("jotto")) return "Jotto's Portfolio";
     if(d.includes("skyrope")) return "Sky Rope Specialist";
     if(d.includes("intpanel")) return "International Panel Shop";
-    if(d.includes("ccgautoglass")) return "CCG Auto Glass";
+    if(d.includes("ccg")) return "CCG Auto Glass";
     return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
 }
 
 function formatScore(n) { return n > 1000 ? (n/1000).toFixed(1)+'k' : n; }
-
+function setCat(c, el) { curCat = c; document.querySelectorAll('.pill').forEach(e=>e.classList.remove('active')); el.classList.add('active'); filter(); }
 function rate(s) {
     const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
     window.open(`https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${s}`, '_blank');
 }
 
-function geoFindMe() { alert("Location services coming in V2"); }
-
-document.getElementById('searchInput').addEventListener('input', filter);
+document.getElementById('search').addEventListener('input', filter);
 init();
 </script>
 </body>
