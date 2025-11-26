@@ -139,7 +139,7 @@ def main():
     seriti = { "url": "https://www.seritipbo.org/", "score": 150, "category": "Service", "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", "whatsapp": "", "location": "South Africa" }
     
     # 5. Bookkeepers in Cape Town
-    bookkeeper = { "url": "https://bookkeepersincapetown.co.za/", "score": 150, "category": "Service", "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", "whatsapp": "27000000000", "location": "Cape Town, SA" }
+    bookkeeper = { "url": "https://bookkeepersincapetown.co.za/", "score": 4788, "category": "Service", "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", "whatsapp": "27000000000", "location": "Cape Town, SA" }
     
     # 6. Grey Zone Auto Parts (WhatsApp is the site - Placeholder URL)
     grey_zone = { 
@@ -158,7 +158,7 @@ def main():
         "category": "Service", 
         "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
         "whatsapp": "27812099604", # WhatsApp is the destination
-        "location": "Pretoria, SA" 
+        "location": "Cape Town, SA" 
     }
     
     # 8. Auto Digital Solutions (AutoDS)
