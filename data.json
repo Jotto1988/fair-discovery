@@ -1,5 +1,5 @@
 {
-  "generated_at": 1764136539,
+  "generated_at": 1764136862,
   "node_count": 0,
   "pages": [
     {
@@ -8,6 +8,14 @@
       "category": "Auto",
       "description": "Expert panel beating and spray painting in Cape Town.",
       "whatsapp": "27821234567",
+      "location": "Cape Town, SA"
+    },
+    {
+      "url": "https://bookkeepersincapetown.co.za/",
+      "score": 4788,
+      "category": "Service",
+      "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
+      "whatsapp": "27000000000",
       "location": "Cape Town, SA"
     },
     {
@@ -35,14 +43,6 @@
       "location": "South Africa"
     },
     {
-      "url": "https://bookkeepersincapetown.co.za/",
-      "score": 150,
-      "category": "Service",
-      "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.",
-      "whatsapp": "27000000000",
-      "location": "Cape Town, SA"
-    },
-    {
       "url": "https://greyzoneautoparts.local",
       "score": 150,
       "category": "Auto",
@@ -56,7 +56,7 @@
       "category": "Service",
       "description": "Specialist car locksmith. Cutting, coding, and programming car keys.",
       "whatsapp": "27812099604",
-      "location": "Pretoria, SA"
+      "location": "Cape Town, SA"
     },
     {
       "url": "https://autods.co.za/",
