@@ -276,31 +276,16 @@
     
     // BRAND NAME OVERRIDE LOGIC
     function formatTitle(domain) {
-        // Grey Zone Auto Parts
-        if (domain.includes("share.google") && domain.includes("1O2Kl")) return "Grey Zone Auto Parts";
-        
-        // AO Locksmith
-        if (domain.includes("share.google") && domain.includes("WNjzM")) return "AO Locksmith";
-        
-        // Auto Digital Solutions (AutoDS)
+        if (domain.includes("greyzoneautoparts")) return "Grey Zone Auto Parts";
+        if (domain.includes("aolocksmith")) return "AO Locksmith";
         if (domain.includes("autods")) return "Auto Digital Solutions";
-        
-        // Bookkeepers
         if (domain.includes("bookkeepersincapetown")) return "Bookkeepers in South Africa";
-        
-        // IntPanelShop
+        if (domain.includes("seritipbo")) return "Seriti PBO";
+        if (domain.includes("scoutsforkids")) return "Save Our Children";
+        if (domain.includes("jotto")) return "Jotto's Portfolio";
+        if (domain.includes("skyropespecialist")) return "Sky Rope Specialist";
         if (domain.includes("intpanelshop")) return "International Panel Shop";
         
-        // Sky Rope
-        if (domain.includes("skyropespecialist")) return "Sky Rope Specialist";
-        
-        // Seriti PBO
-        if (domain.includes("seritipbo")) return "Seriti PBO";
-        
-        // Jotto's Portfolio
-        if (domain.includes("jotto")) return "Jotto's Portfolio";
-        
-        // Fallback for unknown domains
         let t = domain.split('.')[1] || domain.split('.')[0]; 
         return t.charAt(0).toUpperCase() + t.slice(1);
     }
@@ -327,9 +312,18 @@
         if (pageItems.length === 0) { grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>'; return; }
         pageItems.forEach(item => {
             let flag = '🌐'; if (item.domain.endsWith('.za')) flag = '🇿🇦'; if (item.domain.endsWith('.uk')) flag = '🇬🇧';
-            let actions = ''; if (item.whatsapp) actions += `<a href="https://wa.me/${item.whatsapp}" target="_blank" class="btn-icon btn-whatsapp" title="WhatsApp">💬</a>`;
-            actions += `<a href="${item.fullUrl}" target="_blank" class="btn-icon" title="Visit Site">↗</a>`;
-            const card = `<div class="card"><div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><a href="${item.fullUrl}" target="_blank" class="card-title">${formatTitle(item.domain)}</a><span class="card-domain">${item.domain}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div></div>`;
+            
+            // === SMART LINK LOGIC ===
+            let visitLink = item.fullUrl;
+            if (item.domain.includes(".local") && item.whatsapp) {
+                visitLink = `https://wa.me/${item.whatsapp}`;
+            }
+
+            let actions = ''; 
+            if (item.whatsapp) actions += `<a href="https://wa.me/${item.whatsapp}" target="_blank" class="btn-icon btn-whatsapp" title="WhatsApp">💬</a>`;
+            actions += `<a href="${visitLink}" target="_blank" class="btn-icon" title="Visit Page">↗</a>`;
+            
+            const card = `<div class="card"><div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><a href="${visitLink}" target="_blank" class="card-title">${formatTitle(item.domain)}</a><span class="card-domain">${item.domain.replace('.local', '')}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div></div>`;
             grid.insertAdjacentHTML('beforeend', card);
         });
         renderPagination(totalPages);
@@ -337,9 +331,7 @@
     function formatScore(num) { if (num > 1000000) return (num/1000000).toFixed(1) + 'M'; if (num > 1000) return (num/1000).toFixed(1) + 'k'; return num; }
     function renderPagination(totalPages) {
         const container = document.getElementById('paginationControls'); container.innerHTML = ''; if (totalPages <= 1) return;
-        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`);
-        for (let i = 1; i <= totalPages; i++) { if (totalPages > 10 && Math.abs(currentPage - i) > 2 && i !== 1 && i !== totalPages) continue; container.insertAdjacentHTML('beforeend', `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`); }
-        container.insertAdjacentHTML('beforeend', `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`);
+        for (let i = 1; i <= totalPages; i++) { container.insertAdjacentHTML('beforeend', `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`); }
     }
     function changePage(num) { currentPage = num; render(); window.scrollTo(0, 0); }
     function copyBadge() { const copyText = document.getElementById("badgeCode"); copyText.select(); navigator.clipboard.writeText(copyText.value); alert("Code copied!"); }
