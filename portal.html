@@ -53,6 +53,8 @@
         .code-box { background: #0d1117; padding: 15px; border-radius: 8px; border: 1px solid var(--border); position: relative; margin-top: 10px; }
         .code-content { font-family: monospace; color: #a5d6ff; white-space: pre-wrap; word-wrap: break-word; font-size: 0.85rem; }
         .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--card); border: 1px solid var(--border); color: white; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; border-radius: 4px; }
+        
+        .link-highlight { color: var(--primary); text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -124,9 +126,23 @@
                 <textarea id="bizDesc" maxlength="140" rows="3" placeholder="What do you do?"></textarea>
             </div>
 
-            <div class="form-group">
-                <label>WhatsApp Number (No + symbol)</label>
-                <input type="text" id="bizPhone" placeholder="e.g. 27821234567">
+            <div style="border-top: 1px solid var(--border); padding-top:20px; margin-top:20px;">
+                <h3 style="margin:0 0 15px 0; font-size:1rem; color:var(--sub);">Contact Details</h3>
+                
+                <div class="form-group">
+                    <label>WhatsApp Number (No + symbol, e.g. 2782...)</label>
+                    <input type="text" id="bizPhone" placeholder="e.g. 27821234567">
+                </div>
+
+                <div class="form-group">
+                    <label>Public Email Address</label>
+                    <input type="email" id="bizEmail" placeholder="contact@yoursite.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Telephone / Landline</label>
+                    <input type="text" id="bizTel" placeholder="e.g. 021 555 1234">
+                </div>
             </div>
 
             <div class="form-group">
@@ -140,11 +156,17 @@
 
         <div class="card">
             <h3 style="margin-top:0;">🚀 Integration Code</h3>
-            <p style="color:var(--sub); font-size:0.9rem;">
-                1. Copy this code.<br>
-                2. Paste it into your <code>discovery.json</code> file.<br>
-                3. Upload to your website root.
-            </p>
+            <div style="color:var(--sub); font-size:0.9rem; line-height:1.6;">
+                <p><strong>Step 1: Download the Kit</strong><br>
+                Visit the <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank" class="link-highlight">Public Folder on GitHub</a>. Download the 3 required files.</p>
+                
+                <p><strong>Step 2: Update your JSON</strong><br>
+                Copy the code below and paste it into your <code>discovery.json</code> file.</p>
+                
+                <p><strong>Step 3: Consult your Web Developer</strong><br>
+                Send the kit and this code to your developer. Tell them: <em>"Implementing this allows us to verify our site authenticity and get listed on the Fair Discovery network without bots."</em></p>
+            </div>
+            
             <div class="code-box">
                 <button class="copy-btn" onclick="copyCode()">Copy</button>
                 <div id="codeContent" class="code-content">// Code will appear here after saving...</div>
@@ -250,6 +272,8 @@
             document.getElementById('bizCat').value = data.category || 'Service';
             document.getElementById('bizDesc').value = data.description || '';
             document.getElementById('bizPhone').value = data.whatsapp || '';
+            document.getElementById('bizEmail').value = data.email || '';
+            document.getElementById('bizTel').value = data.telephone || '';
             document.getElementById('bizLoc').value = data.location || '';
             document.getElementById('bizLogo').value = data.logo || '';
             updatePreview();
@@ -271,9 +295,11 @@
             category: document.getElementById('bizCat').value,
             description: document.getElementById('bizDesc').value,
             whatsapp: document.getElementById('bizPhone').value,
+            email: document.getElementById('bizEmail').value,
+            telephone: document.getElementById('bizTel').value,
             location: document.getElementById('bizLoc').value,
             logo: document.getElementById('bizLogo').value,
-            email: user.email,
+            emailUser: user.email,
             updatedAt: new Date().toISOString()
         };
 
@@ -300,6 +326,8 @@
             description: data.description,
             logo: data.logo,
             whatsapp: data.whatsapp,
+            email: data.email,
+            telephone: data.telephone,
             location: data.location,
             visitors: {
                 "current_week_start": new Date().toISOString().split('T')[0],
