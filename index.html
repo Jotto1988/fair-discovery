@@ -342,7 +342,7 @@
                     domainMap[domain].totalScore += page.score;
                     domainMap[domain].pageCount++;
                     if (page.category) domainMap[domain].category = page.category;
-                    if (page.description) domainMap[domain].description = page.description;
+                    if (page.description && domainMap[domain].description.startsWith("Verified")) domainMap[domain].description = page.description;
                 } catch(e){}
             });
             allData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
@@ -408,7 +408,6 @@
     }
 
     function submitRating(stars) {
-        // Pre-filled Google Form URL
         const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
         const businessField = "entry.1871531298"; 
         const ratingField = "entry.741708013";   
