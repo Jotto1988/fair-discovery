@@ -1,0 +1,16 @@
+{
+  "name": "Fair Discovery",
+  "short_name": "FairDiscovery",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a73e8",
+  "description": "The decentralized, human-first business directory.",
+  "icons": [
+    {
+      "src": "https://fairdiscovery.org/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
