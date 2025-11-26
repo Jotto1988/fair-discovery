@@ -2,460 +2,434 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
-    <title>Fair Discovery Directory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory.">
+    <meta name="theme-color" content="#1a73e8">
+    <title>Fair Discovery</title>
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
-    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%231a73e8'/%3E%3Cstop offset='100%25' stop-color='%238ab4f8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z' fill='url(%23g)'/%3E%3Ccircle cx='50' cy='45' r='18' stroke='white' stroke-width='6' fill='none'/%3E%3Cline x1='62' y1='57' x2='75' y2='70' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+
     <style>
-        /* --- THEME VARIABLES --- */
+        /* --- VIBRANT VARIABLES --- */
         :root {
-            --primary: #1a73e8; --bg: #f0f2f5; --card-bg: #ffffff;
-            --text: #1f1f1f; --text-sub: #5f6368; --border: #dadce0;
-            --success: #1e8e3e; --badge-bg: #e8f0fe; --error-bg: #fce8e6; --error-text: #c5221f;
+            --bg: #f4f7fa; --card-bg: #ffffff; --text: #1a1a1a; --text-sub: #666; 
+            --border: #e1e4e8; --shadow: 0 8px 30px rgba(0,0,0,0.04);
+            --accent: #1a73e8;
         }
         [data-theme="dark"] {
-            --primary: #8ab4f8; --bg: #202124; --card-bg: #303134;
-            --text: #e8eaed; --text-sub: #9aa0a6; --border: #3c4043;
-            --success: #81c995; --badge-bg: #3c4043; --error-bg: #5c2b29; --error-text: #f28b82;
+            --bg: #0f1115; --card-bg: #181b21; --text: #f0f0f0; --text-sub: #888;
+            --border: #2a2e35; --shadow: 0 8px 30px rgba(0,0,0,0.2);
+            --accent: #8ab4f8;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
 
-        /* HEADER */
-        header { 
-            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
-            padding: 60px 20px 40px; 
-            border-bottom: 1px solid var(--border); 
-            position: relative; 
-            text-align: center; 
-        }
-        .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
-        .header-controls-left { position: absolute; top: 20px; left: 20px; }
+        /* CATEGORY COLORS (The "Flavor") */
+        .grad-auto { background: linear-gradient(135deg, #ff512f, #dd2476); }
+        .grad-tech { background: linear-gradient(135deg, #434343, #000000); }
+        .grad-health { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .grad-service { background: linear-gradient(135deg, #3a6186, #89253e); }
+        .grad-retail { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+        .grad-artists { background: linear-gradient(135deg, #833ab4, #fd1d1d); }
+        .grad-default { background: linear-gradient(135deg, #1a73e8, #0d47a1); }
 
-        .btn-control, .lang-select, .theme-toggle { 
-            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
-            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
-            transition: 0.2s; outline: none; text-decoration: none; display: inline-block;
-            font-family: inherit;
-        }
-        .lang-select {
-            -webkit-appearance: none; -moz-appearance: none; appearance: none;
-            padding-right: 25px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
-            background-repeat: no-repeat; background-position: right 8px center;
-        }
-        .btn-control:hover, .lang-select:hover, .theme-toggle:hover { background: var(--bg); border-color: var(--primary); color: var(--primary); }
-        .btn-primary { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
-        .btn-primary:hover { background: #155db1; color: white; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; transition: background 0.3s; -webkit-tap-highlight-color: transparent; }
 
-        /* LOGO & TITLE */
-        h1 { 
-            margin: 0 auto 10px; 
-            font-size: 2.5rem; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 12px; 
-            letter-spacing: -1px;
+        /* --- HEADER --- */
+        header {
+            padding: 50px 20px 30px; text-align: center; position: relative;
+            background: var(--card-bg); border-bottom: 1px solid var(--border);
         }
-        h1 span { font-weight: 300; opacity: 0.8; }
-        .subtitle { color: var(--text-sub); margin-bottom: 35px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-        /* SEARCH & CATEGORIES */
-        .search-container { max-width: 584px; margin: 0 auto 25px; }
-        input {
-            width: 100%; padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border);
-            background: var(--card-bg); color: var(--text); font-size: 1.1rem; outline: none; box-sizing: border-box;
-            transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        input:focus { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-
-        .categories { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; max-width: 1000px; margin: 0 auto; justify-content: center; scrollbar-width: none; }
-        .cat-pill {
-            white-space: nowrap; padding: 8px 16px; background: var(--card-bg); 
-            border: 1px solid var(--border); border-radius: 20px; font-size: 0.9rem; 
-            cursor: pointer; color: var(--text-sub); transition: 0.2s;
-        }
-        .cat-pill:hover, .cat-pill.active { background: var(--badge-bg); color: var(--primary); border-color: var(--primary); }
-
-        /* GRID & CARDS */
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; flex: 1; width: 100%; box-sizing: border-box; }
-        .stats-bar { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .header-controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
         
-        .card {
-            background: var(--card-bg); border-radius: 12px; padding: 20px;
-            border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;
-            transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
-            cursor: pointer;
+        .btn-round {
+            background: var(--bg); border: 1px solid var(--border); color: var(--text);
+            padding: 8px 16px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
         }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .card-brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-        .card-logo { width: 40px; height: 40px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; border: 1px solid var(--border); }
-        .card-text { min-width: 0; flex: 1; }
-        .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); text-decoration: none; margin: 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-        .card-title:hover { text-decoration: underline; }
-        .card-domain { font-size: 0.8rem; color: var(--text-sub); display: block; margin-top: 2px; }
-        .verified-badge { font-size: 0.75rem; color: var(--success); background: rgba(30,142,62,0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
-        .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .card-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--bg); display: flex; justify-content: space-between; align-items: center; }
-        .score-val { font-weight: 700; color: var(--primary); font-size: 1.2rem; text-align: right; }
-        .score-lbl { font-size: 0.7rem; color: var(--text-sub); text-transform: uppercase; text-align: right; }
-        .actions { display: flex; gap: 8px; }
-        .btn-icon { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--text-sub); transition: 0.2s; }
-        .btn-icon:hover { background: var(--bg); color: var(--primary); border-color: var(--primary); }
-        .btn-whatsapp { color: #25D366; border-color: #25D366; }
-        .btn-whatsapp:hover { background: #25D366; color: white; }
+        .btn-round:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-color: var(--accent); }
+        
+        h1 { font-size: 2.8rem; margin: 10px 0; letter-spacing: -1px; display: flex; justify-content: center; align-items: center; gap: 15px; }
+        h1 span { background: linear-gradient(90deg, #1a73e8, #8ab4f8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .search-box {
+            background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px;
+            padding: 16px 24px; width: 100%; max-width: 600px; font-size: 1.1rem; color: var(--text);
+            outline: none; transition: 0.3s; margin: 20px auto; display: block;
+            box-shadow: var(--shadow);
+        }
+        .search-box:focus { border-color: var(--accent); transform: scale(1.01); }
 
-        /* PAGINATION */
-        .pagination { display: flex; justify-content: center; gap: 5px; margin: 40px 0; }
-        .page-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; cursor: pointer; color: var(--text); }
-        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .category-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; justify-content: center; scrollbar-width: none; }
+        .cat-pill {
+            padding: 8px 18px; border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+            background: var(--bg); border: 1px solid var(--border); cursor: pointer;
+            color: var(--text-sub); transition: 0.2s; flex-shrink: 0;
+        }
+        .cat-pill.active { background: var(--text); color: var(--card-bg); border-color: var(--text); }
 
-        /* WIDGET SECTION */
-        .widget-box { max-width: 800px; margin: 60px auto 20px; padding: 30px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); text-align: center; }
-        .code-area textarea { width: 100%; height: 80px; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: var(--text-sub); resize: none; box-sizing: border-box; }
-        .copy-btn { margin-top: 10px; background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+        /* --- GRID --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .stats-bar { display: flex; justify-content: space-between; color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px; font-weight: 500; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
 
-        /* MODAL */
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow-y: auto; }
-        .modal-content { background-color: var(--card-bg); margin: 5% auto; padding: 30px; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 500px; color: var(--text); box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
-        .modal h2 { margin-top: 0; color: var(--primary); }
-        .step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
-        .step-num { background: var(--badge-bg); color: var(--primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 0.9rem; }
-        .step-text { font-size: 0.95rem; line-height: 1.5; }
-        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; color: var(--text-sub); }
-        .close:hover { color: var(--text); }
-        .fallback-details { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; }
-        .fallback-toggle { color: var(--text-sub); cursor: pointer; text-decoration: underline; font-size: 0.85rem; }
-        .fallback-content { display: none; margin-top: 15px; background: var(--bg); padding: 15px; border-radius: 8px; text-align: left; }
-        .fallback-content pre { background: #000; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.75rem; }
+        /* --- PREMIUM CARD --- */
+        .card {
+            background: var(--card-bg); border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border); box-shadow: var(--shadow);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+            position: relative; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); border-color: var(--accent); }
+        
+        .card-banner { height: 60px; width: 100%; opacity: 0.9; }
+        
+        .card-content { padding: 15px 20px 20px; flex: 1; display: flex; flex-direction: column; margin-top: -30px; }
+        
+        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+        .card-logo { 
+            width: 50px; height: 50px; border-radius: 12px; background: var(--card-bg); 
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--card-bg);
+        }
+        .verified-tag { background: rgba(30,142,62,0.1); color: #1e8e3e; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        
+        .card-title { font-size: 1.2rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.3; }
+        .card-desc { font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .deal-badge { 
+            background: linear-gradient(135deg, #FF512F, #DD2476); color: white; 
+            font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;
+            display: inline-block; margin-top: 10px; box-shadow: 0 2px 5px rgba(255, 81, 47, 0.3);
+        }
 
-        /* PROFILE MODAL */
-        .profile-modal { z-index: 300; align-items: center; justify-content: center; display: none; }
-        .profile-card { background: var(--card-bg); width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; flex-direction: column; margin: 5% auto; position: relative; border: 1px solid var(--border); }
-        .profile-cover { height: 140px; background: linear-gradient(135deg, var(--primary), #0d47a1); position: relative; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; color: rgba(255,255,255,0.9); }
-        .quote-text { font-family: serif; font-style: italic; font-size: 1rem; line-height: 1.4; max-width: 80%; }
-        .profile-header { padding: 20px; margin-top: -40px; display: flex; align-items: flex-end; gap: 20px; }
-        .profile-logo { width: 80px; height: 80px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--card-bg); }
-        .profile-info { flex: 1; }
-        .profile-title { font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.2; }
-        .profile-meta { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
-        .profile-body { padding: 0 20px 20px; }
-        .profile-actions { padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; background: var(--bg); }
-        .close-profile { position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.2); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
-        .close-profile:hover { background: rgba(0,0,0,0.5); }
+        .card-footer { 
+            margin-top: auto; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; 
+            border-top: 1px solid var(--border); 
+        }
+        .authority-score { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+        .authority-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-sub); font-weight: 600; }
 
-        .rating-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
-        .rating-stars { font-size: 1.5rem; cursor: pointer; display: inline-block; color: #ddd; }
-        .rating-btn { background: none; border: none; cursor: pointer; font-size: 1.5rem; color: #ddd; transition: 0.2s; }
-        .rating-btn:hover { color: #FFD700; transform: scale(1.2); }
+        /* --- PROFILE MODAL --- */
+        .modal-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        
+        .modal-card {
+            background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 24px; 
+            overflow: hidden; box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            transform: scale(0.95); animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popUp { to{transform: scale(1)} }
+        
+        .modal-banner { height: 140px; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; color: white; position: relative; }
+        .modal-quote { font-family: Georgia, serif; font-style: italic; font-size: 1.1rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.2); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .modal-close:hover { background: rgba(0,0,0,0.5); transform: rotate(90deg); }
+
+        .modal-content { padding: 0 25px 25px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-end; margin-top: -40px; margin-bottom: 15px; }
+        .modal-logo { width: 80px; height: 80px; background: var(--card-bg); border-radius: 20px; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        
+        .action-btn { 
+            flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-weight: 600; 
+            text-decoration: none; transition: 0.2s; 
+        }
+        .btn-main { background: var(--text); color: var(--card-bg); }
+        .btn-sec { background: var(--bg); color: var(--text); }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        /* STAR RATING */
+        .star-row { display: flex; gap: 10px; justify-content: center; margin-top: 10px; background: var(--bg); padding: 15px; border-radius: 16px; }
+        .star-btn { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #d1d5db; transition: 0.2s; }
+        .star-btn:hover { color: #fbbf24; transform: scale(1.2); }
 
         /* FOOTER */
-        footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
-        .footer-desc { max-width: 700px; margin: 0 auto 15px; line-height: 1.6; }
-        .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
-        .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
-        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
-        .credits a:hover { text-decoration: underline; color: var(--primary); }
+        footer { margin-top: 60px; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.9rem; }
         
+        /* INSTALL PWA BUTTON (Hidden on Desktop usually) */
+        #installBtn { display: none; }
+
         @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            header { padding-top: 80px; } 
-            .header-controls-right { top: 15px; right: 15px; }
-            .header-controls-left { top: 15px; left: 15px; }
-            h1 { font-size: 2rem; }
-            .categories { justify-content: flex-start; padding-bottom: 10px; }
-            .profile-header { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: -30px; }
+            .categories { justify-content: flex-start; }
+            .modal-card { width: 100%; height: 100%; border-radius: 0; max-width: none; margin: 0; }
+            .modal-close { top: 20px; right: 20px; background: rgba(0,0,0,0.5); }
         }
     </style>
 </head>
 <body>
 
-<div id="profileModal" class="modal profile-modal" onclick="closeProfile(event)">
-    <div class="profile-card" onclick="event.stopPropagation()">
-        <div class="profile-cover">
-            <div class="quote-text" id="quoteBanner">"Honesty is the first chapter in the book of wisdom."</div>
-            <div class="close-profile" onclick="closeProfile(event)">✕</div>
-        </div>
-        <div class="profile-header">
-            <div class="profile-logo" id="pLogo">🌐</div>
-            <div class="profile-info">
-                <h2 class="profile-title" id="pTitle">Business</h2>
-                <div class="profile-meta" id="pMeta">Category • Location</div>
-            </div>
-        </div>
-        <div class="profile-body">
-            <p id="pDesc" style="line-height: 1.6; color: var(--text); margin-bottom: 20px;">Description...</p>
-            
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
-                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
-                    <strong style="display:block; margin-bottom:5px; color:var(--text);">📍 Location</strong>
-                    <span id="pLoc" style="color:var(--text-sub);">City</span>
-                </div>
-                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
-                    <strong style="display:block; margin-bottom:5px; color:var(--text);">📞 Contact</strong>
-                    <span id="pPhone" style="color:var(--text-sub);">Number</span>
-                </div>
-            </div>
-            
-            <div class="rating-section">
-                <strong style="color:var(--text); display:block; margin-bottom:5px;">Rate this Business</strong>
-                <div id="starContainer">
-                    <button class="rating-btn" onclick="submitRating(1)" title="1 Star">★</button>
-                    <button class="rating-btn" onclick="submitRating(2)" title="2 Stars">★</button>
-                    <button class="rating-btn" onclick="submitRating(3)" title="3 Stars">★</button>
-                    <button class="rating-btn" onclick="submitRating(4)" title="4 Stars">★</button>
-                    <button class="rating-btn" onclick="submitRating(5)" title="5 Stars">★</button>
-                </div>
-                <small style="color:var(--text-sub);">Your vote is recorded anonymously via Google Forms.</small>
-            </div>
-        </div>
-        <div class="profile-actions">
-            <a id="pMapBtn" href="#" target="_blank" class="btn-control">📍 Map</a>
-            <a id="pSiteBtn" href="#" target="_blank" class="btn-control btn-primary">Visit ↗</a>
-        </div>
-    </div>
-</div>
-
-<div id="joinModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">×</span>
-    <h2>🚀 How to Join</h2>
-    <p style="color:var(--text-sub); margin-bottom:20px;">Follow these 3 steps to list your site for free.</p>
-    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Get the Files</strong><br>Go to our GitHub and download the <code>fair-discovery</code> folder.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Upload & Install</strong><br>Upload the folder to your website hosting and add the script to your footer.</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Submit your Link</strong><br>Click the button below to auto-add your site to the directory.</div></div>
-    <div style="text-align: center; margin-top: 25px;">
-        <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site%3A%20[YOUR_URL_HERE]&body=Please%20add%20my%20feed:%20https://your-site.com/fair-discovery/discovery.json" target="_blank" class="btn-control btn-primary" style="width: 100%; box-sizing: border-box; padding: 12px;">🚀 Submit Site (Auto-Add)</a>
-        <br><br>
-        <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank" style="font-size:0.85rem; color:var(--primary); text-decoration:none;">📂 Just Download Files</a>
-    </div>
-    <div class="fallback-details">
-        <p>Site not showing up after 15 minutes?</p>
-        <span class="fallback-toggle" onclick="toggleFallback()">Click here for manual submission</span>
-        <div id="fallbackContent" class="fallback-content">
-            <p><strong>Firewall Blocking?</strong> If your host blocks our robot, please open a "Manual Entry" issue on GitHub with this info:</p>
-            <pre>{ "url": "https://your-site.com/", "score": 100, "category": "Service", "description": "Desc", "whatsapp": "27000", "location": "City" }</pre>
-            <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Manual%20Entry" target="_blank" style="display:block; margin-top:10px; color:var(--primary); font-weight:bold;">👉 Open Manual Ticket</a>
-        </div>
-    </div>
-  </div>
-</div>
-
 <header>
-    <div class="header-controls-left"><button class="btn-control" onclick="openModal()">🚀 How to Join</button></div>
-    <div class="header-controls-right">
-        <select class="lang-select" onchange="changeLanguage(this.value)">
-            <option value="en">🇺🇸 English</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="pt">🇧🇷 Português</option>
-        </select>
-        <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
+    <div class="header-controls">
+        <button id="installBtn" class="btn-round" onclick="installPWA()">📲 Install App</button>
+        <button class="btn-round" onclick="toggleTheme()">🌙</button>
+        <button class="btn-round" onclick="openJoin()">🚀 Join</button>
     </div>
-    
-    <h1 style="display: flex; align-items: center; justify-content: center; gap: 12px;">
-        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#8ab4f8;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#logoGrad)" />
-            <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none" />
-            <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round" />
-        </svg>
+
+    <h1>
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs><path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/><circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/><line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/></svg>
         <span>Fair Discovery</span>
     </h1>
+    <p style="color:var(--text-sub); margin-bottom:20px;">The decentralized directory ranked by real humans.</p>
 
-    <p class="subtitle" data-i18n="subtitle">The directory ranked by real humans, not bots.</p>
-    <div class="search-container"><input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Try 'auto cape town' or 'tech services'..."></div>
-    <div class="categories" id="catFilters">
-        <div class="cat-pill active" onclick="filterCat('all')" data-i18n="cat_all">All</div>
-        <div class="cat-pill" onclick="filterCat('Auto')" data-i18n="cat_auto">🚗 Auto</div>
-        <div class="cat-pill" onclick="filterCat('Tech')" data-i18n="cat_tech">💻 Tech</div>
-        <div class="cat-pill" onclick="filterCat('Health')" data-i18n="cat_health">🏥 Health</div>
-        <div class="cat-pill" onclick="filterCat('Service')" data-i18n="cat_service">🛠️ Services</div>
-        <div class="cat-pill" onclick="filterCat('Retail')" data-i18n="cat_retail">🛍️ Retail</div>
-        <div class="cat-pill" onclick="filterCat('Artists')" data-i18n="cat_artists">🎨 Artists</div>
+    <input type="text" class="search-box" id="searchInput" placeholder="Try 'mechanic' or 'designer'...">
+    
+    <div class="category-scroll">
+        <div class="cat-pill active" onclick="filter('all')">All</div>
+        <div class="cat-pill" onclick="filter('Auto')">🚗 Auto</div>
+        <div class="cat-pill" onclick="filter('Tech')">💻 Tech</div>
+        <div class="cat-pill" onclick="filter('Health')">🏥 Health</div>
+        <div class="cat-pill" onclick="filter('Service')">🛠️ Services</div>
+        <div class="cat-pill" onclick="filter('Artists')">🎨 Artists</div>
     </div>
 </header>
 
 <div class="container">
-    <div class="stats-bar"><span id="statsLabel">Loading...</span><span data-i18n="global_feed">Global Feed</span></div>
-    <div id="resultsGrid" class="grid"></div>
-    <div class="pagination" id="paginationControls"></div>
-    <div class="widget-box">
-        <h3 style="margin-top: 0; color: var(--text);" data-i18n="badge_title">🏆 Show off your Authority</h3>
-        <p style="color: var(--text-sub); font-size: 0.95rem;" data-i18n="badge_desc">Are you listed? Add the Fair Discovery seal to your website footer to build trust.</p>
-        <div class="widget-preview">
-            <a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 0.85rem; font-weight: 600;">
-                <img src="https://fairdiscovery.org/favicon.ico" alt="" style="width: 16px; height: 16px;"><span>Verified on Fair Discovery</span>
-            </a>
+    <div class="stats-bar">
+        <span id="statsLabel">Scanning network...</span>
+        <span>Global Feed</span>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>
+    <p>Fair Discovery is open source and free forever.</p>
+    <div style="margin: 20px 0;">
+        <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="btn-round" style="background:#FFDD00; border:none; color:black;">☕ Support the Dev</a>
+    </div>
+    <p style="opacity:0.6;">Powered by Gemini • GitHub • The Fair Collective</p>
+</footer>
+
+<div id="profileModal" class="modal-backdrop" onclick="closeProfile()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-banner" id="pBanner">
+            <div class="modal-quote" id="pQuote">"Truth is the only safe ground."</div>
+            <div class="modal-close" onclick="closeProfile()">✕</div>
         </div>
-        <div class="code-area">
-            <textarea id="badgeCode" readonly><a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 13px; font-weight: 600;"><span>🛡️ Verified on Fair Discovery</span></a></textarea>
-            <button class="copy-btn" onclick="copyBadge()" data-i18n="copy_code">Copy Code</button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-logo" id="pLogo">🌐</div>
+                <div style="text-align:right;">
+                    <div class="authority-score" id="pScore">0</div>
+                    <div class="authority-label">Authority Score</div>
+                </div>
+            </div>
+            
+            <h2 id="pTitle" style="margin:0 0 5px 0;">Business Name</h2>
+            <p id="pMeta" style="color:var(--text-sub); margin:0;">Category • Location</p>
+            
+            <p id="pDesc" style="margin: 20px 0; line-height:1.6;">Description...</p>
+
+            <div style="display:flex; gap:10px; margin-bottom:25px;">
+                <a id="pActionMap" href="#" target="_blank" class="action-btn btn-sec">📍 Map</a>
+                <a id="pActionSite" href="#" target="_blank" class="action-btn btn-main">Visit ↗</a>
+            </div>
+
+            <div class="star-row">
+                <button class="star-btn" onclick="rate(1)">★</button>
+                <button class="star-btn" onclick="rate(2)">★</button>
+                <button class="star-btn" onclick="rate(3)">★</button>
+                <button class="star-btn" onclick="rate(4)">★</button>
+                <button class="star-btn" onclick="rate(5)">★</button>
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Rate anonymously via Google Forms</p>
         </div>
     </div>
 </div>
 
-<footer>
-    <p class="footer-desc" data-i18n="footer_desc">Fair Discovery ranks websites based on <strong>verified human interaction</strong>, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.</p>
-    <p>🚀 <a href="data.json" target="_blank" class="api-link" data-i18n="footer_api">Get the JSON API</a></p>
-    <p>🚀 <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank" class="api-link" data-i18n="footer_join">Join Free on GitHub</a></p>
-    <div style="margin: 25px 0;"><a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="text-decoration:none;"><span style="background:#FFDD00; color:black; padding:8px 16px; border-radius:6px; font-weight:bold; font-size:0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">☕ <span data-i18n="support">Support the Dev</span></span></a></div>
-    <div class="credits">Powered by <a href="https://gemini.google.com" target="_blank">Gemini</a> • <a href="https://github.com" target="_blank">GitHub</a> • <a href="https://github.com/fair-collective" target="_blank">The Fair Collective</a></div>
-</footer>
-
 <script>
+    // --- PWA INSTALLER ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); deferredPrompt = e;
+        document.getElementById('installBtn').style.display = 'inline-flex';
+    });
+    function installPWA() {
+        if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+    }
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+    // --- LOGIC ---
     const FEED_URL = 'data.json'; 
-    let allData = [], filteredData = [], currentPage = 1; const limit = 12; let currentCategory = 'all';
+    let allData = [], filteredData = [], currentPage = 1; const limit = 12; let curCat = 'all';
     let currentBusiness = "";
-
-    const modal = document.getElementById("joinModal");
-    const profileModal = document.getElementById("profileModal");
-    function openModal() { modal.style.display = "block"; }
-    function closeModal() { modal.style.display = "none"; }
-    function closeProfile(event) { if (event) event.stopPropagation(); profileModal.style.display = "none"; }
-    window.onclick = function(event) { if (event.target == modal) closeModal(); if (event.target == profileModal) closeProfile(); }
-    function toggleFallback() { const el = document.getElementById("fallbackContent"); el.style.display = (el.style.display === "block") ? "none" : "block"; }
-
-    const quotes = ["\"Honesty is the first chapter in the book of wisdom.\"", "\"Truth is the only safe ground to stand upon.\"", "\"Integrity is doing the right thing, even when no one is watching.\"", "\"Fairness is not an attitude. It's a professional skill.\"", "\"Transparency is the currency of trust.\"", "\"Real recognize real.\"", "\"Quality means doing it right when no one is looking.\""];
-
-    const i18n = {
-        en: { subtitle: "The directory ranked by real humans, not bots.", search_ph: "Try 'auto cape town' or 'tech services'...", theme: "🌙 Theme", cat_all: "All", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Health", cat_service: "🛠️ Services", cat_retail: "🛍️ Retail", cat_artists: "🎨 Artists", global_feed: "Global Feed", badge_title: "🏆 Show off your Authority", badge_desc: "Are you listed? Add the Fair Discovery seal to your website footer to build trust.", copy_code: "Copy Code", footer_desc: "Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.", footer_api: "Get the JSON API", footer_join: "Join Network (Auto-Add)", support: "Support the Dev", lbl_auth: "Authority", lbl_verified: "✓ Verified" },
-        es: { subtitle: "El directorio clasificado por humanos, no bots.", search_ph: "Prueba 'autos madrid' o 'servicios tec'...", theme: "🌙 Tema", cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Muestra tu Autoridad", badge_desc: "¿Estás en la lista? Añade el sello de Fair Discovery a tu web.", copy_code: "Copiar Código", footer_desc: "Fair Discovery clasifica sitios web basándose en interacción humana verificada, bloqueando bots. Esto obliga a las redes publicitarias a enviar tráfico real y protege tu presupuesto.", footer_api: "Obtener API JSON", footer_join: "Únete gratis en GitHub", support: "Apoyar al Dev", lbl_auth: "Autoridad", lbl_verified: "✓ Verificado" },
-        fr: { subtitle: "L'annuaire classé par des humains, pas des bots.", search_ph: "Essayez 'auto paris' ou 'services tech'...", theme: "🌙 Thème", cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce", cat_artists: "🎨 Artistes", global_feed: "Flux Global", badge_title: "🏆 Montrez votre Autorité", badge_desc: "Vous êtes listé ? Ajoutez le sceau Fair Discovery à votre site.", copy_code: "Copier le Code", footer_desc: "Fair Discovery classe les sites selon l'interaction humaine réelle, en bloquant les bots. Cela force les réseaux publicitaires à fournir un trafic réel et protège votre budget.", footer_api: "Obtenir l'API JSON", footer_join: "Rejoindre sur GitHub", support: "Soutenir le Dev", lbl_auth: "Autorité", lbl_verified: "✓ Vérifié" },
-        de: { subtitle: "Das Verzeichnis von echten Menschen, nicht Bots.", search_ph: "Versuchen Sie 'auto berlin' oder 'tech'...", theme: "🌙 Thema", cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel", cat_artists: "🎨 Künstler", global_feed: "Globaler Feed", badge_title: "🏆 Zeigen Sie Autorität", badge_desc: "Sind Sie gelistet? Fügen Sie das Fair Discovery-Siegel hinzu.", copy_code: "Code kopieren", footer_desc: "Fair Discovery bewertet Websites nach echter menschlicher Interaktion und blockiert Bots. Dies zwingt Werbenetzwerke dazu, echten Traffic zu liefern und schützt Ihr Budget.", footer_api: "JSON-API abrufen", footer_join: "Kostenlos beitreten", support: "Entwickler unterstützen", lbl_auth: "Autorität", lbl_verified: "✓ Verifiziert" },
-        pt: { subtitle: "O diretório classificado por humanos, não bots.", search_ph: "Tente 'auto lisboa' ou 'serviços tech'...", theme: "🌙 Tema", cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Mostre sua Autoridade", badge_desc: "Está listado? Adicione o selo Fair Discovery ao seu site.", copy_code: "Copiar Código", footer_desc: "Fair Discovery classifica sites com base na interação humana real, bloqueando bots. Isso força as redes de anúncios a entregar tráfego real, protegendo seu orçamento.", footer_api: "Obter API JSON", footer_join: "Junte-se no GitHub", support: "Apoie o Dev", lbl_auth: "Autoridade", lbl_verified: "✓ Verificado" }
-    };
     
-    let currentLang = 'en';
-    function changeLanguage(lang) { currentLang = lang; render(); }
-    function toggleTheme() { const body = document.body; const isDark = body.getAttribute('data-theme') === 'dark'; body.setAttribute('data-theme', isDark ? 'light' : 'dark'); document.querySelector('.theme-toggle').innerText = isDark ? (currentLang === 'en' ? '🌙 Theme' : '🌙') : (currentLang === 'en' ? '☀️ Theme' : '☀️'); }
-    
+    const quotes = [
+        "\"Honesty is the first chapter in the book of wisdom.\"",
+        "\"Transparency is the currency of trust.\"",
+        "\"Quality means doing it right when no one is looking.\"",
+        "\"Fairness is not an attitude. It's a skill.\""
+    ];
+
+    function toggleTheme() {
+        const b = document.body;
+        b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+
     async function init() {
         try {
             const res = await fetch(FEED_URL + '?' + Date.now());
             const json = await res.json();
-            const domainMap = {};
-            (json.pages || []).forEach(page => {
-                try {
-                    const urlStr = page.url.startsWith('http') ? page.url : 'https://' + page.url;
-                    const urlObj = new URL(urlStr);
-                    const domain = urlObj.hostname;
-                    if (!domainMap[domain]) {
-                        domainMap[domain] = {
-                            domain: domain, fullUrl: urlObj.origin, totalScore: 0, pageCount: 0,
-                            category: page.category || inferCategory(domain), 
-                            description: page.description || "Verified decentralized listing.",
-                            whatsapp: page.whatsapp || null, location: page.location || inferLocation(domain)
-                        };
-                    }
-                    domainMap[domain].totalScore += page.score;
-                    domainMap[domain].pageCount++;
-                    if (page.category) domainMap[domain].category = page.category;
-                    if (page.description) domainMap[domain].description = page.description;
-                } catch(e){}
-            });
-            allData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
-            applyFilters();
-        } catch (err) { document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Database Building... Check back soon.</p>`; }
+            processData(json.pages || []);
+        } catch (e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading network...</p>'; }
     }
 
-    function inferCategory(domain) {
-        const d = domain.toLowerCase();
-        if (d.includes('panel') || d.includes('auto') || d.includes('grey') || d.includes('parts') || d.includes('autods')) return 'Auto';
-        if (d.includes('tech') || d.includes('soft') || d.includes('app')) return 'Tech';
-        if (d.includes('health') || d.includes('med')) return 'Health';
-        if (d.includes('art') || d.includes('music') || d.includes('band') || d.includes('paint') || d.includes('design')) return 'Artists';
+    function processData(pages) {
+        const domainMap = {};
+        pages.forEach(p => {
+            try {
+                const u = new URL(p.url.startsWith('http') ? p.url : 'https://' + p.url);
+                const d = u.hostname;
+                if (!domainMap[d]) {
+                    domainMap[d] = {
+                        domain: d, fullUrl: u.origin, score: 0, 
+                        cat: p.category || inferCat(d), 
+                        desc: p.description || "Verified listing.",
+                        wa: p.whatsapp, loc: p.location || "Global",
+                        deal: p.deal // COUPON SUPPORT
+                    };
+                }
+                domainMap[d].score += p.score;
+                if(p.category) domainMap[d].cat = p.category;
+                if(p.description) domainMap[d].desc = p.description;
+            } catch(e){}
+        });
+        allData = Object.values(domainMap).sort((a,b) => b.score - a.score);
+        filter('all');
+    }
+
+    function inferCat(d) {
+        if(d.includes('auto')||d.includes('panel')||d.includes('motor')) return 'Auto';
+        if(d.includes('tech')||d.includes('app')) return 'Tech';
+        if(d.includes('health')) return 'Health';
+        if(d.includes('art')) return 'Artists';
         return 'Service';
     }
-    
-    function formatTitle(domain) {
-        if (domain.includes("greyzoneautoparts")) return "Grey Zone Auto Parts";
-        if (domain.includes("aolocksmith")) return "AO Locksmith";
-        if (domain.includes("autods")) return "Auto Digital Solutions";
-        if (domain.includes("bookkeepersincapetown")) return "Bookkeepers in South Africa";
-        if (domain.includes("seritipbo")) return "Seriti PBO";
-        if (domain.includes("scoutsforkids")) return "Save Our Children";
-        if (domain.includes("jotto")) return "Jotto's Portfolio";
-        if (domain.includes("skyropespecialist")) return "Sky Rope Specialist";
-        if (domain.includes("intpanelshop")) return "International Panel Shop";
-        let t = domain.split('.')[1] || domain.split('.')[0]; 
-        return t.charAt(0).toUpperCase() + t.slice(1);
-    }
 
-    function inferLocation(domain) { if (domain.endsWith('.za')) return 'South Africa'; return 'Global'; }
-    function filterCat(cat) { currentCategory = cat; document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active')); event.target.classList.add('active'); applyFilters(); }
-    function applyFilters() {
-        const rawInput = document.getElementById('searchInput').value.toLowerCase();
-        const searchTokens = rawInput.split(' ').filter(token => token.length > 0);
-        filteredData = allData.filter(item => {
-            const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-            const searchableText = `${item.domain} ${item.description} ${item.category} ${item.location} ${formatTitle(item.domain)}`.toLowerCase();
-            const matchesSearch = searchTokens.every(token => searchableText.includes(token));
+    function filter(cat) {
+        curCat = cat;
+        document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const tokens = term.split(' ').filter(t => t.length > 0);
+
+        filteredData = allData.filter(i => {
+            const matchesCat = curCat === 'all' || i.cat === curCat;
+            const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
+            const matchesSearch = tokens.every(t => text.includes(t));
             return matchesCat && matchesSearch;
         });
         currentPage = 1; render();
     }
 
-    function openProfile(index) {
-        const item = filteredData[index];
-        if (!item) return;
-        currentBusiness = formatTitle(item.domain); 
-        document.getElementById('quoteBanner').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    function render() {
+        const grid = document.getElementById('grid'); grid.innerHTML = '';
+        document.getElementById('statsLabel').innerText = `Found ${filteredData.length} sites`;
+        
+        const start = (currentPage - 1) * limit;
+        const slice = filteredData.slice(start, start + limit);
+        
+        slice.forEach((item, idx) => {
+            let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
+            let bannerClass = `grad-${item.cat.toLowerCase()}` || 'grad-default';
+            let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openProfile(start + idx);
+            card.innerHTML = `
+                <div class="card-banner ${bannerClass}"></div>
+                <div class="card-content">
+                    <div class="card-brand">
+                        <div class="card-logo">${flag}</div>
+                        <span class="verified-tag">✓ Verified</span>
+                    </div>
+                    <h3 class="card-title">${formatTitle(item.domain)}</h3>
+                    <span style="font-size:0.8rem; color:#999">${item.domain.replace('.local','')}</span>
+                    ${dealBadge}
+                    <p class="card-desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <div class="authority-label">Authority Score</div>
+                        <div class="authority-score">${formatScore(item.score)}</div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        renderPag();
+    }
+
+    function openProfile(idx) {
+        const item = filteredData[idx];
+        currentBusiness = formatTitle(item.domain);
+        
+        document.getElementById('pBanner').className = `modal-banner grad-${item.cat.toLowerCase()}`;
+        document.getElementById('pQuote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
         document.getElementById('pTitle').innerText = currentBusiness;
-        document.getElementById('pMeta').innerText = `${item.category} • ${item.location}`;
-        document.getElementById('pDesc').innerText = item.description;
-        document.getElementById('pLoc').innerText = item.location;
-        document.getElementById('pPhone').innerText = item.whatsapp ? '+' + item.whatsapp : 'N/A';
-        let visitLink = item.fullUrl;
-        if (item.domain.includes(".local") && item.whatsapp) visitLink = `https://wa.me/${item.whatsapp}`;
-        document.getElementById('pSiteBtn').href = visitLink;
-        let mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatTitle(item.domain) + " " + item.location)}`;
-        if (item.domain.includes("greyzone")) mapLink = "https://share.google/1O2Kl72Vige48vGsB";
-        if (item.domain.includes("aolocksmith")) mapLink = "https://share.google/WNjzMAwNlj9tC3u6F";
-        document.getElementById('pMapBtn').href = mapLink;
+        document.getElementById('pMeta').innerText = `${item.cat} • ${item.loc}`;
+        document.getElementById('pDesc').innerText = item.desc;
+        document.getElementById('pScore').innerText = formatScore(item.score);
+        
+        // Smart Links
+        let link = item.fullUrl;
+        if(item.domain.includes('.local') && item.wa) link = `https://wa.me/${item.wa}`;
+        document.getElementById('pActionSite').href = link;
+        
+        let map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentBusiness + ' ' + item.loc)}`;
+        if(item.domain.includes('greyzone')) map = "https://share.google/1O2Kl72Vige48vGsB";
+        if(item.domain.includes('aolocksmith')) map = "https://share.google/WNjzMAwNlj9tC3u6F";
+        document.getElementById('pActionMap').href = map;
+        
         document.getElementById('profileModal').style.display = 'flex';
     }
 
-    function submitRating(stars) {
+    function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
+    
+    function rate(stars) {
         const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
-        const businessField = "entry.1871531298"; 
-        const ratingField = "entry.741708013";   
-        const finalUrl = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&${businessField}=${encodeURIComponent(currentBusiness)}&${ratingField}=${stars}`;
-        window.open(finalUrl, '_blank');
+        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBusiness)}&entry.741708013=${stars}`;
+        window.open(url, '_blank');
     }
 
-    function render() {
-        const grid = document.getElementById('resultsGrid'); grid.innerHTML = ''; const dict = i18n[currentLang];
-        document.getElementById('statsLabel').innerText = `Found ${filteredData.length} sites`;
-        const totalPages = Math.ceil(filteredData.length / limit);
-        const start = (currentPage - 1) * limit;
-        const pageItems = filteredData.slice(start, start + limit);
-        if (pageItems.length === 0) { grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>'; return; }
-        pageItems.forEach((item, index) => {
-            let flag = '🌐'; if (item.domain.endsWith('.za')) flag = '🇿🇦'; if (item.domain.endsWith('.uk')) flag = '🇬🇧';
-            let globalIndex = start + index;
-            let actions = ''; 
-            if (item.whatsapp) actions += `<a href="https://wa.me/${item.whatsapp}" target="_blank" class="btn-icon btn-whatsapp" title="WhatsApp" onclick="event.stopPropagation()">💬</a>`;
-            actions += `<a href="${item.fullUrl}" target="_blank" class="btn-icon" title="Visit Page">↗</a>`;
-            const card = `<div class="card" onclick="openProfile(${globalIndex})"><div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><span class="card-title">${formatTitle(item.domain)}</span><span class="card-domain">${item.domain.replace('.local', '')}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div></div>`;
-            grid.insertAdjacentHTML('beforeend', card);
-        });
-        renderPagination(totalPages);
+    function formatTitle(d) {
+        if(d.includes("greyzone")) return "Grey Zone Auto Parts";
+        if(d.includes("aolocksmith")) return "AO Locksmith";
+        if(d.includes("autods")) return "Auto Digital Solutions";
+        if(d.includes("bookkeepers")) return "Bookkeepers SA";
+        if(d.includes("seritipbo")) return "Seriti PBO";
+        if(d.includes("scouts")) return "Save Our Children";
+        if(d.includes("jotto")) return "Jotto's Portfolio";
+        if(d.includes("skyrope")) return "Sky Rope Specialist";
+        if(d.includes("intpanel")) return "International Panel Shop";
+        return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
     }
-    function formatScore(num) { if (num > 1000000) return (num/1000000).toFixed(1) + 'M'; if (num > 1000) return (num/1000).toFixed(1) + 'k'; return num; }
-    function renderPagination(totalPages) {
-        const container = document.getElementById('paginationControls'); container.innerHTML = ''; if (totalPages <= 1) return;
-        for (let i = 1; i <= totalPages; i++) { container.insertAdjacentHTML('beforeend', `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`); }
+
+    function formatScore(n) {
+        if(n > 1000000) return (n/1000000).toFixed(1) + 'M';
+        if(n > 1000) return (n/1000).toFixed(1) + 'k';
+        return n;
     }
-    function changePage(num) { currentPage = num; render(); window.scrollTo(0, 0); }
-    function copyBadge() { const copyText = document.getElementById("badgeCode"); copyText.select(); navigator.clipboard.writeText(copyText.value); alert("Code copied!"); }
-    document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+    function renderPag() {
+        const el = document.getElementById('pagination'); el.innerHTML = '';
+        const pages = Math.ceil(filteredData.length / limit);
+        if(pages <= 1) return;
+        for(let i=1; i<=pages; i++) {
+            el.innerHTML += `<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render();window.scrollTo(0,0)">${i}</button>`;
+        }
+    }
+
+    function openJoin() {
+        const url = "https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site";
+        window.open(url, '_blank');
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filter);
     init();
 </script>
 </body>
