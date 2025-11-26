@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses.">
     <meta name="theme-color" content="#1a73e8">
-    <title>Fair Discovery</title>
+    <title>Fair Discovery Directory</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -25,221 +25,197 @@
 
         body { font-family: 'Google Sans', 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; transition: background 0.3s; }
 
-        /* HEADER */
+        /* HEADER (RESTORED BRANDING) */
         header {
-            background: var(--card-bg); padding: 20px; text-align: center;
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
+            padding: 40px 20px 20px; text-align: center;
             border-bottom: 1px solid var(--border); position: relative;
         }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        
+        .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
+        .header-controls-left { position: absolute; top: 20px; left: 20px; }
+
+        .btn-control, .lang-select, .theme-toggle { 
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
+            transition: 0.2s; outline: none; text-decoration: none; display: inline-block; font-family: inherit;
+        }
+        .btn-control:hover, .lang-select:hover { background: var(--bg); border-color: var(--accent); }
+
         h1 { 
-            font-size: 1.8rem; margin: 0; letter-spacing: -0.5px; 
-            display: flex; align-items: center; gap: 10px; color: var(--text);
+            margin: 0 auto 10px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 12px; letter-spacing: -0.5px; 
+            color: var(--text);
         }
-        
-        .controls { display: flex; gap: 10px; }
-        .icon-btn { 
-            background: transparent; border: 1px solid var(--border); color: var(--text);
-            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .icon-btn:hover { background: var(--bg); border-color: var(--accent); }
+        .subtitle { color: var(--text-sub); margin-bottom: 25px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
         /* SEARCH & FILTERS */
-        .filter-bar {
-            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 800px; margin: 0 auto;
-        }
-        
-        .search-wrapper {
-            flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;
-        }
-        
-        .search-box {
+        .search-container { max-width: 600px; margin: 0 auto 20px; position: relative; }
+        input {
             width: 100%; padding: 12px 45px 12px 20px; border-radius: 24px; 
-            border: 1px solid var(--border); background: var(--bg); color: var(--text);
-            font-size: 1rem; outline: none; transition: 0.2s;
+            border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+            font-size: 1rem; outline: none; transition: 0.2s; box-sizing: border-box;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); background: var(--card-bg); }
+        input:focus { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .geo-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.2rem; opacity: 0.6; }
+        .geo-btn:hover { opacity: 1; color: var(--accent); }
 
-        /* DROPDOWNS */
-        .custom-select {
-            padding: 12px 30px 12px 20px; border-radius: 24px; border: 1px solid var(--border);
-            background: var(--bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23555"><path d="M2 4l4 4 4-4"/></svg>') no-repeat right 12px center;
-            color: var(--text); font-size: 0.9rem; cursor: pointer; appearance: none; min-width: 140px;
+        .categories { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0 10px; justify-content: center; scrollbar-width: none; max-width: 1000px; margin: 0 auto; }
+        .cat-pill {
+            white-space: nowrap; padding: 6px 14px; background: var(--card-bg); 
+            border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; 
+            cursor: pointer; color: var(--text-sub); transition: 0.2s;
         }
+        .cat-pill:hover, .cat-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
 
         /* GRID */
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
         .stats-bar { display: flex; justify-content: space-between; color: var(--text-sub); font-size: 0.85rem; margin-bottom: 15px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
-        /* CARD */
+        /* CARD (FIXED LAYOUT) */
         .card {
             background: var(--card-bg); border-radius: 12px; overflow: hidden;
             border: 1px solid var(--border); box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
-            display: flex; flex-direction: column;
+            transition: transform 0.2s; cursor: pointer;
+            display: flex; flex-direction: column; position: relative;
         }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .card:hover { transform: translateY(-3px); border-color: var(--accent); }
         
-        .card-banner { height: 80px; background-size: cover; background-position: center; opacity:0.9; }
-
-        .card-content { padding: 0 16px 16px; flex: 1; display: flex; flex-direction: column; margin-top: -25px; }
+        .card-banner { height: 80px; background-size: cover; background-position: center; opacity: 0.9; }
         
-        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+        .card-content { padding: 0 16px 16px; flex: 1; display: flex; flex-direction: column; margin-top: -24px; }
+        
+        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; position: relative; }
         .card-logo { 
-            width: 50px; height: 50px; border-radius: 10px; background: var(--card-bg); 
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
-            border: 2px solid var(--card-bg); box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 48px; height: 48px; border-radius: 10px; background: var(--card-bg); 
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
+            border: 2px solid var(--card-bg); box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .verified-tag { background: rgba(24,128,56,0.1); color: #1e8e3e; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; height: 20px; line-height: 20px;}
+        .verified-tag { 
+            background: rgba(24,128,56,0.1); color: var(--success); padding: 2px 6px; 
+            border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
+            margin-bottom: 5px;
+        }
 
         .card-title { font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.3; }
-        .card-meta { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px; }
-        .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
+        .card-meta { font-size: 0.8rem; color: var(--text-sub); margin: 4px 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .deal-badge { 
-            background: linear-gradient(135deg, #FF512F, #DD2476); color: white; 
-            font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;
-            display: inline-block; margin-bottom: 10px;
+            background: #ffeff5; color: #d63384; font-size: 0.7rem; padding: 4px 8px; 
+            border-radius: 4px; font-weight: 700; display: inline-block; margin-bottom: 8px;
+            border: 1px solid #f8d7da;
         }
+
+        .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
 
         .card-footer { 
-            margin-top: auto; padding: 12px 16px; border-top: 1px solid var(--border); 
-            display: flex; justify-content: space-between; align-items: center; background: var(--bg);
+            margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); 
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
         }
-        .score-val { font-weight: 700; color: var(--accent); }
+        .score-val { font-weight: 700; color: var(--accent); font-size: 1rem; }
 
-        /* IMAGES (UNSPLASH) */
+        /* MODAL */
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-card { background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.2s ease-out; display: flex; flex-direction: column; max-height: 90vh; }
+        @keyframes slideUp { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+        .modal-banner { height: 130px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
+        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.9rem; width: 90%; }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+
+        .modal-body { padding: 20px; overflow-y: auto; }
+        .modal-header { display: flex; gap: 15px; align-items: flex-end; margin-top: -40px; margin-bottom: 15px; position: relative; z-index: 5; }
+        .modal-logo { width: 70px; height: 70px; background: var(--card-bg); border-radius: 12px; font-size: 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .info-box { background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; }
+        
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: block; text-align: center; text-decoration: none; }
+        
+        /* FOOTER */
+        footer { margin-top: 40px; padding: 30px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.85rem; }
+
+        /* IMAGES */
         .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80'); }
         .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'); }
         .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80'); }
         .bg-service { background-image: url('https://images.unsplash.com/photo-1581578077058-612788a8966c?auto=format&fit=crop&w=600&q=80'); }
         .bg-retail { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80'); }
         .bg-art { background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=600&q=80'); }
-        .bg-property { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'); }
-        .bg-travel { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80'); }
-
-        /* MODAL */
-        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .modal-card { background: var(--card-bg); width: 90%; max-width: 550px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-
-        .modal-banner { height: 150px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
-        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.95rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); width: 90%; }
-        
-        /* FIXED CLOSE BUTTON */
-        .modal-close { 
-            position: absolute; top: 15px; right: 15px; 
-            background: rgba(255,255,255,0.2); color: white; 
-            width: 32px; height: 32px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; backdrop-filter: blur(4px); z-index: 20; 
-            font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.3);
-        }
-        .modal-close:hover { background: rgba(255,255,255,0.4); }
-
-        .modal-body { padding: 25px; }
-        .modal-title { font-size: 1.8rem; margin: 0 0 5px; color: var(--text); line-height: 1.2; }
-        .modal-meta { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px; }
-        
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .info-box { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
-        .info-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-sub); font-weight: 700; display: block; margin-bottom: 4px; }
-        
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; display: block; text-align: center; text-decoration: none; }
-        .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
-
-        .rating-stars { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
-        .star { font-size: 1.6rem; color: #ddd; cursor: pointer; transition: 0.2s; background: none; border: none; }
-        .star:hover { color: #fbbc04; transform: scale(1.2); }
-
-        /* FOOTER */
-        footer { margin-top: 60px; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.9rem; }
-        #installBtn { display: none; }
 
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
-            .modal-card { width: 100%; height: 100%; border-radius: 0; max-width: none; margin: 0; }
-            .filter-bar { flex-direction: column; align-items: stretch; }
+            .categories { justify-content: flex-start; padding-left: 20px; }
+            .modal-card { width: 100%; height: 100%; border-radius: 0; margin: 0; max-width: none; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-top">
-        <div class="controls">
-            <button class="icon-btn" onclick="openJoin()" title="Join Network">🚀</button>
-            <button id="installBtn" class="icon-btn" onclick="installPWA()" style="display:none" title="Install App">📲</button>
-        </div>
-        <h1>
-            <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-                <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
-                <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
-                <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
-                <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
-            </svg>
-            Fair Discovery
-        </h1>
-        <div class="controls">
-            <button class="icon-btn" onclick="toggleTheme()">🌙</button>
-        </div>
+    <div class="header-controls-left"><button class="btn-control" onclick="openModal('join')">🚀 Join</button></div>
+    <div class="header-controls-right">
+        <button class="btn-control" onclick="toggleTheme()">🌙</button>
     </div>
 
-    <div class="filter-bar">
-        <div class="search-wrapper" style="flex:1; position:relative;">
-            <input type="text" class="search-box" id="searchInput" placeholder="Search businesses...">
-            <button class="geo-btn" onclick="geoFindMe()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); border:none; background:none; cursor:pointer; font-size:1.2rem;">📍</button>
-        </div>
-        
-        <select id="catFilter" class="custom-select" onchange="filter()">
-            <option value="all">Category: All</option>
-            <option value="Auto">🚗 Auto</option>
-            <option value="Tech">💻 Tech</option>
-            <option value="Health">🏥 Health</option>
-            <option value="Service">🛠️ Services</option>
-            <option value="Retail">🛍️ Retail</option>
-            <option value="Artists">🎨 Artists</option>
-            <option value="Real Estate">🏠 Property</option>
-            <option value="Travel">✈️ Holiday</option>
-        </select>
+    <h1>
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
+            <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
+            <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
+            <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <span>Fair Discovery</span>
+    </h1>
+    <p class="subtitle">The decentralized directory ranked by real humans.</p>
 
-        <select id="locFilter" class="custom-select" onchange="filter()">
-            <option value="all">🌍 Global</option>
-        </select>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Try 'auto cape town'...">
+        <button class="geo-btn" onclick="geoFindMe()">📍</button>
+    </div>
+    
+    <div class="categories">
+        <div class="cat-pill active" onclick="setCat('all')">All</div>
+        <div class="cat-pill" onclick="setCat('Auto')">Auto</div>
+        <div class="cat-pill" onclick="setCat('Tech')">Tech</div>
+        <div class="cat-pill" onclick="setCat('Health')">Health</div>
+        <div class="cat-pill" onclick="setCat('Service')">Services</div>
+        <div class="cat-pill" onclick="setCat('Retail')">Retail</div>
+        <div class="cat-pill" onclick="setCat('Artists')">Artists</div>
     </div>
 </header>
 
 <div class="container">
     <div class="stats-bar">
-        <span id="statsLabel">Scanning network...</span>
+        <span id="statsLabel">Loading...</span>
         <span>Global Feed</span>
     </div>
     <div id="grid" class="grid"></div>
-    <div class="pagination" id="pagination"></div>
 </div>
 
 <footer>
-    <p>Fair Discovery is open source and free forever.</p>
-    <div style="margin: 20px 0;">
-        <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00; color:black; padding:8px 16px; border-radius:20px; font-weight:bold; text-decoration:none;">☕ Support the Dev</a>
-    </div>
-    <p style="opacity:0.6;">Powered by Gemini • GitHub • The Fair Collective</p>
+    <p>Fair Discovery &copy; 2025 • Decentralized & Open Source</p>
+    <p><a href="https://github.com/fair-collective/fair-discovery" style="color:var(--accent); text-decoration:none;">GitHub</a></p>
 </footer>
 
-<div id="modal" class="modal-backdrop" onclick="closeModal()">
+<div id="profileModal" class="modal-backdrop" onclick="closeModal('profile')">
     <div class="modal-card" onclick="event.stopPropagation()">
-        <div id="modalBanner" class="modal-banner bg-service">
-            <div class="modal-close" onclick="closeModal()">✕</div>
-            <div class="modal-quote" id="modalQuote">"Truth is the only safe ground."</div>
+        <div id="mBanner" class="modal-banner bg-service">
+            <div class="modal-close" onclick="closeModal('profile')">✕</div>
+            <div class="modal-quote" id="mQuote">"Truth is the only safe ground."</div>
         </div>
         <div class="modal-body">
-            <h2 class="modal-title" id="mTitle">Business Name</h2>
-            <div class="modal-meta" id="mMeta">Category • Location</div>
+            <div class="modal-header">
+                <div class="modal-logo" id="mLogo">🌐</div>
+                <div>
+                    <h2 class="modal-title" id="mTitle">Business</h2>
+                    <div class="modal-meta" id="mMeta">Category • Loc</div>
+                </div>
+            </div>
             
-            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:25px;">Description goes here.</p>
+            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:20px;">Desc</p>
 
             <div class="info-grid">
                 <div class="info-box">
@@ -253,105 +229,59 @@
             </div>
 
             <a id="mLink" href="#" target="_blank" class="btn-primary">Visit Website ↗</a>
+        </div>
+    </div>
+</div>
 
-            <div style="margin-top:20px; text-align:center; border-top:1px solid var(--border); padding-top:15px;">
-                <span class="info-label">Rate this Business</span>
-                <div class="rating-stars">
-                    <button class="star" onclick="rate(1)">★</button>
-                    <button class="star" onclick="rate(2)">★</button>
-                    <button class="star" onclick="rate(3)">★</button>
-                    <button class="star" onclick="rate(4)">★</button>
-                    <button class="star" onclick="rate(5)">★</button>
-                </div>
-                <p style="text-align:center; font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Rate anonymously via Google Forms</p>
-            </div>
+<div id="joinModal" class="modal-backdrop" onclick="closeModal('join')">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-body" style="text-align:center;">
+            <div class="modal-close" onclick="closeModal('join')" style="background:#ddd; color:#333; top:10px; right:10px;">✕</div>
+            <h2 style="margin-top:0;">🚀 How to Join</h2>
+            <p>1. Download the `fair-discovery` folder from GitHub.<br>2. Upload to your site root.<br>3. Submit your URL below.</p>
+            <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="btn-primary">Submit Site</a>
         </div>
     </div>
 </div>
 
 <script>
-    // --- PWA INSTALLER ---
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); deferredPrompt = e;
-        document.getElementById('installBtn').style.display = 'inline-flex';
-    });
-    function installPWA() {
-        if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
-    }
-    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-
-    // --- LOGIC ---
-    const FEED_URL = 'data.json'; 
-    let allData = [], filteredData = [], currentPage = 1; const limit = 12; 
-    let currentBiz = "";
-    
-    const quotes = [
-        "\"Quality means doing it right when no one is looking.\"",
-        "\"Truth is the only safe ground to stand upon.\"",
-        "\"Honesty is the first chapter in the book of wisdom.\"",
-        "\"Fairness is a professional skill.\""
-    ];
-
-    function toggleTheme() {
-        const b = document.body;
-        b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    }
+    const FEED = 'data.json';
+    let allData = [], filtered = [];
+    let curCat = 'all';
+    const quotes = ["\"Quality means doing it right when no one is looking.\"", "\"Truth is the only safe ground.\"", "\"Honesty is the first chapter of wisdom.\""];
 
     async function init() {
         try {
-            const res = await fetch(FEED_URL + '?' + Date.now());
+            const res = await fetch(FEED + '?' + Date.now());
             const json = await res.json();
             processData(json.pages || []);
-        } catch (e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading network...</p>'; }
+        } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
     }
 
     function processData(pages) {
-        const domainMap = {};
+        const map = {};
         pages.forEach(p => {
             try {
-                const u = new URL(p.url.startsWith('http') ? p.url : 'https://' + p.url);
-                const d = u.hostname;
-                if (!domainMap[d]) {
-                    domainMap[d] = {
-                        domain: d, fullUrl: u.origin, score: 0, 
-                        cat: p.category || inferCat(d), 
-                        desc: p.description || "Verified listing.",
-                        wa: p.whatsapp, loc: p.location || "Global",
-                        deal: p.deal 
-                    };
-                }
-                domainMap[d].score += p.score;
-                if(p.category) domainMap[d].cat = p.category;
-                if(p.description) domainMap[d].desc = p.description;
+                let d = new URL(p.url.startsWith('http')?p.url:'https://'+p.url).hostname;
+                if(!map[d]) map[d] = {
+                    domain: d, url: p.url, score: 0, 
+                    cat: p.category || inferCat(d), 
+                    desc: p.description || "Verified listing.",
+                    wa: p.whatsapp, loc: p.location || "Global",
+                    deal: p.deal
+                };
+                map[d].score += p.score;
             } catch(e){}
         });
-        allData = Object.values(domainMap).sort((a,b) => b.score - a.score);
-        
-        // Populate Locations
-        const locs = new Set();
-        allData.forEach(i => {
-            if(i.loc) {
-                locs.add(i.loc);
-                if(i.loc.includes(',')) locs.add(i.loc.split(',')[1].trim());
-            }
-        });
-        const sortedLocs = [...locs].sort();
-        const sel = document.getElementById('locFilter');
-        sortedLocs.forEach(l => {
-            if(l && l !== "Global") sel.innerHTML += `<option value="${l}">${l}</option>`;
-        });
-
+        allData = Object.values(map).sort((a,b) => b.score - a.score);
         filter();
     }
 
     function inferCat(d) {
         d = d.toLowerCase();
-        if(d.includes('auto')||d.includes('panel')||d.includes('motor')) return 'Auto';
+        if(d.includes('auto')||d.includes('panel')) return 'Auto';
         if(d.includes('tech')||d.includes('app')) return 'Tech';
         if(d.includes('health')) return 'Health';
-        if(d.includes('property')||d.includes('estate')) return 'Real Estate';
-        if(d.includes('travel')||d.includes('bnb')) return 'Travel';
         if(d.includes('art')) return 'Artists';
         return 'Service';
     }
@@ -369,23 +299,20 @@
         return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
     }
 
+    function setCat(c) {
+        curCat = c;
+        document.querySelectorAll('.cat-pill').forEach(e => e.classList.remove('active'));
+        event.target.classList.add('active');
+        filter();
+    }
+
     function filter() {
-        const cat = document.getElementById('catFilter').value;
         const term = document.getElementById('searchInput').value.toLowerCase();
-        const loc = document.getElementById('locFilter').value;
-        
         filtered = allData.filter(i => {
-            const matchCat = cat === 'all' || i.cat === cat;
-            
-            // Smart Loc Logic
-            let matchLoc = loc === 'all';
-            if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
-            
-            const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
-            const matchTerm = text.includes(term);
-            return matchCat && matchLoc && matchTerm;
+            const matchCat = curCat === 'all' || i.cat === curCat;
+            const matchTerm = (i.domain + i.desc + i.cat).toLowerCase().includes(term);
+            return matchCat && matchTerm;
         });
-        
         render();
     }
 
@@ -393,118 +320,71 @@
         const grid = document.getElementById('grid'); grid.innerHTML = '';
         document.getElementById('statsLabel').innerText = `Found ${filtered.length} sites`;
         
-        const start = (currentPage - 1) * limit;
-        const slice = filtered.slice(start, start + limit);
-        
-        slice.forEach((item, idx) => {
+        filtered.forEach((item, idx) => {
             let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-            let bannerClass = `bg-${item.cat.toLowerCase().replace(' ', '-')}` || 'bg-service';
-            let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
+            let bgClass = `bg-${item.cat.toLowerCase()}` || 'bg-service';
+            let dealHtml = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
             
             const card = document.createElement('div');
             card.className = 'card';
-            card.onclick = () => openModal(start + idx);
+            card.onclick = () => openProfile(idx);
             card.innerHTML = `
-                <div class="card-banner ${bannerClass}"></div>
+                <div class="card-banner ${bgClass}"></div>
                 <div class="card-content">
                     <div class="card-brand">
                         <div class="card-logo">${flag}</div>
                         <span class="verified-tag">✓ Verified</span>
                     </div>
                     <h3 class="card-title">${formatTitle(item.domain)}</h3>
-                    <span style="font-size:0.8rem; color:#999">${item.domain.replace('.local','')}</span>
-                    ${dealBadge}
+                    <div class="card-meta">${item.domain.replace('.local','')}</div>
+                    ${dealHtml}
                     <p class="card-desc">${item.desc}</p>
                     <div class="card-footer">
-                        <span style="font-size:0.8rem; font-weight:500;">${item.cat}</span>
+                        <span style="font-weight:500;">${item.cat}</span>
                         <div>
-                            <span class="score-val">${(item.score > 1000 ? (item.score/1000).toFixed(1)+'k' : item.score)}</span>
+                            <span class="score-val">${(item.score>1000?(item.score/1000).toFixed(1)+'k':item.score)}</span>
+                            <span class="score-lbl">Auth</span>
                         </div>
                     </div>
                 </div>
             `;
             grid.appendChild(card);
         });
-        renderPag();
     }
 
-    function openModal(idx) {
+    function openProfile(idx) {
         const i = filtered[idx];
-        currentBiz = formatTitle(i.domain);
+        const title = formatTitle(i.domain);
         
-        // Dynamic Banner Class
         let bgClass = 'bg-service';
-        let cat = i.cat.toLowerCase();
-        if(cat.includes('auto')) bgClass = 'bg-auto';
-        if(cat.includes('tech')) bgClass = 'bg-tech';
-        if(cat.includes('health')) bgClass = 'bg-health';
-        if(cat.includes('retail')) bgClass = 'bg-retail';
-        if(cat.includes('art')) bgClass = 'bg-art';
-        if(cat.includes('estate')||cat.includes('property')) bgClass = 'bg-property';
-        if(cat.includes('travel')) bgClass = 'bg-travel';
+        if(i.cat==='Auto') bgClass='bg-auto';
+        if(i.cat==='Tech') bgClass='bg-tech';
+        if(i.cat==='Health') bgClass='bg-health';
+        if(i.cat==='Artists') bgClass='bg-art';
         
-        const banner = document.getElementById('modalBanner');
-        banner.className = 'modal-banner ' + bgClass;
-        document.getElementById('modalQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
-        
-        document.getElementById('mTitle').innerText = currentBiz;
+        document.getElementById('mBanner').className = 'modal-banner ' + bgClass;
+        document.getElementById('mQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        document.getElementById('mTitle').innerText = title;
         document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc}`;
         document.getElementById('mDesc').innerText = i.desc;
         document.getElementById('mLoc').innerText = i.loc;
         document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
         
-        // Smart Link
         let link = i.url;
         if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
         document.getElementById('mLink').href = link;
         
-        let map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentBiz + ' ' + i.loc)}`;
-        if(i.domain.includes('greyzone')) map = "https://share.google/1O2Kl72Vige48vGsB";
-        if(i.domain.includes('aolocksmith')) map = "https://share.google/WNjzMAwNlj9tC3u6F";
-        document.getElementById('pActionMap').href = map;
-        
-        document.getElementById('modal').style.display = 'flex';
+        document.getElementById('profileModal').style.display = 'flex';
     }
 
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function closeModal(id) {
+        if(id === 'join') document.getElementById('joinModal').style.display = 'none';
+        else document.getElementById('profileModal').style.display = 'none';
+    }
     
-    function rate(stars) {
-        const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
-        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBusiness)}&entry.741708013=${stars}`;
-        window.open(url, '_blank');
-    }
-
-    // --- GEO LOCATION ---
-    function geoFindMe() {
-        const btn = document.querySelector('.geo-btn');
-        if(!navigator.geolocation) return alert('Geolocation not supported');
-        
-        btn.classList.add('loading');
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            const { latitude, longitude } = pos.coords;
-            try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-                const data = await res.json();
-                const city = data.address.city || data.address.town || data.address.village || "";
-                document.getElementById('searchInput').value = city;
-                filter();
-            } catch(e) { alert('Could not locate you.'); }
-            btn.classList.remove('loading');
-        }, () => { btn.classList.remove('loading'); alert('Location access denied.'); });
-    }
-
-    function renderPag() {
-        const el = document.getElementById('pagination'); el.innerHTML = '';
-        const pages = Math.ceil(filtered.length / limit);
-        if(pages <= 1) return;
-        for(let i=1; i<=pages; i++) {
-            el.innerHTML += `<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render();window.scrollTo(0,0)">${i}</button>`;
-        }
-    }
-
-    function openJoin() {
-        window.open("https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site", '_blank');
-    }
+    function openJoin() { document.getElementById('joinModal').style.display = 'flex'; }
+    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='dark'?'light':'dark'); }
+    function geoFindMe() { alert("Location search coming soon in v2!"); }
 
     document.getElementById('searchInput').addEventListener('input', filter);
     init();
