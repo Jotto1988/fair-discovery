@@ -19,7 +19,7 @@ OUT_FILE = os.path.join(ROOT, "data.json")
 # CURATOR AI
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
-    valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
+    valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service", "Real Estate", "Travel"]
     if current_category in valid_cats:
         return current_category
 
@@ -29,7 +29,9 @@ def ai_classify(domain, description, current_category):
         "Tech": ["soft", "app", "code", "data", "cyber", "web", "digital", "cloud", "bot", "ai"],
         "Health": ["med", "health", "care", "clinic", "doctor", "pharm", "skin", "dental", "wellness"],
         "Retail": ["shop", "store", "buy", "fashion", "gift", "sale", "mart", "boutique"],
-        "Artists": ["art", "design", "music", "band", "paint", "studio", "creative", "photo", "gallery"]
+        "Artists": ["art", "design", "music", "band", "paint", "studio", "creative", "photo", "gallery"],
+        "Real Estate": ["property", "estate", "realtor", "home", "house", "apartment", "rent", "buy"],
+        "Travel": ["travel", "tour", "trip", "holiday", "vacation", "hotel", "resort", "flight"]
     }
 
     best_cat = "Service"
@@ -89,9 +91,7 @@ def main():
 
             raw_cat = feed_json.get("category", "Service")
             desc = feed_json.get("description", "")
-            
-            # CAPTURE THE DEAL
-            deal_text = feed_json.get("deal", "") 
+            deal_text = feed_json.get("deal", "") # Only grab deal if it exists
             
             final_cat = ai_classify(domain, desc, raw_cat)
             
@@ -115,7 +115,7 @@ def main():
                         "description": desc,
                         "whatsapp": feed_json.get("whatsapp"),
                         "location": feed_json.get("location", "Global"),
-                        "deal": deal_text # Pass it to the frontend
+                        "deal": deal_text
                     }
                 merged_data[full_url]["score"] += score
 
@@ -126,28 +126,25 @@ def main():
     output_list = list(merged_data.values())
 
     # ---------------------------------------------------------
-    # 🛑 MANUAL OVERRIDES (With Deals)
+    # 🛑 MANUAL OVERRIDES (SAFETY NET - NO FAKE DEALS)
     # ---------------------------------------------------------
     
-    # 1. IntPanelShop
     intpanel = { 
         "url": "https://www.intpanelshop.co.za/", 
         "score": 66100000, "category": "Auto", 
         "description": "Expert panel beating and spray painting in Cape Town.", 
         "whatsapp": "27821234567", "location": "Cape Town, SA",
-        "deal": "" # Empty = No Deal
+        "deal": "" 
     }
     
-    # 2. Sky Rope Specialist
     sky_rope = { 
         "url": "https://www.skyropespecialist.co.za/", 
         "score": 2200, "category": "Service", 
         "description": "Professional rope access and high-altitude maintenance specialists.", 
         "whatsapp": "27000000000", "location": "Cape Town, SA",
-        "deal": "10% Off Gutter Cleaning" # Example Deal
+        "deal": "" 
     }
     
-    # 3. Jotto's Portfolio
     jotto_portfolio = { 
         "url": "https://jotto1988.github.io/jotto.github.io/", 
         "score": 500, "category": "Tech", 
@@ -156,23 +153,53 @@ def main():
         "deal": "" 
     }
     
-    # 4. Seriti PBO
-    seriti = { "url": "https://www.seritipbo.org/", "score": 150, "category": "Service", "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", "whatsapp": "", "location": "South Africa", "deal": "" }
+    seriti = { 
+        "url": "https://www.seritipbo.org/", 
+        "score": 150, "category": "Service", 
+        "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", 
+        "whatsapp": "", "location": "South Africa", 
+        "deal": "" 
+    }
     
-    # 5. Bookkeepers in Cape Town
-    bookkeeper = { "url": "https://bookkeepersincapetown.co.za/", "score": 4788, "category": "Service", "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", "whatsapp": "27000000000", "location": "Cape Town, SA", "deal": "Free First Consultation" }
+    bookkeeper = { 
+        "url": "https://bookkeepersincapetown.co.za/", 
+        "score": 4800, "category": "Service", 
+        "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", 
+        "whatsapp": "27000000000", "location": "Cape Town, SA", 
+        "deal": "" 
+    }
     
-    # 6. Grey Zone Auto Parts
-    grey_zone = { "url": "https://greyzoneautoparts.local", "score": 150, "category": "Auto", "description": "Automotive parts sales based in Pretoria, delivering nationwide.", "whatsapp": "27817985689", "location": "Pretoria, SA", "deal": "" }
+    grey_zone = { 
+        "url": "https://greyzoneautoparts.local", 
+        "score": 150, "category": "Auto", 
+        "description": "Automotive parts sales based in Pretoria, delivering nationwide.", 
+        "whatsapp": "27817985689", "location": "Pretoria, SA", 
+        "deal": "" 
+    }
 
-    # 7. AO Locksmith
-    ao_locksmith = { "url": "https://aolocksmith.local", "score": 150, "category": "Auto", "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", "whatsapp": "27812099604", "location": "Pretoria, SA", "deal": "" }
+    ao_locksmith = { 
+        "url": "https://aolocksmith.local", 
+        "score": 150, "category": "Auto", 
+        "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
+        "whatsapp": "27812099604", "location": "Pretoria, SA", 
+        "deal": "" 
+    }
     
-    # 8. Auto Digital Solutions
-    mobile_mechanic = { "url": "https://autods.co.za/", "score": 150, "category": "Auto", "description": "Top-rated mobile mechanic in Cape Town. We come to you.", "whatsapp": "27000000000", "location": "Cape Town, SA", "deal": "" }
+    mobile_mechanic = { 
+        "url": "https://autods.co.za/", 
+        "score": 150, "category": "Auto", 
+        "description": "Top-rated mobile mechanic in Cape Town. We come to you.", 
+        "whatsapp": "27000000000", "location": "Cape Town, SA", 
+        "deal": "" 
+    }
     
-    # 9. Save Our Children
-    scouts = { "url": "https://scoutsforkids.org/", "score": 150, "category": "Service", "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.", "whatsapp": "27717990196", "location": "Cape Town, SA", "deal": "" }
+    scouts = { 
+        "url": "https://scoutsforkids.org/", 
+        "score": 150, "category": "Service", 
+        "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.", 
+        "whatsapp": "27717990196", "location": "Cape Town, SA", 
+        "deal": "" 
+    }
 
     # Inject Logic
     current_urls = [p['url'] for p in output_list]
