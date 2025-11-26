@@ -61,34 +61,14 @@
         }
         .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); background: var(--card-bg); }
 
-        /* GEO BUTTON INSIDE SEARCH */
-        .geo-btn {
-            position: absolute; right: 10px; background: none; border: none; cursor: pointer;
-            font-size: 1.2rem; color: var(--text-sub); transition: 0.2s;
-            padding: 5px; border-radius: 50%;
-        }
-        .geo-btn:hover { color: var(--accent); background: rgba(26,115,232,0.1); }
-        .geo-btn.loading { animation: spin 1s linear infinite; cursor: wait; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .loc-select {
+        /* DROPDOWNS */
+        .custom-select {
             padding: 12px 30px 12px 20px; border-radius: 24px; border: 1px solid var(--border);
             background: var(--bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23555"><path d="M2 4l4 4 4-4"/></svg>') no-repeat right 12px center;
             color: var(--text); font-size: 0.9rem; cursor: pointer; appearance: none; min-width: 140px;
         }
 
-        .category-scroll { 
-            display: flex; gap: 8px; overflow-x: auto; padding: 15px 0 5px; 
-            justify-content: center; scrollbar-width: none; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        }
-        .cat-pill {
-            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
-            background: var(--bg); border: 1px solid var(--border); cursor: pointer;
-            color: var(--text-sub); transition: 0.2s; white-space: nowrap;
-        }
-        .cat-pill:hover, .cat-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-        /* CARD GRID */
+        /* GRID */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .stats-bar { display: flex; justify-content: space-between; color: var(--text-sub); font-size: 0.85rem; margin-bottom: 15px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
@@ -101,25 +81,27 @@
             display: flex; flex-direction: column;
         }
         .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); }
-
-        .card-header { padding: 16px; display: flex; gap: 15px; align-items: flex-start; }
-        .card-logo { 
-            width: 48px; height: 48px; border-radius: 8px; background: var(--bg); 
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
-            border: 1px solid var(--border); flex-shrink: 0;
-        }
         
-        .card-body { flex: 1; min-width: 0; }
-        .card-title { font-size: 1.1rem; font-weight: 600; margin: 0 0 4px; color: var(--text); line-height: 1.3; word-wrap: break-word; }
-        .card-meta { font-size: 0.8rem; color: var(--text-sub); display: flex; align-items: center; gap: 6px; flex-wrap: wrap;}
-        .verified-badge { color: var(--success); background: rgba(24,128,56,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 500; font-size: 0.7rem; }
+        .card-banner { height: 80px; background-size: cover; background-position: center; opacity:0.9; }
 
-        .card-desc { padding: 0 16px; font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
+        .card-content { padding: 0 16px 16px; flex: 1; display: flex; flex-direction: column; margin-top: -25px; }
+        
+        .card-brand { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+        .card-logo { 
+            width: 50px; height: 50px; border-radius: 10px; background: var(--card-bg); 
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; 
+            border: 2px solid var(--card-bg); box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .verified-tag { background: rgba(24,128,56,0.1); color: #1e8e3e; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; height: 20px; line-height: 20px;}
+
+        .card-title { font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.3; }
+        .card-meta { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px; }
+        .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
         
         .deal-badge { 
             background: linear-gradient(135deg, #FF512F, #DD2476); color: white; 
             font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;
-            display: inline-block; margin: 0 16px 15px; align-self: flex-start; box-shadow: 0 2px 5px rgba(255, 81, 47, 0.3);
+            display: inline-block; margin-bottom: 10px;
         }
 
         .card-footer { 
@@ -127,25 +109,36 @@
             display: flex; justify-content: space-between; align-items: center; background: var(--bg);
         }
         .score-val { font-weight: 700; color: var(--accent); }
-        .score-lbl { font-size: 0.7rem; color: var(--text-sub); text-transform: uppercase; margin-left: 5px;}
 
-        /* BANNER IMAGES */
-        .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=800&q=80'); }
-        .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80'); }
-        .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80'); }
-        .bg-service { background-image: url('https://images.unsplash.com/photo-1581578077058-612788a8966c?auto=format&fit=crop&w=800&q=80'); }
-        .bg-retail { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80'); }
-        .bg-art { background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80'); }
+        /* IMAGES (UNSPLASH) */
+        .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80'); }
+        .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'); }
+        .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80'); }
+        .bg-service { background-image: url('https://images.unsplash.com/photo-1581578077058-612788a8966c?auto=format&fit=crop&w=600&q=80'); }
+        .bg-retail { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80'); }
+        .bg-art { background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=600&q=80'); }
+        .bg-property { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'); }
+        .bg-travel { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80'); }
 
         /* MODAL */
-        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .modal-card { background: var(--card-bg); width: 90%; max-width: 550px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; animation: slideUp 0.3s ease-out; }
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-card { background: var(--card-bg); width: 90%; max-width: 550px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
 
         .modal-banner { height: 150px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
-        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
-        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.95rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(4px); z-index: 10; }
+        .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+        .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.95rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); width: 90%; }
+        
+        /* FIXED CLOSE BUTTON */
+        .modal-close { 
+            position: absolute; top: 15px; right: 15px; 
+            background: rgba(255,255,255,0.2); color: white; 
+            width: 32px; height: 32px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; backdrop-filter: blur(4px); z-index: 20; 
+            font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.3);
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.4); }
 
         .modal-body { padding: 25px; }
         .modal-title { font-size: 1.8rem; margin: 0 0 5px; color: var(--text); line-height: 1.2; }
@@ -162,11 +155,14 @@
         .star { font-size: 1.6rem; color: #ddd; cursor: pointer; transition: 0.2s; background: none; border: none; }
         .star:hover { color: #fbbc04; transform: scale(1.2); }
 
+        /* FOOTER */
+        footer { margin-top: 60px; padding: 40px 20px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.9rem; }
+        #installBtn { display: none; }
+
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
-            .categories { justify-content: flex-start; }
             .modal-card { width: 100%; height: 100%; border-radius: 0; max-width: none; margin: 0; }
-            .modal-close { top: 20px; right: 20px; background: rgba(0,0,0,0.5); }
+            .filter-bar { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -188,44 +184,45 @@
             Fair Discovery
         </h1>
         <div class="controls">
-            <button class="icon-btn" onclick="toggleTheme()" title="Theme">🌙</button>
+            <button class="icon-btn" onclick="toggleTheme()">🌙</button>
         </div>
     </div>
 
     <div class="filter-bar">
-        <div class="search-wrapper">
-            <input type="text" class="search-box" id="searchInput" placeholder="Search businesses, services...">
-            <button class="geo-btn" onclick="geoFindMe()" title="Find Near Me">📍</button>
+        <div class="search-wrapper" style="flex:1; position:relative;">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search businesses...">
+            <button class="geo-btn" onclick="geoFindMe()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); border:none; background:none; cursor:pointer; font-size:1.2rem;">📍</button>
         </div>
         
-        <select id="locFilter" class="loc-select" onchange="filter()">
+        <select id="catFilter" class="custom-select" onchange="filter()">
+            <option value="all">Category: All</option>
+            <option value="Auto">🚗 Auto</option>
+            <option value="Tech">💻 Tech</option>
+            <option value="Health">🏥 Health</option>
+            <option value="Service">🛠️ Services</option>
+            <option value="Retail">🛍️ Retail</option>
+            <option value="Artists">🎨 Artists</option>
+            <option value="Real Estate">🏠 Property</option>
+            <option value="Travel">✈️ Holiday</option>
+        </select>
+
+        <select id="locFilter" class="custom-select" onchange="filter()">
             <option value="all">🌍 Global</option>
         </select>
-    </div>
-
-    <div class="category-scroll">
-        <div class="cat-pill active" onclick="setCat('all')">All</div>
-        <div class="cat-pill" onclick="setCat('Auto')">🚗 Auto</div>
-        <div class="cat-pill" onclick="setCat('Tech')">💻 Tech</div>
-        <div class="cat-pill" onclick="setCat('Health')">🏥 Health</div>
-        <div class="cat-pill" onclick="setCat('Service')">🛠️ Services</div>
-        <div class="cat-pill" onclick="setCat('Retail')">🛍️ Retail</div>
-        <div class="cat-pill" onclick="setCat('Artists')">🎨 Artists</div>
-        <div class="cat-pill" onclick="setCat('Real Estate')">🏠 Property</div>
-        <div class="cat-pill" onclick="setCat('Travel')">✈️ Holiday</div>
     </div>
 </header>
 
 <div class="container">
     <div class="stats-bar">
-        <span id="countLabel">Loading...</span>
-        <span>Network Live</span>
+        <span id="statsLabel">Scanning network...</span>
+        <span>Global Feed</span>
     </div>
     <div id="grid" class="grid"></div>
+    <div class="pagination" id="pagination"></div>
 </div>
 
-<footer style="text-align:center; padding:40px; color:var(--text-sub); border-top:1px solid var(--border); font-size:0.9rem; margin-top:40px;">
-    <p>Fair Discovery &copy; 2025 • Decentralized & Open Source</p>
+<footer>
+    <p>Fair Discovery is open source and free forever.</p>
     <div style="margin: 20px 0;">
         <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00; color:black; padding:8px 16px; border-radius:20px; font-weight:bold; text-decoration:none;">☕ Support the Dev</a>
     </div>
@@ -236,7 +233,7 @@
     <div class="modal-card" onclick="event.stopPropagation()">
         <div id="modalBanner" class="modal-banner bg-service">
             <div class="modal-close" onclick="closeModal()">✕</div>
-            <div class="modal-quote" id="modalQuote">"Trust is the currency of the future."</div>
+            <div class="modal-quote" id="modalQuote">"Truth is the only safe ground."</div>
         </div>
         <div class="modal-body">
             <h2 class="modal-title" id="mTitle">Business Name</h2>
@@ -266,15 +263,27 @@
                     <button class="star" onclick="rate(4)">★</button>
                     <button class="star" onclick="rate(5)">★</button>
                 </div>
+                <p style="text-align:center; font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Rate anonymously via Google Forms</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const FEED = 'data.json';
-    let allData = [], filtered = [];
-    let curCat = 'all';
+    // --- PWA INSTALLER ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); deferredPrompt = e;
+        document.getElementById('installBtn').style.display = 'inline-flex';
+    });
+    function installPWA() {
+        if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+    }
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+    // --- LOGIC ---
+    const FEED_URL = 'data.json'; 
+    let allData = [], filteredData = [], currentPage = 1; const limit = 12; 
     let currentBiz = "";
     
     const quotes = [
@@ -284,56 +293,56 @@
         "\"Fairness is a professional skill.\""
     ];
 
-    // --- PWA ---
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); deferredPrompt = e;
-        document.getElementById('installBtn').style.display = 'flex';
-    });
-    function installPWA() { if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } }
-    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+    function toggleTheme() {
+        const b = document.body;
+        b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
 
-    // --- INIT ---
     async function init() {
         try {
-            const res = await fetch(FEED + '?' + Date.now());
+            const res = await fetch(FEED_URL + '?' + Date.now());
             const json = await res.json();
-            
-            const map = {};
-            (json.pages || []).forEach(p => {
-                try {
-                    let d = new URL(p.url.startsWith('http')?p.url:'https://'+p.url).hostname;
-                    if(!map[d]) map[d] = {
-                        domain: d, url: p.url, score: 0,
-                        cat: p.category || inferCat(d),
+            processData(json.pages || []);
+        } catch (e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading network...</p>'; }
+    }
+
+    function processData(pages) {
+        const domainMap = {};
+        pages.forEach(p => {
+            try {
+                const u = new URL(p.url.startsWith('http') ? p.url : 'https://' + p.url);
+                const d = u.hostname;
+                if (!domainMap[d]) {
+                    domainMap[d] = {
+                        domain: d, fullUrl: u.origin, score: 0, 
+                        cat: p.category || inferCat(d), 
                         desc: p.description || "Verified listing.",
                         wa: p.whatsapp, loc: p.location || "Global",
-                        deal: p.deal
+                        deal: p.deal 
                     };
-                    map[d].score += p.score;
-                    if(p.category) map[d].cat = p.category;
-                    if(p.description) map[d].desc = p.description;
-                } catch(e){}
-            });
-            allData = Object.values(map).sort((a,b) => b.score - a.score);
-            
-            // Smart Location Grouping
-            const locs = new Set();
-            allData.forEach(i => {
-                if(i.loc) {
-                    locs.add(i.loc); // Add exact (Cape Town, SA)
-                    // Add Country (SA) if comma exists
-                    if(i.loc.includes(',')) locs.add(i.loc.split(',')[1].trim());
                 }
-            });
-            const sortedLocs = [...locs].sort();
-            const sel = document.getElementById('locFilter');
-            sortedLocs.forEach(l => {
-                if(l && l !== "Global") sel.innerHTML += `<option value="${l}">${l}</option>`;
-            });
+                domainMap[d].score += p.score;
+                if(p.category) domainMap[d].cat = p.category;
+                if(p.description) domainMap[d].desc = p.description;
+            } catch(e){}
+        });
+        allData = Object.values(domainMap).sort((a,b) => b.score - a.score);
+        
+        // Populate Locations
+        const locs = new Set();
+        allData.forEach(i => {
+            if(i.loc) {
+                locs.add(i.loc);
+                if(i.loc.includes(',')) locs.add(i.loc.split(',')[1].trim());
+            }
+        });
+        const sortedLocs = [...locs].sort();
+        const sel = document.getElementById('locFilter');
+        sortedLocs.forEach(l => {
+            if(l && l !== "Global") sel.innerHTML += `<option value="${l}">${l}</option>`;
+        });
 
-            filter();
-        } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
+        filter();
     }
 
     function inferCat(d) {
@@ -343,6 +352,7 @@
         if(d.includes('health')) return 'Health';
         if(d.includes('property')||d.includes('estate')) return 'Real Estate';
         if(d.includes('travel')||d.includes('bnb')) return 'Travel';
+        if(d.includes('art')) return 'Artists';
         return 'Service';
     }
 
@@ -351,12 +361,117 @@
         if(d.includes("aolocksmith")) return "AO Locksmith";
         if(d.includes("autods")) return "Auto Digital Solutions";
         if(d.includes("bookkeepers")) return "Bookkeepers SA";
-        if(d.includes("seriti")) return "Seriti PBO";
+        if(d.includes("seritipbo")) return "Seriti PBO";
         if(d.includes("scouts")) return "Save Our Children";
         if(d.includes("jotto")) return "Jotto's Portfolio";
         if(d.includes("skyrope")) return "Sky Rope Specialist";
         if(d.includes("intpanel")) return "International Panel Shop";
         return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
+    }
+
+    function filter() {
+        const cat = document.getElementById('catFilter').value;
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const loc = document.getElementById('locFilter').value;
+        
+        filtered = allData.filter(i => {
+            const matchCat = cat === 'all' || i.cat === cat;
+            
+            // Smart Loc Logic
+            let matchLoc = loc === 'all';
+            if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
+            
+            const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
+            const matchTerm = text.includes(term);
+            return matchCat && matchLoc && matchTerm;
+        });
+        
+        render();
+    }
+
+    function render() {
+        const grid = document.getElementById('grid'); grid.innerHTML = '';
+        document.getElementById('statsLabel').innerText = `Found ${filtered.length} sites`;
+        
+        const start = (currentPage - 1) * limit;
+        const slice = filtered.slice(start, start + limit);
+        
+        slice.forEach((item, idx) => {
+            let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
+            let bannerClass = `bg-${item.cat.toLowerCase().replace(' ', '-')}` || 'bg-service';
+            let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(start + idx);
+            card.innerHTML = `
+                <div class="card-banner ${bannerClass}"></div>
+                <div class="card-content">
+                    <div class="card-brand">
+                        <div class="card-logo">${flag}</div>
+                        <span class="verified-tag">✓ Verified</span>
+                    </div>
+                    <h3 class="card-title">${formatTitle(item.domain)}</h3>
+                    <span style="font-size:0.8rem; color:#999">${item.domain.replace('.local','')}</span>
+                    ${dealBadge}
+                    <p class="card-desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <span style="font-size:0.8rem; font-weight:500;">${item.cat}</span>
+                        <div>
+                            <span class="score-val">${(item.score > 1000 ? (item.score/1000).toFixed(1)+'k' : item.score)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        renderPag();
+    }
+
+    function openModal(idx) {
+        const i = filtered[idx];
+        currentBiz = formatTitle(i.domain);
+        
+        // Dynamic Banner Class
+        let bgClass = 'bg-service';
+        let cat = i.cat.toLowerCase();
+        if(cat.includes('auto')) bgClass = 'bg-auto';
+        if(cat.includes('tech')) bgClass = 'bg-tech';
+        if(cat.includes('health')) bgClass = 'bg-health';
+        if(cat.includes('retail')) bgClass = 'bg-retail';
+        if(cat.includes('art')) bgClass = 'bg-art';
+        if(cat.includes('estate')||cat.includes('property')) bgClass = 'bg-property';
+        if(cat.includes('travel')) bgClass = 'bg-travel';
+        
+        const banner = document.getElementById('modalBanner');
+        banner.className = 'modal-banner ' + bgClass;
+        document.getElementById('modalQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        
+        document.getElementById('mTitle').innerText = currentBiz;
+        document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc}`;
+        document.getElementById('mDesc').innerText = i.desc;
+        document.getElementById('mLoc').innerText = i.loc;
+        document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
+        
+        // Smart Link
+        let link = i.url;
+        if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
+        document.getElementById('mLink').href = link;
+        
+        let map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentBiz + ' ' + i.loc)}`;
+        if(i.domain.includes('greyzone')) map = "https://share.google/1O2Kl72Vige48vGsB";
+        if(i.domain.includes('aolocksmith')) map = "https://share.google/WNjzMAwNlj9tC3u6F";
+        document.getElementById('pActionMap').href = map;
+        
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    
+    function rate(stars) {
+        const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
+        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBusiness)}&entry.741708013=${stars}`;
+        window.open(url, '_blank');
     }
 
     // --- GEO LOCATION ---
@@ -378,117 +493,13 @@
         }, () => { btn.classList.remove('loading'); alert('Location access denied.'); });
     }
 
-    // --- FILTERING ---
-    function setCat(c) {
-        curCat = c;
-        document.querySelectorAll('.cat-pill').forEach(e => e.classList.remove('active'));
-        event.target.classList.add('active');
-        filter();
-    }
-
-    function filter() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        const loc = document.getElementById('locFilter').value;
-        
-        filtered = allData.filter(i => {
-            const matchCat = curCat === 'all' || i.cat === curCat;
-            
-            // Smart Loc Logic (Matches "SA" for "Cape Town, SA")
-            let matchLoc = loc === 'all';
-            if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
-            
-            const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
-            const matchTerm = text.includes(term);
-            return matchCat && matchLoc && matchTerm;
-        });
-        
-        render();
-    }
-
-    function render() {
-        const grid = document.getElementById('grid'); grid.innerHTML = '';
-        document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
-        
-        filtered.forEach((item, idx) => {
-            let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-            let bannerClass = `bg-${item.cat.toLowerCase().replace(' ', '-')}` || 'bg-service';
-            let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.onclick = () => openModal(idx);
-            card.innerHTML = `
-                <div class="card-banner ${bannerClass}" style="background-size:cover; background-position:center;"></div>
-                <div class="card-content">
-                    <div class="card-brand">
-                        <div class="card-logo">${flag}</div>
-                        <span class="verified-tag">✓ Verified</span>
-                    </div>
-                    <h3 class="card-title">${formatTitle(item.domain)}</h3>
-                    <span style="font-size:0.8rem; color:#999">${item.domain.replace('.local','')}</span>
-                    ${dealBadge}
-                    <p class="card-desc">${item.desc}</p>
-                    <div class="card-footer">
-                        <span style="font-size:0.8rem; font-weight:500;">${item.cat}</span>
-                        <div>
-                            <span class="score-val">${(item.score > 1000 ? (item.score/1000).toFixed(1)+'k' : item.score)}</span>
-                            <span class="score-lbl">Auth</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // --- MODAL ---
-    function openModal(idx) {
-        const i = filtered[idx];
-        currentBiz = formatTitle(i.domain);
-        
-        let bgClass = 'bg-service';
-        let cat = i.cat.toLowerCase();
-        if(cat.includes('auto')) bgClass = 'bg-auto';
-        if(cat.includes('tech')) bgClass = 'bg-tech';
-        if(cat.includes('health')) bgClass = 'bg-health';
-        if(cat.includes('retail')) bgClass = 'bg-retail';
-        if(cat.includes('art')) bgClass = 'bg-art';
-        if(cat.includes('estate')||cat.includes('property')) bgClass = 'bg-property';
-        if(cat.includes('travel')) bgClass = 'bg-travel';
-        
-        const banner = document.getElementById('modalBanner');
-        // Reset classes then add new ones
-        banner.className = 'modal-banner ' + bgClass;
-        document.getElementById('modalQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
-        
-        document.getElementById('mTitle').innerText = currentBiz;
-        document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc}`;
-        document.getElementById('mDesc').innerText = i.desc;
-        document.getElementById('mLoc').innerText = i.loc;
-        document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
-        
-        let link = i.url;
-        if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
-        document.getElementById('mLink').href = link;
-        
-        let map = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentBiz + ' ' + i.loc)}`;
-        if(i.domain.includes('greyzone')) map = "https://share.google/1O2Kl72Vige48vGsB";
-        if(i.domain.includes('aolocksmith')) map = "https://share.google/WNjzMAwNlj9tC3u6F";
-        
-        document.getElementById('modal').style.display = 'flex';
-    }
-
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    
-    function rate(stars) {
-        const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
-        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBusiness)}&entry.741708013=${stars}`;
-        window.open(url, '_blank');
-    }
-
-    function toggleTheme() {
-        const b = document.body;
-        b.setAttribute('data-theme', b.getAttribute('data-theme')==='dark'?'light':'dark');
+    function renderPag() {
+        const el = document.getElementById('pagination'); el.innerHTML = '';
+        const pages = Math.ceil(filtered.length / limit);
+        if(pages <= 1) return;
+        for(let i=1; i<=pages; i++) {
+            el.innerHTML += `<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render();window.scrollTo(0,0)">${i}</button>`;
+        }
     }
 
     function openJoin() {
