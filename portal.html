@@ -1,227 +1,320 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fair Discovery - Merchant Dashboard</title>
+    <title>Business Portal | Fair Discovery</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
-            --primary: #2c3e50; /* Adjust to your brand color */
-            --accent: #3498db;
-            --bg: #f4f6f9;
-            --white: #ffffff;
-            --text: #333333;
+            --bg: #0f1723; --card: #1e293b; --text: #f1f5f9; --border: #334155; 
+            --primary: #3b82f6; --sub: #94a3b8;
         }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        
+        .container { width: 100%; max-width: 600px; padding: 20px; margin-top: 40px; margin-bottom: 60px; }
+        .card { background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; }
+        
+        h1 { text-align: center; margin: 0 0 10px; font-size: 1.8rem; }
+        .subtitle { text-align: center; color: var(--sub); margin-bottom: 30px; font-size: 0.9rem; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.85rem; color: var(--sub); margin-bottom: 8px; font-weight: 600; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 1rem; outline: none; box-sizing: border-box; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        
+        /* LOGO PREVIEW */
+        .logo-row { display: flex; gap: 15px; align-items: flex-start; }
+        .logo-preview { width: 60px; height: 60px; border-radius: 50%; background: #000; border: 2px solid var(--border); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .logo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-preview span { font-size: 0.7rem; color: var(--sub); }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            color: var(--text);
-        }
+        .btn { width: 100%; padding: 14px; border-radius: 8px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-google { background: white; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        
+        .hidden { display: none; }
+        
+        .status-msg { text-align: center; margin-top: 15px; font-size: 0.9rem; min-height: 20px; }
+        .success { color: #22c55e; } .error { color: #ef4444; }
+        
+        .toggle-link { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--sub); cursor: pointer; text-decoration: underline; }
+        .divider { display: flex; align-items: center; color: var(--sub); margin: 20px 0; font-size: 0.8rem; }
+        .divider::before, .divider::after { content: ""; flex: 1; border-bottom: 1px solid var(--border); }
+        .divider::before { margin-right: 10px; } .divider::after { margin-left: 10px; }
 
-        /* --- Header / Logo Area --- */
-        .header {
-            background: var(--white);
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* --- Main Container --- */
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* --- The Dashboard Card --- */
-        .card {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 40px;
-        }
-
-        .card-title {
-            margin-top: 0;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        /* --- Form Styling --- */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box; /* Fixes padding issues */
-        }
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        /* --- The Generated JSON Box --- */
-        .code-preview {
-            background: #282c34;
-            color: #abb2bf;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            margin-top: 10px;
-        }
-
-        /* --- The Explainer Section (Your Content) --- */
-        .explainer-section {
-            background: #eef2f5;
-            border-top: 4px solid var(--accent);
-            padding: 40px;
-            margin-top: 60px;
-            border-radius: 8px;
-        }
-        .explainer-section h1, .explainer-section h2, .explainer-section h3 {
-            color: var(--primary);
-        }
-        .explainer-section code {
-            background: #dfe6ed;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: monospace;
-        }
-        .step-box {
-            background: var(--white);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border-left: 5px solid var(--accent);
-        }
-
-        /* --- Buttons --- */
-        .btn {
-            background-color: var(--accent);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background-color: #2980b9;
-        }
+        /* CODE BOX */
+        .code-box { background: #0d1117; padding: 15px; border-radius: 8px; border: 1px solid var(--border); position: relative; margin-top: 10px; }
+        .code-content { font-family: monospace; color: #a5d6ff; white-space: pre-wrap; word-wrap: break-word; font-size: 0.85rem; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--card); border: 1px solid var(--border); color: white; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Fair Discovery</h1> 
-    </div>
+<div class="container">
+    
+    <div id="authScreen" class="card">
+        <h1 id="authTitle">Fair Portal</h1>
+        <p class="subtitle" id="authSub">Manage your business listing</p>
+        
+        <button class="btn btn-google" onclick="loginGoogle()">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.92c1.71-1.58 2.69-3.9 2.69-6.61z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.26c-.8.54-1.83.85-3.05.85-2.35 0-4.33-1.59-5.04-3.73H.96v2.34A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.96 10.68A5.396 5.396 0 0 1 3.88 9c0-.57.1-1.13.27-1.66V4.99H.96A9.007 9.007 0 0 0 0 9c0 1.45.35 2.82.96 4.01l3-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.45 1.35l2.58-2.59C13.46.89 11.43 0 9 0 5.48 0 2.43 2.01.96 4.99l3 2.33c.71-2.14 2.69-3.73 5.04-3.73z"/></svg>
+            Continue with Google
+        </button>
 
-    <div class="container">
+        <div class="divider">OR</div>
 
-        <div class="card">
-            <h2 class="card-title">Manage Profile</h2>
-            <p>Update your details below. This will generate your configuration file.</p>
-            
-            <form>
-                <div class="form-group">
-                    <label>Website URL</label>
-                    <input type="text" placeholder="e.g. your-website.com">
-                </div>
-                
-                <div class="form-group">
-                    <label>Category</label>
-                    <input type="text" placeholder="e.g. Tech, Bakery, Consulting">
-                </div>
-
-                <div class="form-group">
-                    <label>Description (Max 140 chars)</label>
-                    <textarea maxlength="140" placeholder="A short, punchy summary of what you do."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>WhatsApp Number</label>
-                    <input type="text" placeholder="e.g. 27820000000">
-                </div>
-
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" placeholder="e.g. Cape Town, SA">
-                </div>
-
-                <button type="button" class="btn">Save & Generate Configuration</button>
-            </form>
-            
-            <h3>Your discovery.json Preview:</h3>
-            <div class="code-preview">
-{
-  "site": "your-website.com",
-  "category": "Tech", 
-  "description": "...",
-  "whatsapp": "...",
-  "location": "..."
-}
-            </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="name@company.com">
         </div>
-
-        <div class="explainer-section">
-            <h1>Fair Discovery Engine 🌍</h1>
-            <p><strong>The decentralized, human-first website directory.</strong> Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority.</p>
-            
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
-
-            <h2>🚀 How to Join (3 Simple Steps)</h2>
-
-            <div class="step-box">
-                <h3>Step 1: Download the Kit</h3>
-                <ol>
-                    <li>Go to the <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank">public folder</a> in this repository.</li>
-                    <li>Download the contents (or the whole zip).</li>
-                    <li>You need 3 specific files: <code>engagement.js</code>, <code>record.php</code>, and <code>discovery.json</code> (Use the code generated above for this file).</li>
-                </ol>
-            </div>
-
-            <div class="step-box">
-                <h3>Step 2: Install on your Website</h3>
-                <ol>
-                    <li>Create a folder named <code>fair-discovery</code> in your website's root (public_html).</li>
-                    <li>Upload the 3 files into that folder.</li>
-                    <li>Add this script line to your website's <strong>Footer</strong> (before the closing <code>&lt;/body&gt;</code> tag):<br><br>
-                        <code>&lt;script src="/fair-discovery/engagement.js"&gt;&lt;/script&gt;</code>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="step-box">
-                <h3>Step 3: Join the Network</h3>
-                <ol>
-                    <li>Go to our <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site%3A%20[YOUR_URL_HERE]&body=Please%20add%20my%20feed:%20https://your-site.com/fair-discovery/discovery.json" target="_blank">Issues Page</a>.</li>
-                    <li>Paste your discovery link (e.g., <code>https://yoursite.com/fair-discovery/discovery.json</code>).</li>
-                    <li>Submit the issue. Our robot will verify your site and add you to the search engine automatically!</li>
-                </ol>
-            </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
         </div>
         
+        <button class="btn btn-primary" id="authBtn" onclick="handleAuth()">Sign In</button>
+        
+        <div class="toggle-link" id="toggleAuth" onclick="toggleMode()">New here? Create an account</div>
+        <div id="authStatus" class="status-msg"></div>
     </div>
 
+    <div id="dashboardScreen" class="hidden">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0;">My Profile</h2>
+                <button onclick="logout()" style="background:none; border:none; color:var(--sub); cursor:pointer; font-size:0.9rem;">Logout</button>
+            </div>
+
+            <div class="form-group">
+                <label>Logo URL (Right-click your logo and "Copy Image Address")</label>
+                <div class="logo-row">
+                    <div class="logo-preview" id="logoPreview"><span>No Logo</span></div>
+                    <input type="text" id="bizLogo" placeholder="https://yoursite.com/logo.png" oninput="updatePreview()">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Website Domain</label>
+                <input type="text" id="bizDomain" placeholder="e.g. yourbusiness.com">
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="bizCat">
+                    <option value="Auto">Auto</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Health">Health</option>
+                    <option value="Service">Service</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Artists">Artists</option>
+                    <option value="Real Estate">Property</option>
+                    <option value="Travel">Travel</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Description (Short - Max 140)</label>
+                <textarea id="bizDesc" maxlength="140" rows="3" placeholder="What do you do?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp Number (No + symbol)</label>
+                <input type="text" id="bizPhone" placeholder="e.g. 27821234567">
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="bizLoc" placeholder="e.g. Cape Town, SA">
+            </div>
+            
+            <button class="btn btn-primary" onclick="saveProfile()" id="saveBtn">💾 Save & Generate Code</button>
+            <div id="status" class="status-msg"></div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-top:0;">🚀 Integration Code</h3>
+            <p style="color:var(--sub); font-size:0.9rem;">
+                1. Copy this code.<br>
+                2. Paste it into your <code>discovery.json</code> file.<br>
+                3. Upload to your website root.
+            </p>
+            <div class="code-box">
+                <button class="copy-btn" onclick="copyCode()">Copy</button>
+                <div id="codeContent" class="code-content">// Code will appear here after saving...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- YOUR FIREBASE CONFIG ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe9rYKlWd_fck350Ll_gLUplY9fp8HWG4",
+        authDomain: "fair-portal-7ff59.firebaseapp.com",
+        projectId: "fair-portal-7ff59",
+        storageBucket: "fair-portal-7ff59.firebasestorage.app",
+        messagingSenderId: "399171292812",
+        appId: "1:399171292812:web:c12eeb1ab5569d2571b5a9",
+        measurementId: "G-8PQ6WQGYMN"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let isSignUp = false;
+
+    function toggleMode() {
+        isSignUp = !isSignUp;
+        const title = document.getElementById('authTitle');
+        const btn = document.getElementById('authBtn');
+        const toggle = document.getElementById('toggleAuth');
+        
+        if(isSignUp) {
+            title.innerText = "Create Account";
+            btn.innerText = "Sign Up";
+            toggle.innerText = "Already have an account? Sign In";
+        } else {
+            title.innerText = "Fair Portal";
+            btn.innerText = "Sign In";
+            toggle.innerText = "New here? Create an account";
+        }
+    }
+
+    async function handleAuth() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+        const status = document.getElementById('authStatus');
+        
+        if(!email || !pass) {
+            status.innerText = "Please fill in all fields.";
+            status.className = "status-msg error";
+            return;
+        }
+
+        try {
+            if(isSignUp) {
+                await auth.createUserWithEmailAndPassword(email, pass);
+            } else {
+                await auth.signInWithEmailAndPassword(email, pass);
+            }
+        } catch (e) {
+            status.innerText = e.message;
+            status.className = "status-msg error";
+        }
+    }
+
+    function loginGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider).catch(e => alert(e.message));
+    }
+
+    function logout() {
+        auth.signOut().then(() => location.reload());
+    }
+
+    // UPDATE LOGO PREVIEW
+    function updatePreview() {
+        const url = document.getElementById('bizLogo').value;
+        const div = document.getElementById('logoPreview');
+        if(url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null || url.includes('http')) {
+            div.innerHTML = `<img src="${url}" onerror="this.src=''">`;
+        } else {
+            div.innerHTML = `<span>No Logo</span>`;
+        }
+    }
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            loadProfile(user.uid);
+        } else {
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+        }
+    });
+
+    async function loadProfile(uid) {
+        const doc = await db.collection('businesses').doc(uid).get();
+        if (doc.exists) {
+            const data = doc.data();
+            document.getElementById('bizDomain').value = data.site || '';
+            document.getElementById('bizCat').value = data.category || 'Service';
+            document.getElementById('bizDesc').value = data.description || '';
+            document.getElementById('bizPhone').value = data.whatsapp || '';
+            document.getElementById('bizLoc').value = data.location || '';
+            document.getElementById('bizLogo').value = data.logo || '';
+            updatePreview();
+            generateJson(data); // Show code immediately on load
+        }
+    }
+
+    async function saveProfile() {
+        const user = auth.currentUser;
+        if (!user) return;
+        
+        const btn = document.getElementById('saveBtn');
+        const status = document.getElementById('status');
+        btn.disabled = true;
+        btn.innerText = "Saving...";
+
+        const data = {
+            site: document.getElementById('bizDomain').value,
+            category: document.getElementById('bizCat').value,
+            description: document.getElementById('bizDesc').value,
+            whatsapp: document.getElementById('bizPhone').value,
+            location: document.getElementById('bizLoc').value,
+            logo: document.getElementById('bizLogo').value,
+            email: user.email,
+            updatedAt: new Date().toISOString()
+        };
+
+        try {
+            await db.collection('businesses').doc(user.uid).set(data, { merge: true });
+            status.innerText = "✅ Saved!";
+            status.className = "status-msg success";
+            generateJson(data);
+            setTimeout(() => { status.innerText = ""; }, 3000);
+        } catch (e) {
+            console.error(e);
+            status.innerText = "❌ Error saving.";
+            status.className = "status-msg error";
+        }
+        
+        btn.disabled = false;
+        btn.innerText = "💾 Save & Generate Code";
+    }
+
+    function generateJson(data) {
+        const obj = {
+            site: data.site,
+            category: data.category,
+            description: data.description,
+            logo: data.logo,
+            whatsapp: data.whatsapp,
+            location: data.location,
+            visitors: {
+                "current_week_start": new Date().toISOString().split('T')[0],
+                "week_1": 0
+            },
+            pages: []
+        };
+        document.getElementById('codeContent').innerText = JSON.stringify(obj, null, 2);
+    }
+
+    function copyCode() {
+        const text = document.getElementById('codeContent').innerText;
+        navigator.clipboard.writeText(text);
+        alert("Code copied!");
+    }
+</script>
 </body>
 </html>
