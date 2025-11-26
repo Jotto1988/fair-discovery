@@ -1,20 +1,38 @@
-const CACHE_NAME = 'fair-discovery-v1';
-const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'fair-discovery-v3'; // Version bump forces update
 
+// Install: Activate immediately (Don't wait)
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+  self.skipWaiting(); 
 });
 
+// Activate: Delete old caches immediately
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim(); // Take control of the page now
+});
+
+// Fetch Strategy: NETWORK FIRST, CACHE FALLBACK
+// This ensures users always see the live site.
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    fetch(event.request)
+      .then(response => {
+        // If we are online and found the file, return it!
+        return response;
+      })
+      .catch(() => {
+        // If we are offline, try to find it in the cache
+        return caches.match(event.request);
+      })
   );
 });
