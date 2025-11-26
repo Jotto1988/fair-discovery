@@ -3,37 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses.">
+    <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
     <title>Fair Discovery Directory</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a73e8;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%238ab4f8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z' fill='url(%23grad)'/%3E%3Ccircle cx='50' cy='45' r='18' stroke='white' stroke-width='6' fill='none'/%3E%3Cline x1='62' y1='57' x2='75' y2='70' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    
     <style>
-        :root { --primary: #1a73e8; --bg: #f0f2f5; --card-bg: #ffffff; --text: #1f1f1f; --text-sub: #5f6368; --border: #dadce0; --success: #1e8e3e; --badge-bg: #e8f0fe; }
-        [data-theme="dark"] { --primary: #8ab4f8; --bg: #202124; --card-bg: #303134; --text: #e8eaed; --text-sub: #9aa0a6; --border: #3c4043; --success: #81c995; --badge-bg: #3c4043; }
+        /* ... (Keep all your existing CSS Variables and Styles) ... */
+        /* Just update the .profile-cover style to handle text */
+        
+        /* --- THEME VARIABLES --- */
+        :root {
+            --primary: #1a73e8; --bg: #f0f2f5; --card-bg: #ffffff;
+            --text: #1f1f1f; --text-sub: #5f6368; --border: #dadce0;
+            --success: #1e8e3e; --badge-bg: #e8f0fe; --error-bg: #fce8e6; --error-text: #c5221f;
+        }
+        [data-theme="dark"] {
+            --primary: #8ab4f8; --bg: #202124; --card-bg: #303134;
+            --text: #e8eaed; --text-sub: #9aa0a6; --border: #3c4043;
+            --success: #81c995; --badge-bg: #3c4043; --error-bg: #5c2b29; --error-text: #f28b82;
+        }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background 0.3s; }
-        header { background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%); padding: 60px 20px 40px; border-bottom: 1px solid var(--border); position: relative; text-align: center; }
+
+        /* HEADER */
+        header { 
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
+            padding: 60px 20px 40px; 
+            border-bottom: 1px solid var(--border); 
+            position: relative; 
+            text-align: center; 
+        }
         .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
         .header-controls-left { position: absolute; top: 20px; left: 20px; }
-        .btn-control, .lang-select, .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: 0.2s; outline: none; }
-        .lang-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 25px; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'); background-repeat: no-repeat; background-position: right 8px center; }
+
+        .btn-control, .lang-select, .theme-toggle { 
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
+            transition: 0.2s; outline: none; text-decoration: none; display: inline-block;
+            font-family: inherit;
+        }
+        .lang-select {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            padding-right: 25px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%235f6368" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat; background-position: right 8px center;
+        }
         .btn-control:hover, .lang-select:hover, .theme-toggle:hover { background: var(--bg); border-color: var(--primary); color: var(--primary); }
         .btn-primary { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
+        .btn-primary:hover { background: #155db1; color: white; }
+
         h1 { margin: 0 auto 10px; font-size: 2.5rem; display: flex; justify-content: center; align-items: center; gap: 10px; letter-spacing: -1px; }
-        .subtitle { color: var(--text-sub); margin-bottom: 35px; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        h1 span { font-weight: 300; opacity: 0.8; }
+        .subtitle { color: var(--text-sub); margin-bottom: 35px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* SEARCH & CATEGORIES */
         .search-container { max-width: 584px; margin: 0 auto 25px; }
-        input { width: 100%; padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); font-size: 1.1rem; outline: none; transition: 0.2s; }
+        input {
+            width: 100%; padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--card-bg); color: var(--text); font-size: 1.1rem; outline: none; box-sizing: border-box;
+            transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
         input:focus { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
         .categories { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; max-width: 1000px; margin: 0 auto; justify-content: center; scrollbar-width: none; }
-        .cat-pill { white-space: nowrap; padding: 8px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.9rem; cursor: pointer; color: var(--text-sub); transition: 0.2s; }
+        .cat-pill {
+            white-space: nowrap; padding: 8px 16px; background: var(--card-bg); 
+            border: 1px solid var(--border); border-radius: 20px; font-size: 0.9rem; 
+            cursor: pointer; color: var(--text-sub); transition: 0.2s;
+        }
         .cat-pill:hover, .cat-pill.active { background: var(--badge-bg); color: var(--primary); border-color: var(--primary); }
+
+        /* GRID & CARDS */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; flex: 1; width: 100%; box-sizing: border-box; }
+        .stats-bar { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sub); margin-bottom: 15px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; transition: 0.2s; cursor: pointer; }
+        
+        .card {
+            background: var(--card-bg); border-radius: 12px; padding: 20px;
+            border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
+            cursor: pointer; /* Indicates clickable */
+        }
         .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .card-header { display: flex; justify-content: space-between; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
         .card-brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-        .card-logo { width: 40px; height: 40px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid var(--border); }
-        .card-text { flex: 1; min-width: 0; }
-        .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-logo { width: 40px; height: 40px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; border: 1px solid var(--border); }
+        .card-text { min-width: 0; flex: 1; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); text-decoration: none; margin: 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        .card-title:hover { text-decoration: underline; }
         .card-domain { font-size: 0.8rem; color: var(--text-sub); display: block; margin-top: 2px; }
         .verified-badge { font-size: 0.75rem; color: var(--success); background: rgba(30,142,62,0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
         .card-desc { font-size: 0.9rem; color: var(--text-sub); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -43,66 +100,113 @@
         .actions { display: flex; gap: 8px; }
         .btn-icon { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--text-sub); transition: 0.2s; }
         .btn-icon:hover { background: var(--bg); color: var(--primary); border-color: var(--primary); }
+        .btn-whatsapp { color: #25D366; border-color: #25D366; }
+        .btn-whatsapp:hover { background: #25D366; color: white; }
+
+        /* PAGINATION */
         .pagination { display: flex; justify-content: center; gap: 5px; margin: 40px 0; }
         .page-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; cursor: pointer; color: var(--text); }
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* WIDGET & FOOTER */
         .widget-box { max-width: 800px; margin: 60px auto 20px; padding: 30px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); text-align: center; }
         .code-area textarea { width: 100%; height: 80px; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: var(--text-sub); resize: none; box-sizing: border-box; }
-        footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
-        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow-y: auto; }
-        .modal-content { background-color: var(--card-bg); margin: 5% auto; padding: 30px; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 500px; color: var(--text); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; color: var(--text-sub); }
+        .copy-btn { margin-top: 10px; background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
         
-        /* PROFILE & STARS */
+        footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
+        .footer-desc { max-width: 700px; margin: 0 auto 15px; line-height: 1.6; }
+        .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
+        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
+        .credits a:hover { text-decoration: underline; color: var(--primary); }
+
+        /* MODALS (Join & Profile) */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow-y: auto; }
+        .modal-content { background-color: var(--card-bg); margin: 5% auto; padding: 30px; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 500px; color: var(--text); box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
+        .modal h2 { margin-top: 0; color: var(--primary); }
+        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; color: var(--text-sub); }
+        .close:hover { color: var(--text); }
+        
+        .step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
+        .step-num { background: var(--badge-bg); color: var(--primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 0.9rem; }
+        .step-text { font-size: 0.95rem; line-height: 1.5; }
+        
+        /* UPDATED PROFILE MODAL with QUOTE BANNER */
         .profile-modal { z-index: 300; align-items: center; justify-content: center; display: none; }
         .profile-card { background: var(--card-bg); width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; flex-direction: column; margin: 5% auto; position: relative; border: 1px solid var(--border); }
-        .profile-cover { height: 120px; background: linear-gradient(135deg, var(--primary), #0d47a1); position: relative; }
+        
+        .profile-cover { 
+            height: 140px; 
+            background: linear-gradient(135deg, var(--primary), #0d47a1); 
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; text-align: center; color: rgba(255,255,255,0.9);
+        }
+        .quote-text { font-family: serif; font-style: italic; font-size: 1rem; line-height: 1.4; max-width: 80%; }
+        
         .profile-header { padding: 20px; margin-top: -40px; display: flex; align-items: flex-end; gap: 20px; }
         .profile-logo { width: 80px; height: 80px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--card-bg); }
         .profile-info { flex: 1; }
         .profile-title { font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--text); line-height: 1.2; }
         .profile-meta { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
         .profile-body { padding: 0 20px 20px; }
+        .profile-actions { padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; background: var(--bg); }
         .close-profile { position: absolute; top: 10px; right: 10px; color: white; background: rgba(0,0,0,0.2); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
-        
+        .close-profile:hover { background: rgba(0,0,0,0.5); }
+
         .rating-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
         .rating-stars { font-size: 1.5rem; cursor: pointer; display: inline-block; color: #ddd; }
-        .rating-stars span:hover, .rating-stars span:hover ~ span { color: #FFD700; } /* Hover effect */
-        .rating-stars:hover span { color: #FFD700; } /* Fill on hover */
-        .rating-stars span:hover ~ span { color: #ddd; } /* Unfill after */
-        
         .rating-btn { background: none; border: none; cursor: pointer; font-size: 1.5rem; color: #ddd; transition: 0.2s; }
         .rating-btn:hover { color: #FFD700; transform: scale(1.2); }
-        
-        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } header { padding-top: 80px; } .profile-header { flex-direction: column; align-items: flex-start; margin-top: -30px; } }
+
+        .fallback-details { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; }
+        .fallback-toggle { color: var(--text-sub); cursor: pointer; text-decoration: underline; font-size: 0.85rem; }
+        .fallback-content { display: none; margin-top: 15px; background: var(--bg); padding: 15px; border-radius: 8px; text-align: left; }
+        .fallback-content pre { background: #000; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.75rem; }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            header { padding-top: 80px; } 
+            .header-controls-right { top: 15px; right: 15px; }
+            .header-controls-left { top: 15px; left: 15px; }
+            h1 { font-size: 2rem; }
+            .categories { justify-content: flex-start; padding-bottom: 10px; }
+            .profile-header { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: -30px; }
+        }
     </style>
 </head>
 <body>
 
 <div id="profileModal" class="modal profile-modal" onclick="closeProfile(event)">
     <div class="profile-card" onclick="event.stopPropagation()">
-        <div class="profile-cover"><div class="close-profile" onclick="closeProfile(event)">✕</div></div>
+        <div class="profile-cover">
+            <div class="quote-text" id="quoteBanner">"Honesty is the first chapter in the book of wisdom."</div>
+            <div class="close-profile" onclick="closeProfile(event)">✕</div>
+        </div>
+        
         <div class="profile-header">
             <div class="profile-logo" id="pLogo">🌐</div>
             <div class="profile-info">
                 <h2 class="profile-title" id="pTitle">Business</h2>
-                <div class="profile-meta" id="pMeta">Category</div>
+                <div class="profile-meta" id="pMeta">Category • Location</div>
             </div>
         </div>
         <div class="profile-body">
             <p id="pDesc" style="line-height: 1.6; color: var(--text); margin-bottom: 20px;">Description...</p>
+            
             <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
-                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px;">
-                    <strong style="color:var(--text);">📍 Location</strong><br><span id="pLoc" style="color:var(--text-sub);">City</span>
+                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <strong style="display:block; margin-bottom:5px; color:var(--text);">📍 Location</strong>
+                    <span id="pLoc" style="color:var(--text-sub);">City</span>
                 </div>
-                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px;">
-                    <strong style="color:var(--text);">📞 Contact</strong><br><span id="pPhone" style="color:var(--text-sub);">Number</span>
+                <div style="flex: 1; min-width: 150px; background: var(--bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <strong style="display:block; margin-bottom:5px; color:var(--text);">📞 Contact</strong>
+                    <span id="pPhone" style="color:var(--text-sub);">Number</span>
                 </div>
             </div>
             
             <div class="rating-section">
-                <strong style="color:var(--text); display:block; margin-bottom:5px;">Rate this Business (Karma Protocol)</strong>
+                <strong style="color:var(--text); display:block; margin-bottom:5px;">Rate this Business</strong>
                 <div id="starContainer">
                     <button class="rating-btn" onclick="submitRating(1)" title="1 Star">★</button>
                     <button class="rating-btn" onclick="submitRating(2)" title="2 Stars">★</button>
@@ -112,11 +216,10 @@
                 </div>
                 <small style="color:var(--text-sub);">Your vote is recorded anonymously via GitHub.</small>
             </div>
-            
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
-                <a id="pMapBtn" href="#" target="_blank" class="btn-control">📍 Map</a>
-                <a id="pSiteBtn" href="#" target="_blank" class="btn-control btn-primary">Visit ↗</a>
-            </div>
+        </div>
+        <div class="profile-actions">
+            <a id="pMapBtn" href="#" target="_blank" class="btn-control">📍 Map</a>
+            <a id="pSiteBtn" href="#" target="_blank" class="btn-control btn-primary">Visit ↗</a>
         </div>
     </div>
 </div>
@@ -127,10 +230,21 @@
     <h2>🚀 How to Join</h2>
     <p style="color:var(--text-sub); margin-bottom:20px;">Follow these 3 steps to list your site for free.</p>
     <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Get the Files</strong><br>Go to our GitHub and download the <code>fair-discovery</code> folder.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Upload & Install</strong><br>Upload the folder to your website hosting.</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Submit</strong><br>Click the button below to auto-add your site.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Upload & Install</strong><br>Upload the folder to your website hosting and add the script to your footer.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Submit your Link</strong><br>Click the button below to auto-add your site to the directory.</div></div>
     <div style="text-align: center; margin-top: 25px;">
-        <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="btn-control btn-primary">🚀 Submit Site</a>
+        <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site%3A%20[YOUR_URL_HERE]&body=Please%20add%20my%20feed:%20https://your-site.com/fair-discovery/discovery.json" target="_blank" class="btn-control btn-primary" style="width: 100%; box-sizing: border-box; padding: 12px;">🚀 Submit Site (Auto-Add)</a>
+        <br><br>
+        <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank" style="font-size:0.85rem; color:var(--primary); text-decoration:none;">📂 Just Download Files</a>
+    </div>
+    <div class="fallback-details">
+        <p>Site not showing up after 15 minutes?</p>
+        <span class="fallback-toggle" onclick="toggleFallback()">Click here for manual submission</span>
+        <div id="fallbackContent" class="fallback-content">
+            <p><strong>Firewall Blocking?</strong> If your host blocks our robot, please open a "Manual Entry" issue on GitHub with this info:</p>
+            <pre>{ "url": "https://your-site.com/", "score": 100, "category": "Service", "description": "Desc", "whatsapp": "27000", "location": "City" }</pre>
+            <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Manual%20Entry" target="_blank" style="display:block; margin-top:10px; color:var(--primary); font-weight:bold;">👉 Open Manual Ticket</a>
+        </div>
     </div>
   </div>
 </div>
@@ -141,46 +255,53 @@
         <select class="lang-select" onchange="changeLanguage(this.value)">
             <option value="en">🇺🇸 English</option><option value="es">🇪🇸 Español</option><option value="fr">🇫🇷 Français</option><option value="de">🇩🇪 Deutsch</option><option value="pt">🇧🇷 Português</option>
         </select>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
+        <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
     </div>
     <h1>Fair <span>Discovery</span></h1>
-    <p class="subtitle">The directory ranked by real humans.</p>
-    <div class="search-container"><input type="text" id="searchInput" placeholder="Try 'auto' or 'tech'..."></div>
+    <p class="subtitle" data-i18n="subtitle">The directory ranked by real humans, not bots.</p>
+    <div class="search-container"><input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Try 'auto cape town' or 'tech services'..."></div>
     <div class="categories" id="catFilters">
-        <div class="cat-pill active" onclick="filterCat('all')">All</div>
-        <div class="cat-pill" onclick="filterCat('Auto')">🚗 Auto</div>
-        <div class="cat-pill" onclick="filterCat('Tech')">💻 Tech</div>
-        <div class="cat-pill" onclick="filterCat('Health')">🏥 Health</div>
-        <div class="cat-pill" onclick="filterCat('Service')">🛠️ Services</div>
-        <div class="cat-pill" onclick="filterCat('Retail')">🛍️ Retail</div>
-        <div class="cat-pill" onclick="filterCat('Artists')">🎨 Artists</div>
+        <div class="cat-pill active" onclick="filterCat('all')" data-i18n="cat_all">All</div>
+        <div class="cat-pill" onclick="filterCat('Auto')" data-i18n="cat_auto">🚗 Auto</div>
+        <div class="cat-pill" onclick="filterCat('Tech')" data-i18n="cat_tech">💻 Tech</div>
+        <div class="cat-pill" onclick="filterCat('Health')" data-i18n="cat_health">🏥 Health</div>
+        <div class="cat-pill" onclick="filterCat('Service')" data-i18n="cat_service">🛠️ Services</div>
+        <div class="cat-pill" onclick="filterCat('Retail')" data-i18n="cat_retail">🛍️ Retail</div>
+        <div class="cat-pill" onclick="filterCat('Artists')" data-i18n="cat_artists">🎨 Artists</div>
     </div>
 </header>
 
 <div class="container">
-    <div class="stats-bar"><span id="statsLabel">Loading...</span><span>Global Feed</span></div>
+    <div class="stats-bar"><span id="statsLabel">Loading...</span><span data-i18n="global_feed">Global Feed</span></div>
     <div id="resultsGrid" class="grid"></div>
     <div class="pagination" id="paginationControls"></div>
     <div class="widget-box">
-        <h3>🏆 Show off your Authority</h3>
-        <p>Add the Fair Discovery seal to your site.</p>
+        <h3 style="margin-top: 0; color: var(--text);" data-i18n="badge_title">🏆 Show off your Authority</h3>
+        <p style="color: var(--text-sub); font-size: 0.95rem;" data-i18n="badge_desc">Are you listed? Add the Fair Discovery seal to your website footer to build trust.</p>
+        <div class="widget-preview">
+            <a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 0.85rem; font-weight: 600;">
+                <img src="https://fairdiscovery.org/favicon.ico" alt="" style="width: 16px; height: 16px;"><span>Verified on Fair Discovery</span>
+            </a>
+        </div>
         <div class="code-area">
-            <textarea id="badgeCode" readonly><a href="https://fairdiscovery.org">🛡️ Verified</a></textarea>
-            <button class="copy-btn" onclick="copyBadge()">Copy</button>
+            <textarea id="badgeCode" readonly><a href="https://fairdiscovery.org" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #dfe1e5; padding: 6px 12px; border-radius: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-family: sans-serif; color: #333; font-size: 13px; font-weight: 600;"><span>🛡️ Verified on Fair Discovery</span></a></textarea>
+            <button class="copy-btn" onclick="copyBadge()" data-i18n="copy_code">Copy Code</button>
         </div>
     </div>
 </div>
 
 <footer>
-    <p class="footer-desc">Fair Discovery ranks websites based on <strong>verified human interaction</strong>.</p>
-    <p>🚀 <a href="data.json" target="_blank" class="api-link">API</a> • <a href="https://github.com/fair-collective/fair-discovery" target="_blank" class="api-link">GitHub</a></p>
-    <div class="credits">Powered by Gemini • The Fair Collective</div>
+    <p class="footer-desc" data-i18n="footer_desc">Fair Discovery ranks websites based on <strong>verified human interaction</strong>, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.</p>
+    <p>🚀 <a href="data.json" target="_blank" class="api-link" data-i18n="footer_api">Get the JSON API</a></p>
+    <p>🚀 <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank" class="api-link" data-i18n="footer_join">Join Free on GitHub</a></p>
+    <div style="margin: 25px 0;"><a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="text-decoration:none;"><span style="background:#FFDD00; color:black; padding:8px 16px; border-radius:6px; font-weight:bold; font-size:0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">☕ <span data-i18n="support">Support the Dev</span></span></a></div>
+    <div class="credits">Powered by <a href="https://gemini.google.com" target="_blank">Gemini</a> • <a href="https://github.com" target="_blank">GitHub</a> • <a href="https://github.com/fair-collective" target="_blank">The Fair Collective</a></div>
 </footer>
 
 <script>
     const FEED_URL = 'data.json'; 
     let allData = [], filteredData = [], currentPage = 1; const limit = 12; let currentCategory = 'all';
-    let currentBusiness = ""; // Holds the domain of the currently opened profile
+    let currentBusiness = "";
 
     const modal = document.getElementById("joinModal");
     const profileModal = document.getElementById("profileModal");
@@ -188,18 +309,36 @@
     function closeModal() { modal.style.display = "none"; }
     function closeProfile(event) { if (event) event.stopPropagation(); profileModal.style.display = "none"; }
     window.onclick = function(event) { if (event.target == modal) closeModal(); if (event.target == profileModal) closeProfile(); }
+    function toggleFallback() { const el = document.getElementById("fallbackContent"); el.style.display = (el.style.display === "block") ? "none" : "block"; }
 
-    // --- THEME & LANG ---
+    // RANDOM QUOTES
+    const quotes = [
+        "\"Honesty is the first chapter in the book of wisdom.\" - Thomas Jefferson",
+        "\"Truth is the only safe ground to stand upon.\" - Elizabeth Cady Stanton",
+        "\"Integrity is doing the right thing, even when no one is watching.\" - C.S. Lewis",
+        "\"Fairness is not an attitude. It's a professional skill.\" - Brit Hume",
+        "\"Transparency is the currency of trust.\"",
+        "\"Real recognize real.\"",
+        "\"Quality means doing it right when no one is looking.\""
+    ];
+
+    const i18n = {
+        en: { subtitle: "The directory ranked by real humans, not bots.", search_ph: "Try 'auto cape town' or 'tech services'...", theme: "🌙 Theme", cat_all: "All", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Health", cat_service: "🛠️ Services", cat_retail: "🛍️ Retail", cat_artists: "🎨 Artists", global_feed: "Global Feed", badge_title: "🏆 Show off your Authority", badge_desc: "Are you listed? Add the Fair Discovery seal to your website footer to build trust.", copy_code: "Copy Code", footer_desc: "Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.", footer_api: "Get the JSON API", footer_join: "Join Network (Auto-Add)", support: "Support the Dev", lbl_auth: "Authority", lbl_verified: "✓ Verified" },
+        // ... (other languages kept same) ...
+        es: { subtitle: "Directorio clasificado por humanos, no bots.", search_ph: "Prueba 'autos'...", theme: "🌙 Tema", cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Autoridad", badge_desc: "Añade el sello.", copy_code: "Copiar", footer_desc: "Clasificado por interacción humana.", footer_api: "API", footer_join: "Unirse", support: "Apoyar", lbl_auth: "Autoridad", lbl_verified: "✓ Verificado" },
+        fr: { subtitle: "Annuaire classé par des humains.", search_ph: "Essayez 'auto'...", theme: "🌙 Thème", cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce", cat_artists: "🎨 Artistes", global_feed: "Flux Global", badge_title: "🏆 Autorité", badge_desc: "Ajoutez le sceau.", copy_code: "Copier", footer_desc: "Classé par interaction humaine.", footer_api: "API", footer_join: "Rejoindre", support: "Soutenir", lbl_auth: "Autorité", lbl_verified: "✓ Vérifié" },
+        de: { subtitle: "Verzeichnis von echten Menschen.", search_ph: "Suchen...", theme: "🌙 Thema", cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel", cat_artists: "🎨 Künstler", global_feed: "Feed", badge_title: "🏆 Autorität", badge_desc: "Siegel hinzufügen.", copy_code: "Kopieren", footer_desc: "Bewertet nach Interaktion.", footer_api: "API", footer_join: "Beitreten", support: "Unterstützen", lbl_auth: "Autorität", lbl_verified: "✓ Verifiziert" },
+        pt: { subtitle: "Diretório por humanos.", search_ph: "Tente 'auto'...", theme: "🌙 Tema", cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo", cat_artists: "🎨 Artistas", global_feed: "Feed", badge_title: "🏆 Autoridade", badge_desc: "Adicione o selo.", copy_code: "Copiar", footer_desc: "Classificado por interação.", footer_api: "API", footer_join: "Junte-se", support: "Apoie", lbl_auth: "Autoridade", lbl_verified: "✓ Verificado" }
+    };
+    
     let currentLang = 'en';
     function changeLanguage(lang) { currentLang = lang; render(); }
-    function toggleTheme() { const body = document.body; const isDark = body.getAttribute('data-theme') === 'dark'; body.setAttribute('data-theme', isDark ? 'light' : 'dark'); }
-
-    // --- INIT ---
+    function toggleTheme() { const body = document.body; const isDark = body.getAttribute('data-theme') === 'dark'; body.setAttribute('data-theme', isDark ? 'light' : 'dark'); document.querySelector('.theme-toggle').innerText = isDark ? (currentLang === 'en' ? '🌙 Theme' : '🌙') : (currentLang === 'en' ? '☀️ Theme' : '☀️'); }
+    
     async function init() {
         try {
             const res = await fetch(FEED_URL + '?' + Date.now());
             const json = await res.json();
-            // ... (Standard parsing logic, same as before) ...
             const domainMap = {};
             (json.pages || []).forEach(page => {
                 try {
@@ -209,9 +348,9 @@
                     if (!domainMap[domain]) {
                         domainMap[domain] = {
                             domain: domain, fullUrl: urlObj.origin, totalScore: 0, pageCount: 0,
-                            category: page.category || "Service", 
-                            description: page.description || "Verified listing.",
-                            whatsapp: page.whatsapp || null, location: page.location || "Global"
+                            category: page.category || inferCategory(domain), 
+                            description: page.description || "Verified decentralized listing.",
+                            whatsapp: page.whatsapp || null, location: page.location || inferLocation(domain)
                         };
                     }
                     domainMap[domain].totalScore += page.score;
@@ -222,45 +361,58 @@
             });
             allData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
             applyFilters();
-        } catch (err) { document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Loading...</p>`; }
+        } catch (err) { document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Database Building... Check back soon.</p>`; }
     }
 
-    // --- FORMATTING ---
+    function inferCategory(domain) {
+        const d = domain.toLowerCase();
+        if (d.includes('panel') || d.includes('auto') || d.includes('grey') || d.includes('parts') || d.includes('autods')) return 'Auto';
+        if (d.includes('tech') || d.includes('soft') || d.includes('app')) return 'Tech';
+        if (d.includes('health') || d.includes('med')) return 'Health';
+        if (d.includes('art') || d.includes('music') || d.includes('band') || d.includes('paint') || d.includes('design')) return 'Artists';
+        return 'Service';
+    }
+    
+    // BRAND NAME OVERRIDE LOGIC
     function formatTitle(domain) {
-        if (domain.includes("greyzone")) return "Grey Zone Auto Parts";
+        if (domain.includes("greyzoneautoparts")) return "Grey Zone Auto Parts";
         if (domain.includes("aolocksmith")) return "AO Locksmith";
         if (domain.includes("autods")) return "Auto Digital Solutions";
-        if (domain.includes("bookkeepers")) return "Bookkeepers SA";
+        if (domain.includes("bookkeepersincapetown")) return "Bookkeepers in South Africa";
         if (domain.includes("seritipbo")) return "Seriti PBO";
-        if (domain.includes("scouts")) return "Save Our Children";
+        if (domain.includes("scoutsforkids")) return "Save Our Children";
         if (domain.includes("jotto")) return "Jotto's Portfolio";
-        if (domain.includes("skyrope")) return "Sky Rope Specialist";
-        if (domain.includes("intpanel")) return "International Panel Shop";
+        if (domain.includes("skyropespecialist")) return "Sky Rope Specialist";
+        if (domain.includes("intpanelshop")) return "International Panel Shop";
         let t = domain.split('.')[1] || domain.split('.')[0]; 
         return t.charAt(0).toUpperCase() + t.slice(1);
     }
-    
-    function formatScore(num) { if (num > 1000000) return (num/1000000).toFixed(1) + 'M'; if (num > 1000) return (num/1000).toFixed(1) + 'k'; return num; }
 
-    // --- FILTERING ---
+    function inferLocation(domain) { if (domain.endsWith('.za')) return 'South Africa'; return 'Global'; }
     function filterCat(cat) { currentCategory = cat; document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active')); event.target.classList.add('active'); applyFilters(); }
     function applyFilters() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
+        const rawInput = document.getElementById('searchInput').value.toLowerCase();
+        const searchTokens = rawInput.split(' ').filter(token => token.length > 0);
         filteredData = allData.filter(item => {
             const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-            const text = (item.domain + item.description + item.category).toLowerCase();
-            return matchesCat && text.includes(term);
+            const searchableText = `${item.domain} ${item.description} ${item.category} ${item.location} ${formatTitle(item.domain)}`.toLowerCase();
+            const matchesSearch = searchTokens.every(token => searchableText.includes(token));
+            return matchesCat && matchesSearch;
         });
         currentPage = 1; render();
     }
 
-    // --- PROFILE & RATING LOGIC ---
+    // OPEN PROFILE MODAL (with Quote)
     function openProfile(index) {
         const item = filteredData[index];
         if (!item) return;
         
-        currentBusiness = formatTitle(item.domain); // Store for rating
+        currentBusiness = formatTitle(item.domain); 
         
+        // Random Quote
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quoteBanner').innerText = randomQuote;
+
         document.getElementById('pTitle').innerText = currentBusiness;
         document.getElementById('pMeta').innerText = `${item.category} • ${item.location}`;
         document.getElementById('pDesc').innerText = item.description;
@@ -271,58 +423,50 @@
         if (item.domain.includes(".local") && item.whatsapp) visitLink = `https://wa.me/${item.whatsapp}`;
         document.getElementById('pSiteBtn').href = visitLink;
         
-        // Map link logic (simplified)
-        document.getElementById('pMapBtn').href = `http://maps.google.com/?q=${currentBusiness} ${item.location}`;
+        let mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatTitle(item.domain) + " " + item.location)}`;
+        if (item.domain.includes("greyzone")) mapLink = "https://share.google/1O2Kl72Vige48vGsB";
+        if (item.domain.includes("aolocksmith")) mapLink = "https://share.google/WNjzMAwNlj9tC3u6F";
+        document.getElementById('pMapBtn').href = mapLink;
 
         document.getElementById('profileModal').style.display = 'flex';
     }
 
     function submitRating(stars) {
-        // Opens a GitHub Issue with the pre-filled Rating Template
         const title = `Rating: ${stars} Stars for ${currentBusiness}`;
         const body = `I am rating **${currentBusiness}**.\n\nScore: ${stars}/5\n\n(The automated judge will analyze my history to prevent spam.)`;
         const link = `https://github.com/fair-collective/fair-discovery/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
-        
         window.open(link, '_blank');
     }
 
     function render() {
-        const grid = document.getElementById('resultsGrid'); grid.innerHTML = ''; 
+        const grid = document.getElementById('resultsGrid'); grid.innerHTML = ''; const dict = i18n[currentLang];
         document.getElementById('statsLabel').innerText = `Found ${filteredData.length} sites`;
-        
+        const totalPages = Math.ceil(filteredData.length / limit);
         const start = (currentPage - 1) * limit;
         const pageItems = filteredData.slice(start, start + limit);
+        if (pageItems.length === 0) { grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>'; return; }
         
         pageItems.forEach((item, index) => {
+            let flag = '🌐'; if (item.domain.endsWith('.za')) flag = '🇿🇦'; if (item.domain.endsWith('.uk')) flag = '🇬🇧';
             let globalIndex = start + index;
-            let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
+            let actions = ''; 
+            if (item.whatsapp) actions += `<a href="https://wa.me/${item.whatsapp}" target="_blank" class="btn-icon btn-whatsapp" title="WhatsApp" onclick="event.stopPropagation()">💬</a>`;
+            
             const card = `
             <div class="card" onclick="openProfile(${globalIndex})">
-                <div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><span class="card-title">${formatTitle(item.domain)}</span><span class="card-domain">${item.domain.replace('.local','')}</span></div></div></div>
-                <div class="card-desc">${item.description}</div>
-                <div class="card-footer"><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">Authority</div></div></div>
+                <div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><span class="card-title">${formatTitle(item.domain)}</span><span class="card-domain">${item.domain.replace('.local', '')}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div>
             </div>`;
             grid.insertAdjacentHTML('beforeend', card);
         });
-        
-        // Simple pagination (Previous/Next)
-        const controls = document.getElementById('paginationControls');
-        controls.innerHTML = '';
-        if (filteredData.length > limit) {
-            controls.innerHTML = `
-                <button class="page-btn" onclick="currentPage--; render()" ${currentPage===1?'disabled':''}>«</button>
-                <button class="page-btn" onclick="currentPage++; render()" ${currentPage * limit >= filteredData.length?'disabled':''}>»</button>
-            `;
-        }
+        renderPagination(totalPages);
     }
-
-    function copyBadge() {
-        const copyText = document.getElementById("badgeCode");
-        copyText.select();
-        navigator.clipboard.writeText(copyText.value);
-        alert("Code copied!");
+    function formatScore(num) { if (num > 1000000) return (num/1000000).toFixed(1) + 'M'; if (num > 1000) return (num/1000).toFixed(1) + 'k'; return num; }
+    function renderPagination(totalPages) {
+        const container = document.getElementById('paginationControls'); container.innerHTML = ''; if (totalPages <= 1) return;
+        for (let i = 1; i <= totalPages; i++) { container.insertAdjacentHTML('beforeend', `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`); }
     }
-
+    function changePage(num) { currentPage = num; render(); window.scrollTo(0, 0); }
+    function copyBadge() { const copyText = document.getElementById("badgeCode"); copyText.select(); navigator.clipboard.writeText(copyText.value); alert("Code copied!"); }
     document.getElementById('searchInput').addEventListener('input', applyFilters);
     init();
 </script>
