@@ -84,16 +84,28 @@
   .biz-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--bg); border: 1px solid var(--border); flex-shrink: 0; }
   .biz-logo-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; font-weight: bold; color: var(--sub); }
 
-  .verified { display: inline-block; font-size: 0.7rem; font-weight: 700; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 5px; }
+  .verified { display: inline-block; font-size: 0.7rem; font-weight: 700; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; }
   
   .title { font-size: 1.2rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { font-size: 0.85rem; color: var(--sub); }
   .desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
   
   .foot { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  
+  /* ICONS */
   .contact-icons { display: flex; gap: 8px; align-items: center; }
-  .icon-btn { background: var(--glass); color: var(--sub); padding: 5px 10px; border-radius: 15px; font-size: 1rem; text-decoration: none; transition: 0.2s; }
+  .icon-btn { 
+    background: var(--glass); 
+    color: var(--sub); 
+    width: 32px; height: 32px; 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: 0.2s; 
+  }
+  .icon-btn svg { width: 16px; height: 16px; fill: currentColor; }
   .icon-btn:hover { background: var(--accent); color: white; }
+  
+  /* WhatsApp Specific Color */
   .wa-btn { color: #25D366; }
   .wa-btn:hover { background: #25D366; color: white; }
 
@@ -222,6 +234,13 @@ const FEED = 'data.json';
 let allData = [], filtered = [], curCat = 'all';
 let currentBiz = "";
 
+// ICONS (SVGs)
+const ICONS = {
+    wa: `<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+    mail: `<svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>`,
+    tel: `<svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-2.2 2.2a15.116 15.116 0 01-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1.01A11.36 11.36 0 018.59 3.99c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.61c0-.55-.45-1-1-1z"/></svg>`
+};
+
 if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
 
 async function init(){
@@ -238,8 +257,8 @@ async function init(){
                 desc: p.description || "Verified Listing",
                 wa: p.whatsapp, loc: p.location,
                 logo: p.logo,
-                email: p.email,      // NEW
-                tel: p.telephone     // NEW
+                email: p.email,
+                tel: p.telephone
             };
             map[d].score += p.score;
         } catch(e){}
@@ -299,10 +318,10 @@ function render() {
         let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
         let title = formatTitle(item.domain);
         
-        // NEW ICON LOGIC
-        let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" class="icon-btn wa-btn">💬</a>` : '';
-        let emailBtn = item.email ? `<a href="mailto:${item.email}" onclick="event.stopPropagation()" class="icon-btn">✉️</a>` : '';
-        let telBtn = item.tel ? `<a href="tel:${item.tel}" onclick="event.stopPropagation()" class="icon-btn">📞</a>` : '';
+        // ICONS
+        let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" class="icon-btn wa-btn" title="WhatsApp">${ICONS.wa}</a>` : '';
+        let emailBtn = item.email ? `<a href="mailto:${item.email}" onclick="event.stopPropagation()" class="icon-btn" title="Email">${ICONS.mail}</a>` : '';
+        let telBtn = item.tel ? `<a href="tel:${item.tel}" onclick="event.stopPropagation()" class="icon-btn" title="Call">${ICONS.tel}</a>` : '';
 
         let logoHtml = item.logo 
             ? `<img src="${item.logo}" class="biz-logo" alt="${title}">` 
@@ -313,7 +332,13 @@ function render() {
         card.onclick = () => openModal(idx);
         card.innerHTML = `
             <div class="card-body">
-                <div class="verified">✓ VERIFIED</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                    <div class="verified">✓ VERIFIED</div>
+                    <div style="font-size:0.75rem; font-weight:800; color:var(--sub); letter-spacing:0.5px;">
+                        ${formatScore(item.score)} AUTH
+                    </div>
+                </div>
                 
                 <div class="card-header">
                     ${logoHtml}
@@ -346,12 +371,11 @@ function openModal(idx) {
     }
 
     document.getElementById('mTitle').innerText = currentBiz;
-    document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc || 'Global'}`;
+    document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc || 'Global'} • ${formatScore(i.score)} AUTH`;
     document.getElementById('mDesc').innerText = i.desc;
     document.getElementById('mLoc').innerText = i.loc || 'Global';
     document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
     
-    // NEW: Populate extra contacts in Modal
     let extras = '';
     if(i.email) extras += `<div class="info-box"><strong>✉️ Email</strong><br><a href="mailto:${i.email}" style="color:var(--accent)">${i.email}</a></div>`;
     if(i.tel) extras += `<div class="info-box"><strong>📞 Tel</strong><br><a href="tel:${i.tel}" style="color:var(--accent)">${i.tel}</a></div>`;
