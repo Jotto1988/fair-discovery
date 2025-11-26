@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -65,16 +65,17 @@
   .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column; }
   .card:hover { transform: translateY(-4px); border-color: var(--accent); }
   
-  .banner { height: 100px; background-size: cover; background-position: center; }
-  .card-body { padding: 15px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .card-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   
-  .logo { width: 48px; height: 48px; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-top: -40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+  .verified { display: inline-block; font-size: 0.7rem; font-weight: 700; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 5px; }
   
-  .title { font-size: 1.1rem; font-weight: bold; margin: 5px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .title { font-size: 1.2rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { font-size: 0.85rem; color: var(--sub); }
-  .desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.8em; margin-bottom: 10px; }
+  .desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
   
-  .foot { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sub); }
+  .foot { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .wa-btn { background: #25D366; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+  .wa-btn:hover { filter: brightness(1.1); }
 
   /* FOOTER */
   footer { text-align: center; padding: 40px 0; margin-top: auto; border-top: 1px solid var(--border); color: var(--sub); font-size: 0.9rem; }
@@ -84,13 +85,13 @@
   .modal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal { background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 16px; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; position: relative; }
   .modal-close { position: absolute; top: 15px; right: 15px; width: 32px; height: 32px; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; font-weight: bold; }
-  .modal-scroll { overflow-y: auto; padding: 20px; }
+  .modal-content { padding: 30px; overflow-y: auto; }
   
-  .info-row { display: flex; gap: 10px; margin: 15px 0; }
-  .info-box { flex: 1; background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
+  .info-row { display: flex; gap: 10px; margin: 20px 0; }
+  .info-box { flex: 1; background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
   .visit-btn { display: block; background: var(--accent); color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
   
-  .stars { display: flex; justify-content: center; gap: 8px; margin-top: 20px; font-size: 1.5rem; cursor: pointer; }
+  .stars { display: flex; justify-content: center; gap: 8px; margin-top: 20px; font-size: 1.8rem; cursor: pointer; }
   .stars span:hover { color: gold; }
 </style>
 </head>
@@ -105,9 +106,6 @@
       </div>
       <div class="controls">
         <button class="btn" onclick="openJoin()">🚀 Join</button>
-        <select class="btn" onchange="alert('Languages in V2')">
-          <option>🇺🇸 EN</option><option>🇪🇸 ES</option><option>🇫🇷 FR</option><option>🇩🇪 DE</option><option>🇧🇷 PT</option>
-        </select>
         <button class="btn" onclick="toggleTheme()">🌙</button>
       </div>
     </div>
@@ -140,7 +138,7 @@
   <div id="grid" class="grid"></div>
 
   <footer>
-    <p>Fair Discovery 2025 • Open Source Directory</p>
+    <p>Fair Discovery 2025 • Decentralized & Open Source</p>
     <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="coffee-btn">☕ Buy me a coffee</a>
     <p style="margin-top:15px">Powered by Gemini • GitHub • The Fair Collective • <a href="data.json" target="_blank" style="color:var(--accent)">API</a></p>
   </footer>
@@ -148,14 +146,11 @@
 
 <div id="modal" class="modal-bg" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
-    <div id="mBanner" class="banner" style="height:140px;">
-      <div class="modal-close" onclick="closeModal()">✕</div>
-    </div>
-    <div class="modal-scroll">
-      <div class="logo" id="mLogo" style="margin-top:-40px; position:relative; z-index:2;">🌐</div>
-      <h2 id="mTitle" style="margin:10px 0 5px;">Business</h2>
-      <div id="mMeta" style="color:var(--sub); font-size:0.9rem;">Category • Location</div>
-      <p id="mDesc" style="line-height:1.6;">Description...</p>
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="modal-content">
+      <h2 id="mTitle" style="margin:0; font-size:1.5rem;">Business</h2>
+      <p id="mMeta" style="color:var(--sub); font-size:0.9rem; margin-top:5px;">Category • Location</p>
+      <p id="mDesc" style="line-height:1.6; margin-top:20px;">Description...</p>
       
       <div class="info-row">
         <div class="info-box"><strong>📍 Location</strong><br><span id="mLoc">City</span></div>
@@ -164,7 +159,7 @@
       
       <a id="mLink" href="#" target="_blank" class="visit-btn">Visit Website ↗</a>
       
-      <div style="text-align:center; margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+      <div style="text-align:center; margin-top:30px; border-top:1px solid var(--border); padding-top:20px;">
         <small style="text-transform:uppercase; font-weight:bold; color:var(--sub);">Rate this Business</small>
         <div class="stars">
           <span onclick="rate(1)">★</span><span onclick="rate(2)">★</span><span onclick="rate(3)">★</span><span onclick="rate(4)">★</span><span onclick="rate(5)">★</span>
@@ -178,29 +173,25 @@
   <div class="modal" onclick="event.stopPropagation()" style="padding:30px; text-align:center; height:auto;">
     <div class="modal-close" onclick="closeJoin()" style="top:10px; right:10px; background:transparent; color:var(--text);">✕</div>
     <h2>🚀 How to Join</h2>
-    <p style="color:var(--sub); margin-bottom:20px;">1. Download kit from GitHub.<br>2. Upload to your site.<br>3. Submit URL below.</p>
+    <p style="color:var(--sub); line-height:1.6; margin-bottom:20px;">
+      1. Download kit from GitHub.<br>
+      2. Upload to your site.<br>
+      3. Submit URL below.
+    </p>
     <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" target="_blank" class="visit-btn">Submit Site</a>
+    <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+        <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Manual%20Entry" target="_blank" style="color:var(--accent); font-size:0.9rem;">Request Manual Entry (Firewall Bypass)</a>
+    </div>
   </div>
 </div>
 
 <script>
-// THEME MEMORY
-if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
-
 const FEED = 'data.json';
 let allData = [], filtered = [], curCat = 'all';
 let currentBiz = "";
 
-const images = {
-    'Auto': 'https://images.unsplash.com/photo-1486262715619-01b8c22973f5?w=600&q=80',
-    'Tech': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80',
-    'Health': 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600&q=80',
-    'Service': 'https://images.unsplash.com/photo-1581578077058-612788a8966c?w=600&q=80',
-    'Retail': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80',
-    'Artists': 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80',
-    'Real Estate': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80',
-    'Travel': 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80'
-};
+// Theme Memory
+if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
 
 async function init(){
   try {
@@ -214,7 +205,7 @@ async function init(){
                 domain: d, url: p.url, score: p.score || 0,
                 cat: p.category || "Service",
                 desc: p.description || "Verified Listing",
-                wa: p.whatsapp, loc: p.location, deal: p.deal
+                wa: p.whatsapp, loc: p.location
             };
             map[d].score += p.score;
         } catch(e){}
@@ -236,6 +227,22 @@ async function init(){
   } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
 }
 
+function formatTitle(d) {
+    if(d.includes("greyzone")) return "Grey Zone Auto Parts";
+    if(d.includes("aolocksmith")) return "AO Locksmith";
+    if(d.includes("autods")) return "Auto Digital Solutions";
+    if(d.includes("bookkeepers")) return "Bookkeepers SA";
+    if(d.includes("seritipbo")) return "Seriti PBO";
+    if(d.includes("scouts")) return "Save Our Children";
+    if(d.includes("jotto")) return "Jotto's Portfolio";
+    if(d.includes("skyrope")) return "Sky Rope Specialist";
+    if(d.includes("intpanel")) return "International Panel Shop";
+    if(d.includes("ccg")) return "CCG Auto Glass";
+    if(d.includes("franic")) return "Franic Trailers";
+    if(d.includes("boxman")) return "Boxman Storage";
+    return d.replace('www.','').split('.')[0].toUpperCase();
+}
+
 function filter() {
     const term = document.getElementById('search').value.toLowerCase();
     const loc = document.getElementById('locFilter').value;
@@ -244,7 +251,7 @@ function filter() {
         const matchCat = curCat === 'all' || i.cat === curCat;
         let matchLoc = loc === 'all';
         if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
-        const text = (i.domain + i.desc + i.cat).toLowerCase();
+        const text = (i.domain + i.desc + i.cat + formatTitle(i.domain)).toLowerCase();
         return matchCat && matchLoc && text.includes(term);
     });
     render();
@@ -256,25 +263,24 @@ function render() {
     
     filtered.forEach((item, idx) => {
         let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-        let img = images[item.cat] || images['Service'];
         let title = formatTitle(item.domain);
-        let deal = item.deal ? `<div style="color:#e11d48; font-weight:bold; font-size:0.7rem; margin-top:5px;">🔥 ${item.deal}</div>` : '';
+        let waBtn = item.wa ? `<a href="https://wa.me/${item.wa}" target="_blank" onclick="event.stopPropagation()" style="color:#22c55e;font-size:1.2rem;text-decoration:none;">💬</a>` : '';
 
         const card = document.createElement('div');
         card.className = 'card';
         card.onclick = () => openModal(idx);
         card.innerHTML = `
-            <div class="banner" style="background-image:url('${img}')"></div>
             <div class="card-body">
-                <div class="logo">${flag}</div>
-                <div style="position:absolute; top:10px; right:10px; font-size:0.7rem; font-weight:bold; color:#22c55e; background:rgba(34,197,94,0.1); padding:4px 8px; border-radius:4px;">✓ VERIFIED</div>
+                <div class="verified">✓ VERIFIED</div>
                 <div class="title">${title}</div>
-                <div class="meta">${item.domain.replace('.local','')}</div>
+                <div class="meta">${flag} ${item.loc || 'Global'}</div>
                 <div class="desc">${item.desc}</div>
-                ${deal}
                 <div class="foot">
-                    <span>${item.cat}</span>
-                    <span style="font-weight:bold; color:var(--accent);">${formatScore(item.score)} AUTH</span>
+                    <span style="font-weight:bold; color:var(--primary);">${item.cat}</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        ${waBtn}
+                        <span style="font-weight:bold; color:var(--text);">${formatScore(item.score)} AUTH</span>
+                    </div>
                 </div>
             </div>
         `;
@@ -285,9 +291,7 @@ function render() {
 function openModal(idx) {
     const i = filtered[idx];
     currentBiz = formatTitle(i.domain);
-    let img = images[i.cat] || images['Service'];
     
-    document.getElementById('mBanner').style.backgroundImage = `url('${img}')`;
     document.getElementById('mTitle').innerText = currentBiz;
     document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc || 'Global'}`;
     document.getElementById('mDesc').innerText = i.desc;
@@ -312,26 +316,13 @@ function toggleTheme() {
     localStorage.setItem('theme', theme);
 }
 
-function formatTitle(d) {
-    if(d.includes("greyzone")) return "Grey Zone Auto Parts";
-    if(d.includes("aolocksmith")) return "AO Locksmith";
-    if(d.includes("autods")) return "Auto Digital Solutions";
-    if(d.includes("bookkeepers")) return "Bookkeepers SA";
-    if(d.includes("seritipbo")) return "Seriti PBO";
-    if(d.includes("scouts")) return "Save Our Children";
-    if(d.includes("jotto")) return "Jotto's Portfolio";
-    if(d.includes("skyrope")) return "Sky Rope Specialist";
-    if(d.includes("intpanel")) return "International Panel Shop";
-    if(d.includes("ccg")) return "CCG Auto Glass";
-    return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
-}
-
 function formatScore(n) { return n > 1000 ? (n/1000).toFixed(1)+'k' : n; }
 function setCat(c, el) { curCat = c; document.querySelectorAll('.pill').forEach(e=>e.classList.remove('active')); el.classList.add('active'); filter(); }
 function rate(s) {
     const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
     window.open(`https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${s}`, '_blank');
 }
+function geoFindMe() { alert("Location services coming in V2"); }
 
 document.getElementById('search').addEventListener('input', filter);
 init();
