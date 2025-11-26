@@ -25,62 +25,77 @@
 
         body { font-family: 'Google Sans', 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; transition: background 0.3s; }
 
-        /* HEADER (RESTORED BRANDING) */
+        /* HEADER */
         header {
-            background: linear-gradient(180deg, var(--card-bg) 0%, var(--bg) 100%);
-            padding: 40px 20px 20px; text-align: center;
+            background: var(--card-bg); padding: 20px; text-align: center;
             border-bottom: 1px solid var(--border); position: relative;
         }
-        .header-controls-right { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
-        .header-controls-left { position: absolute; top: 20px; left: 20px; }
-
-        .btn-control, .lang-select, .theme-toggle { 
-            background: var(--card-bg); border: 1px solid var(--border); color: var(--text); 
-            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; 
-            transition: 0.2s; outline: none; text-decoration: none; display: inline-block; font-family: inherit;
-        }
-        .btn-control:hover, .lang-select:hover { background: var(--bg); border-color: var(--accent); }
-
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        
         h1 { 
-            margin: 0 auto 10px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 12px; letter-spacing: -0.5px; 
-            color: var(--text);
+            font-size: 1.8rem; margin: 0; letter-spacing: -0.5px; 
+            display: flex; align-items: center; gap: 10px; color: var(--text);
         }
-        .subtitle { color: var(--text-sub); margin-bottom: 25px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        .controls { display: flex; gap: 10px; }
+        .icon-btn { 
+            background: transparent; border: 1px solid var(--border); color: var(--text);
+            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .icon-btn:hover { background: var(--bg); border-color: var(--accent); }
 
         /* SEARCH & FILTERS */
-        .search-container { max-width: 600px; margin: 0 auto 20px; position: relative; }
-        input {
-            width: 100%; padding: 12px 45px 12px 20px; border-radius: 24px; 
-            border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
-            font-size: 1rem; outline: none; transition: 0.2s; box-sizing: border-box;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        .filter-bar {
+            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 800px; margin: 0 auto;
         }
-        input:focus { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        .geo-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.2rem; opacity: 0.6; }
+        .search-wrapper {
+            flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;
+        }
+        
+        .search-box {
+            width: 100%; padding: 12px 45px 12px 20px; border-radius: 24px; 
+            border: 1px solid var(--border); background: var(--bg); color: var(--text);
+            font-size: 1rem; outline: none; transition: 0.2s;
+        }
+        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(26,115,232,0.1); background: var(--card-bg); }
+        
+        .geo-btn { position: absolute; right: 12px; background: none; border: none; cursor: pointer; font-size: 1.2rem; opacity: 0.6; }
         .geo-btn:hover { opacity: 1; color: var(--accent); }
+        .geo-btn.loading { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .categories { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0 10px; justify-content: center; scrollbar-width: none; max-width: 1000px; margin: 0 auto; }
+        .loc-select {
+            padding: 12px 30px 12px 20px; border-radius: 24px; border: 1px solid var(--border);
+            background: var(--bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23555"><path d="M2 4l4 4 4-4"/></svg>') no-repeat right 12px center;
+            color: var(--text); font-size: 0.9rem; cursor: pointer; appearance: none; min-width: 140px;
+        }
+
+        .category-scroll { 
+            display: flex; gap: 8px; overflow-x: auto; padding: 15px 0 5px; 
+            justify-content: center; scrollbar-width: none; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
         .cat-pill {
-            white-space: nowrap; padding: 6px 14px; background: var(--card-bg); 
-            border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; 
-            cursor: pointer; color: var(--text-sub); transition: 0.2s;
+            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+            background: var(--bg); border: 1px solid var(--border); cursor: pointer;
+            color: var(--text-sub); transition: 0.2s; white-space: nowrap;
         }
         .cat-pill:hover, .cat-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
 
         /* GRID */
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .stats-bar { display: flex; justify-content: space-between; color: var(--text-sub); font-size: 0.85rem; margin-bottom: 15px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
-        /* CARD (FIXED LAYOUT) */
+        /* CARD */
         .card {
             background: var(--card-bg); border-radius: 12px; overflow: hidden;
             border: 1px solid var(--border); box-shadow: var(--shadow);
-            transition: transform 0.2s; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
             display: flex; flex-direction: column; position: relative;
         }
-        .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); }
         
         .card-banner { height: 80px; background-size: cover; background-position: center; opacity: 0.9; }
         
@@ -115,15 +130,35 @@
         }
         .score-val { font-weight: 700; color: var(--accent); font-size: 1rem; }
 
+        /* BANNER IMAGES */
+        .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80'); }
+        .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'); }
+        .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80'); }
+        .bg-service { background-image: url('https://images.unsplash.com/photo-1581578077058-612788a8966c?auto=format&fit=crop&w=600&q=80'); }
+        .bg-retail { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80'); }
+        .bg-art { background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=600&q=80'); }
+        .bg-property { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'); }
+        .bg-travel { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80'); }
+
         /* MODAL */
-        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .modal-card { background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.2s ease-out; display: flex; flex-direction: column; max-height: 90vh; }
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-card { background: var(--card-bg); width: 90%; max-width: 550px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.2s ease-out; display: flex; flex-direction: column; max-height: 90vh; }
         @keyframes slideUp { from{transform:translateY(10px);opacity:0} to{transform:translateY(0);opacity:1} }
 
         .modal-banner { height: 130px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
         .modal-banner::after { content:''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
         .modal-quote { position: relative; z-index: 2; color: white; font-style: italic; font-size: 0.9rem; width: 90%; }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.3); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+        
+        /* FIXED CLOSE BUTTON */
+        .modal-close { 
+            position: absolute; top: 15px; right: 15px; 
+            background: rgba(255,255,255,0.2); color: white; 
+            width: 32px; height: 32px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; backdrop-filter: blur(4px); z-index: 20; 
+            font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.3);
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.4); }
 
         .modal-body { padding: 20px; overflow-y: auto; }
         .modal-header { display: flex; gap: 15px; align-items: flex-end; margin-top: -40px; margin-bottom: 15px; position: relative; z-index: 5; }
@@ -136,47 +171,50 @@
         
         /* FOOTER */
         footer { margin-top: 40px; padding: 30px; text-align: center; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.85rem; }
-
-        /* IMAGES */
-        .bg-auto { background-image: url('https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80'); }
-        .bg-tech { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'); }
-        .bg-health { background-image: url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80'); }
-        .bg-service { background-image: url('https://images.unsplash.com/photo-1581578077058-612788a8966c?auto=format&fit=crop&w=600&q=80'); }
-        .bg-retail { background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80'); }
-        .bg-art { background-image: url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=600&q=80'); }
+        #installBtn { display: none; }
 
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
             .categories { justify-content: flex-start; padding-left: 20px; }
             .modal-card { width: 100%; height: 100%; border-radius: 0; margin: 0; max-width: none; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-controls-left"><button class="btn-control" onclick="openModal('join')">🚀 Join</button></div>
-    <div class="header-controls-right">
-        <button class="btn-control" onclick="toggleTheme()">🌙</button>
+    <div class="header-top">
+        <div class="controls">
+            <button class="icon-btn" onclick="openJoin()" title="Join Network">🚀</button>
+            <button id="installBtn" class="icon-btn" onclick="installPWA()" style="display:none" title="Install App">📲</button>
+        </div>
+        <h1>
+            <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+                <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
+                <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
+                <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
+                <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+            Fair Discovery
+        </h1>
+        <div class="controls">
+            <button class="icon-btn" onclick="toggleTheme()" title="Theme">🌙</button>
+        </div>
     </div>
 
-    <h1>
-        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
-            <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#8ab4f8"/></linearGradient></defs>
-            <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#g)"/>
-            <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none"/>
-            <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round"/>
-        </svg>
-        <span>Fair Discovery</span>
-    </h1>
-    <p class="subtitle">The decentralized directory ranked by real humans.</p>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Try 'auto cape town'...">
-        <button class="geo-btn" onclick="geoFindMe()">📍</button>
+    <div class="filter-bar">
+        <div class="search-wrapper">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search businesses...">
+            <button class="geo-btn" onclick="geoFindMe()">📍</button>
+        </div>
+        
+        <select id="locFilter" class="loc-select" onchange="filter()">
+            <option value="all">🌍 Global</option>
+        </select>
     </div>
-    
-    <div class="categories">
+
+    <div class="category-scroll">
         <div class="cat-pill active" onclick="setCat('all')">All</div>
         <div class="cat-pill" onclick="setCat('Auto')">Auto</div>
         <div class="cat-pill" onclick="setCat('Tech')">Tech</div>
@@ -184,38 +222,44 @@
         <div class="cat-pill" onclick="setCat('Service')">Services</div>
         <div class="cat-pill" onclick="setCat('Retail')">Retail</div>
         <div class="cat-pill" onclick="setCat('Artists')">Artists</div>
+        <div class="cat-pill" onclick="setCat('Real Estate')">Property</div>
+        <div class="cat-pill" onclick="setCat('Travel')">Holiday</div>
     </div>
 </header>
 
 <div class="container">
     <div class="stats-bar">
-        <span id="statsLabel">Loading...</span>
-        <span>Global Feed</span>
+        <span id="countLabel">Loading...</span>
+        <span>Network Live</span>
     </div>
     <div id="grid" class="grid"></div>
+    <div class="pagination" id="pagination"></div>
 </div>
 
-<footer>
+<footer style="text-align:center; padding:40px; color:var(--text-sub); border-top:1px solid var(--border); font-size:0.9rem; margin-top:40px;">
     <p>Fair Discovery &copy; 2025 • Decentralized & Open Source</p>
-    <p><a href="https://github.com/fair-collective/fair-discovery" style="color:var(--accent); text-decoration:none;">GitHub</a></p>
+    <div style="margin: 20px 0;">
+        <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00; color:black; padding:8px 16px; border-radius:20px; font-weight:bold; text-decoration:none;">☕ Support the Dev</a>
+    </div>
+    <p style="opacity:0.6;">Powered by Gemini • GitHub • The Fair Collective</p>
 </footer>
 
-<div id="profileModal" class="modal-backdrop" onclick="closeModal('profile')">
+<div id="modal" class="modal-backdrop" onclick="closeModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
-        <div id="mBanner" class="modal-banner bg-service">
-            <div class="modal-close" onclick="closeModal('profile')">✕</div>
-            <div class="modal-quote" id="mQuote">"Truth is the only safe ground."</div>
+        <div id="modalBanner" class="modal-banner bg-service">
+            <div class="modal-close" onclick="closeModal()">✕</div>
+            <div class="modal-quote" id="modalQuote">"Trust is the currency of the future."</div>
         </div>
         <div class="modal-body">
             <div class="modal-header">
                 <div class="modal-logo" id="mLogo">🌐</div>
                 <div>
-                    <h2 class="modal-title" id="mTitle">Business</h2>
+                    <h2 class="modal-title" id="mTitle">Business Name</h2>
                     <div class="modal-meta" id="mMeta">Category • Loc</div>
                 </div>
             </div>
             
-            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:20px;">Desc</p>
+            <p id="mDesc" style="color:var(--text); line-height:1.6; margin-bottom:25px;">Desc</p>
 
             <div class="info-grid">
                 <div class="info-box">
@@ -229,6 +273,18 @@
             </div>
 
             <a id="mLink" href="#" target="_blank" class="btn-primary">Visit Website ↗</a>
+            
+            <div style="margin-top:20px; text-align:center; border-top:1px solid var(--border); padding-top:15px;">
+                <span class="info-label">Rate this Business</span>
+                <div class="rating-stars">
+                    <button class="star" onclick="rate(1)">★</button>
+                    <button class="star" onclick="rate(2)">★</button>
+                    <button class="star" onclick="rate(3)">★</button>
+                    <button class="star" onclick="rate(4)">★</button>
+                    <button class="star" onclick="rate(5)">★</button>
+                </div>
+                <p style="text-align:center; font-size:0.8rem; color:var(--text-sub); margin-top:5px;">Rate anonymously via Google Forms</p>
+            </div>
         </div>
     </div>
 </div>
@@ -248,14 +304,31 @@
     const FEED = 'data.json';
     let allData = [], filtered = [];
     let curCat = 'all';
-    const quotes = ["\"Quality means doing it right when no one is looking.\"", "\"Truth is the only safe ground.\"", "\"Honesty is the first chapter of wisdom.\""];
+    let currentBiz = "";
+    
+    const quotes = [
+        "\"Quality means doing it right when no one is looking.\"",
+        "\"Truth is the only safe ground to stand upon.\"",
+        "\"Honesty is the first chapter in the book of wisdom.\"",
+        "\"Fairness is a professional skill.\""
+    ];
 
+    // --- PWA INSTALLER ---
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); deferredPrompt = e;
+        document.getElementById('installBtn').style.display = 'inline-flex';
+    });
+    function installPWA() { if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } }
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+    // --- INIT ---
     async function init() {
         try {
             const res = await fetch(FEED + '?' + Date.now());
             const json = await res.json();
             processData(json.pages || []);
-        } catch(e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading...</p>'; }
+        } catch (e) { document.getElementById('grid').innerHTML = '<p style="text-align:center">Loading network...</p>'; }
     }
 
     function processData(pages) {
@@ -271,17 +344,35 @@
                     deal: p.deal
                 };
                 map[d].score += p.score;
+                if(p.category) map[d].cat = p.category;
+                if(p.description) map[d].desc = p.description;
             } catch(e){}
         });
         allData = Object.values(map).sort((a,b) => b.score - a.score);
+        
+        const locs = new Set();
+        allData.forEach(i => {
+            if(i.loc) {
+                locs.add(i.loc);
+                if(i.loc.includes(',')) locs.add(i.loc.split(',')[1].trim());
+            }
+        });
+        const sortedLocs = [...locs].sort();
+        const sel = document.getElementById('locFilter');
+        sortedLocs.forEach(l => {
+            if(l && l !== "Global") sel.innerHTML += `<option value="${l}">${l}</option>`;
+        });
+
         filter();
     }
 
     function inferCat(d) {
         d = d.toLowerCase();
-        if(d.includes('auto')||d.includes('panel')) return 'Auto';
+        if(d.includes('auto')||d.includes('panel')||d.includes('motor')) return 'Auto';
         if(d.includes('tech')||d.includes('app')) return 'Tech';
         if(d.includes('health')) return 'Health';
+        if(d.includes('property')||d.includes('estate')) return 'Real Estate';
+        if(d.includes('travel')||d.includes('bnb')) return 'Travel';
         if(d.includes('art')) return 'Artists';
         return 'Service';
     }
@@ -299,6 +390,18 @@
         return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
     }
 
+    function getBannerClass(cat) {
+        const c = cat.toLowerCase();
+        if(c.includes('auto')) return 'bg-auto';
+        if(c.includes('tech')) return 'bg-tech';
+        if(c.includes('health')) return 'bg-health';
+        if(c.includes('art')) return 'bg-art';
+        if(c.includes('retail')) return 'bg-retail';
+        if(c.includes('estate') || c.includes('property')) return 'bg-property';
+        if(c.includes('travel') || c.includes('holiday')) return 'bg-travel';
+        return 'bg-service';
+    }
+
     function setCat(c) {
         curCat = c;
         document.querySelectorAll('.cat-pill').forEach(e => e.classList.remove('active'));
@@ -308,28 +411,35 @@
 
     function filter() {
         const term = document.getElementById('searchInput').value.toLowerCase();
+        const loc = document.getElementById('locFilter').value;
+        
         filtered = allData.filter(i => {
             const matchCat = curCat === 'all' || i.cat === curCat;
-            const matchTerm = (i.domain + i.desc + i.cat).toLowerCase().includes(term);
-            return matchCat && matchTerm;
+            let matchLoc = loc === 'all';
+            if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
+            const text = (i.domain + i.desc + i.cat + i.loc + formatTitle(i.domain)).toLowerCase();
+            return matchCat && matchLoc && text.includes(term);
         });
         render();
     }
 
     function render() {
         const grid = document.getElementById('grid'); grid.innerHTML = '';
-        document.getElementById('statsLabel').innerText = `Found ${filtered.length} sites`;
+        document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
         
-        filtered.forEach((item, idx) => {
+        const start = (currentPage - 1) * limit;
+        const slice = filtered.slice(start, start + limit);
+        
+        slice.forEach((item, idx) => {
             let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-            let bgClass = `bg-${item.cat.toLowerCase()}` || 'bg-service';
-            let dealHtml = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
+            let bannerClass = getBannerClass(item.cat);
+            let dealBadge = item.deal ? `<div class="deal-badge">🔥 ${item.deal}</div>` : '';
             
             const card = document.createElement('div');
             card.className = 'card';
-            card.onclick = () => openProfile(idx);
+            card.onclick = () => openModal(start + idx);
             card.innerHTML = `
-                <div class="card-banner ${bgClass}"></div>
+                <div class="card-banner ${bannerClass}"></div>
                 <div class="card-content">
                     <div class="card-brand">
                         <div class="card-logo">${flag}</div>
@@ -337,12 +447,12 @@
                     </div>
                     <h3 class="card-title">${formatTitle(item.domain)}</h3>
                     <div class="card-meta">${item.domain.replace('.local','')}</div>
-                    ${dealHtml}
+                    ${dealBadge}
                     <p class="card-desc">${item.desc}</p>
                     <div class="card-footer">
                         <span style="font-weight:500;">${item.cat}</span>
                         <div>
-                            <span class="score-val">${(item.score>1000?(item.score/1000).toFixed(1)+'k':item.score)}</span>
+                            <span class="score-val">${(item.score > 1000 ? (item.score/1000).toFixed(1)+'k' : item.score)}</span>
                             <span class="score-lbl">Auth</span>
                         </div>
                     </div>
@@ -350,21 +460,18 @@
             `;
             grid.appendChild(card);
         });
+        renderPag();
     }
 
-    function openProfile(idx) {
+    function openModal(idx) {
         const i = filtered[idx];
-        const title = formatTitle(i.domain);
+        currentBiz = formatTitle(i.domain);
         
-        let bgClass = 'bg-service';
-        if(i.cat==='Auto') bgClass='bg-auto';
-        if(i.cat==='Tech') bgClass='bg-tech';
-        if(i.cat==='Health') bgClass='bg-health';
-        if(i.cat==='Artists') bgClass='bg-art';
+        const banner = document.getElementById('modalBanner');
+        banner.className = 'modal-banner ' + getBannerClass(i.cat);
+        document.getElementById('modalQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
         
-        document.getElementById('mBanner').className = 'modal-banner ' + bgClass;
-        document.getElementById('mQuote').innerText = quotes[Math.floor(Math.random()*quotes.length)];
-        document.getElementById('mTitle').innerText = title;
+        document.getElementById('mTitle').innerText = currentBiz;
         document.getElementById('mMeta').innerText = `${i.cat} • ${i.loc}`;
         document.getElementById('mDesc').innerText = i.desc;
         document.getElementById('mLoc').innerText = i.loc;
@@ -374,17 +481,35 @@
         if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
         document.getElementById('mLink').href = link;
         
-        document.getElementById('profileModal').style.display = 'flex';
+        document.getElementById('modal').style.display = 'flex';
     }
 
     function closeModal(id) {
         if(id === 'join') document.getElementById('joinModal').style.display = 'none';
-        else document.getElementById('profileModal').style.display = 'none';
+        else document.getElementById('modal').style.display = 'none';
     }
     
+    function rate(stars) {
+        const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
+        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${stars}`;
+        window.open(url, '_blank');
+    }
+
+    function toggleTheme() {
+        const b = document.body;
+        b.setAttribute('data-theme', b.getAttribute('data-theme')==='dark'?'light':'dark');
+    }
+
     function openJoin() { document.getElementById('joinModal').style.display = 'flex'; }
-    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='dark'?'light':'dark'); }
     function geoFindMe() { alert("Location search coming soon in v2!"); }
+    function renderPag() {
+        const el = document.getElementById('pagination'); el.innerHTML = '';
+        const pages = Math.ceil(filtered.length / limit);
+        if(pages <= 1) return;
+        for(let i=1; i<=pages; i++) {
+            el.innerHTML += `<button class="page-btn ${i===currentPage?'active':''}" onclick="currentPage=${i};render();window.scrollTo(0,0)">${i}</button>`;
+        }
+    }
 
     document.getElementById('searchInput').addEventListener('input', filter);
     init();
