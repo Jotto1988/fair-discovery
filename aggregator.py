@@ -183,7 +183,7 @@ def main():
         "url": "https://aolocksmith.local", 
         "score": 150, "category": "Auto", 
         "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
-        "whatsapp": "27812099604", "location": "Pretoria, SA", "deal": "" 
+        "whatsapp": "27812099604", "location": "Cape Town, SA", "deal": "" 
     }
     
     # 8. Auto Digital Solutions
@@ -215,7 +215,7 @@ def main():
         "url": "https://www.franic.co.za/", 
         "score": 150, "category": "Service", 
         "description": "Reliable trailer rentals with a 15-year guarantee.", 
-        "whatsapp": "27849953076", "location": "Stellenbosch, SA", "deal": "" 
+        "whatsapp": "27849953076", "location": "Milnerton, Cape Town, SA", "deal": "" 
     }
 
     # 12. Boxman
@@ -223,7 +223,7 @@ def main():
         "url": "https://www.boxman.co.za/", 
         "score": 150, "category": "Service", 
         "description": "Secure self-storage and moving box solutions.", 
-        "whatsapp": "27748805160", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27748805160", "location": "Milnerton, Cape Town, SA", "deal": "" 
     }
 
     # Inject Logic
