@@ -6,13 +6,9 @@
     <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses. Free, open, and transparent.">
     <title>Fair Discovery Directory</title>
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a73e8;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%238ab4f8;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z' fill='url(%23grad)'/%3E%3Ccircle cx='50' cy='45' r='18' stroke='white' stroke-width='6' fill='none'/%3E%3Cline x1='62' y1='57' x2='75' y2='70' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a73e8'/%3E%3Ccircle cx='42' cy='42' r='24' stroke='white' stroke-width='12' fill='none'/%3E%3Cline x1='60' y1='60' x2='85' y2='85' stroke='white' stroke-width='12' stroke-linecap='round'/%3E%3C/svg%3E">
     
     <style>
-        /* ... (Keep all your existing CSS Variables and Styles) ... */
-        /* Just update the .profile-cover style to handle text */
-        
-        /* --- THEME VARIABLES --- */
         :root {
             --primary: #1a73e8; --bg: #f0f2f5; --card-bg: #ffffff;
             --text: #1f1f1f; --text-sub: #5f6368; --border: #dadce0;
@@ -108,29 +104,25 @@
         .page-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; cursor: pointer; color: var(--text); }
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* WIDGET & FOOTER */
+        /* WIDGET SECTION */
         .widget-box { max-width: 800px; margin: 60px auto 20px; padding: 30px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); text-align: center; }
         .code-area textarea { width: 100%; height: 80px; padding: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: var(--text-sub); resize: none; box-sizing: border-box; }
         .copy-btn { margin-top: 10px; background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
-        
-        footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
-        .footer-desc { max-width: 700px; margin: 0 auto 15px; line-height: 1.6; }
-        .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
-        .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
-        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
-        .credits a:hover { text-decoration: underline; color: var(--primary); }
 
-        /* MODALS (Join & Profile) */
+        /* MODAL */
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow-y: auto; }
         .modal-content { background-color: var(--card-bg); margin: 5% auto; padding: 30px; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 500px; color: var(--text); box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
         .modal h2 { margin-top: 0; color: var(--primary); }
-        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; color: var(--text-sub); }
-        .close:hover { color: var(--text); }
-        
         .step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
         .step-num { background: var(--badge-bg); color: var(--primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 0.9rem; }
         .step-text { font-size: 0.95rem; line-height: 1.5; }
-        
+        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; color: var(--text-sub); }
+        .close:hover { color: var(--text); }
+        .fallback-details { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; }
+        .fallback-toggle { color: var(--text-sub); cursor: pointer; text-decoration: underline; font-size: 0.85rem; }
+        .fallback-content { display: none; margin-top: 15px; background: var(--bg); padding: 15px; border-radius: 8px; text-align: left; }
+        .fallback-content pre { background: #000; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.75rem; }
+
         /* UPDATED PROFILE MODAL with QUOTE BANNER */
         .profile-modal { z-index: 300; align-items: center; justify-content: center; display: none; }
         .profile-card { background: var(--card-bg); width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; flex-direction: column; margin: 5% auto; position: relative; border: 1px solid var(--border); }
@@ -159,11 +151,14 @@
         .rating-btn { background: none; border: none; cursor: pointer; font-size: 1.5rem; color: #ddd; transition: 0.2s; }
         .rating-btn:hover { color: #FFD700; transform: scale(1.2); }
 
-        .fallback-details { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; }
-        .fallback-toggle { color: var(--text-sub); cursor: pointer; text-decoration: underline; font-size: 0.85rem; }
-        .fallback-content { display: none; margin-top: 15px; background: var(--bg); padding: 15px; border-radius: 8px; text-align: left; }
-        .fallback-content pre { background: #000; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.75rem; }
-
+        /* FOOTER */
+        footer { text-align: center; padding: 40px 20px; color: var(--text-sub); font-size: 0.9rem; border-top: 1px solid var(--border); background: var(--card-bg); }
+        .footer-desc { max-width: 700px; margin: 0 auto 15px; line-height: 1.6; }
+        .api-link { color: var(--primary); font-weight: 600; text-decoration: none; }
+        .credits { margin-top: 30px; font-size: 0.8rem; opacity: 0.8; }
+        .credits a { color: var(--text-sub); text-decoration: none; margin: 0 5px; }
+        .credits a:hover { text-decoration: underline; color: var(--primary); }
+        
         @media (max-width: 600px) {
             .grid { grid-template-columns: 1fr; }
             header { padding-top: 80px; } 
@@ -214,7 +209,7 @@
                     <button class="rating-btn" onclick="submitRating(4)" title="4 Stars">★</button>
                     <button class="rating-btn" onclick="submitRating(5)" title="5 Stars">★</button>
                 </div>
-                <small style="color:var(--text-sub);">Your vote is recorded anonymously via GitHub.</small>
+                <small style="color:var(--text-sub);">Your vote is recorded anonymously via Google Forms.</small>
             </div>
         </div>
         <div class="profile-actions">
@@ -311,24 +306,14 @@
     window.onclick = function(event) { if (event.target == modal) closeModal(); if (event.target == profileModal) closeProfile(); }
     function toggleFallback() { const el = document.getElementById("fallbackContent"); el.style.display = (el.style.display === "block") ? "none" : "block"; }
 
-    // RANDOM QUOTES
-    const quotes = [
-        "\"Honesty is the first chapter in the book of wisdom.\" - Thomas Jefferson",
-        "\"Truth is the only safe ground to stand upon.\" - Elizabeth Cady Stanton",
-        "\"Integrity is doing the right thing, even when no one is watching.\" - C.S. Lewis",
-        "\"Fairness is not an attitude. It's a professional skill.\" - Brit Hume",
-        "\"Transparency is the currency of trust.\"",
-        "\"Real recognize real.\"",
-        "\"Quality means doing it right when no one is looking.\""
-    ];
+    const quotes = ["\"Honesty is the first chapter in the book of wisdom.\"", "\"Truth is the only safe ground to stand upon.\"", "\"Integrity is doing the right thing, even when no one is watching.\"", "\"Fairness is not an attitude. It's a professional skill.\"", "\"Transparency is the currency of trust.\"", "\"Real recognize real.\"", "\"Quality means doing it right when no one is looking.\""];
 
     const i18n = {
         en: { subtitle: "The directory ranked by real humans, not bots.", search_ph: "Try 'auto cape town' or 'tech services'...", theme: "🌙 Theme", cat_all: "All", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Health", cat_service: "🛠️ Services", cat_retail: "🛍️ Retail", cat_artists: "🎨 Artists", global_feed: "Global Feed", badge_title: "🏆 Show off your Authority", badge_desc: "Are you listed? Add the Fair Discovery seal to your website footer to build trust.", copy_code: "Copy Code", footer_desc: "Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority. This forces ad networks to deliver real traffic, not fake clicks—protecting your budget and ensuring fair play.", footer_api: "Get the JSON API", footer_join: "Join Network (Auto-Add)", support: "Support the Dev", lbl_auth: "Authority", lbl_verified: "✓ Verified" },
-        // ... (other languages kept same) ...
-        es: { subtitle: "Directorio clasificado por humanos, no bots.", search_ph: "Prueba 'autos'...", theme: "🌙 Tema", cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Autoridad", badge_desc: "Añade el sello.", copy_code: "Copiar", footer_desc: "Clasificado por interacción humana.", footer_api: "API", footer_join: "Unirse", support: "Apoyar", lbl_auth: "Autoridad", lbl_verified: "✓ Verificado" },
-        fr: { subtitle: "Annuaire classé par des humains.", search_ph: "Essayez 'auto'...", theme: "🌙 Thème", cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce", cat_artists: "🎨 Artistes", global_feed: "Flux Global", badge_title: "🏆 Autorité", badge_desc: "Ajoutez le sceau.", copy_code: "Copier", footer_desc: "Classé par interaction humaine.", footer_api: "API", footer_join: "Rejoindre", support: "Soutenir", lbl_auth: "Autorité", lbl_verified: "✓ Vérifié" },
-        de: { subtitle: "Verzeichnis von echten Menschen.", search_ph: "Suchen...", theme: "🌙 Thema", cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel", cat_artists: "🎨 Künstler", global_feed: "Feed", badge_title: "🏆 Autorität", badge_desc: "Siegel hinzufügen.", copy_code: "Kopieren", footer_desc: "Bewertet nach Interaktion.", footer_api: "API", footer_join: "Beitreten", support: "Unterstützen", lbl_auth: "Autorität", lbl_verified: "✓ Verifiziert" },
-        pt: { subtitle: "Diretório por humanos.", search_ph: "Tente 'auto'...", theme: "🌙 Tema", cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo", cat_artists: "🎨 Artistas", global_feed: "Feed", badge_title: "🏆 Autoridade", badge_desc: "Adicione o selo.", copy_code: "Copiar", footer_desc: "Classificado por interação.", footer_api: "API", footer_join: "Junte-se", support: "Apoie", lbl_auth: "Autoridade", lbl_verified: "✓ Verificado" }
+        es: { subtitle: "El directorio clasificado por humanos, no bots.", search_ph: "Prueba 'autos madrid' o 'servicios tec'...", theme: "🌙 Tema", cat_all: "Todo", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_health: "🏥 Salud", cat_service: "🛠️ Servicios", cat_retail: "🛍️ Tiendas", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Muestra tu Autoridad", badge_desc: "¿Estás en la lista? Añade el sello de Fair Discovery a tu web.", copy_code: "Copiar Código", footer_desc: "Fair Discovery clasifica sitios web basándose en interacción humana verificada, bloqueando bots. Esto obliga a las redes publicitarias a enviar tráfico real y protege tu presupuesto.", footer_api: "Obtener API JSON", footer_join: "Únete gratis en GitHub", support: "Apoyar al Dev", lbl_auth: "Autoridad", lbl_verified: "✓ Verificado" },
+        fr: { subtitle: "L'annuaire classé par des humains, pas des bots.", search_ph: "Essayez 'auto paris' ou 'services tech'...", theme: "🌙 Thème", cat_all: "Tout", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Santé", cat_service: "🛠️ Services", cat_retail: "🛍️ Commerce", cat_artists: "🎨 Artistes", global_feed: "Flux Global", badge_title: "🏆 Montrez votre Autorité", badge_desc: "Vous êtes listé ? Ajoutez le sceau Fair Discovery à votre site.", copy_code: "Copier le Code", footer_desc: "Fair Discovery classe les sites selon l'interaction humaine réelle, en bloquant les bots. Cela force les réseaux publicitaires à fournir un trafic réel et protège votre budget.", footer_api: "Obtenir l'API JSON", footer_join: "Rejoindre sur GitHub", support: "Soutenir le Dev", lbl_auth: "Autorité", lbl_verified: "✓ Vérifié" },
+        de: { subtitle: "Das Verzeichnis von echten Menschen, nicht Bots.", search_ph: "Versuchen Sie 'auto berlin' oder 'tech'...", theme: "🌙 Thema", cat_all: "Alle", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Gesundheit", cat_service: "🛠️ Dienstl.", cat_retail: "🛍️ Handel", cat_artists: "🎨 Künstler", global_feed: "Globaler Feed", badge_title: "🏆 Zeigen Sie Autorität", badge_desc: "Sind Sie gelistet? Fügen Sie das Fair Discovery-Siegel hinzu.", copy_code: "Code kopieren", footer_desc: "Fair Discovery bewertet Websites nach echter menschlicher Interaktion und blockiert Bots. Dies zwingt Werbenetzwerke dazu, echten Traffic zu liefern und schützt Ihr Budget.", footer_api: "JSON-API abrufen", footer_join: "Kostenlos beitreten", support: "Entwickler unterstützen", lbl_auth: "Autorität", lbl_verified: "✓ Verifiziert" },
+        pt: { subtitle: "O diretório classificado por humanos, não bots.", search_ph: "Tente 'auto lisboa' ou 'serviços tech'...", theme: "🌙 Tema", cat_all: "Tudo", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_health: "🏥 Saúde", cat_service: "🛠️ Serviços", cat_retail: "🛍️ Varejo", cat_artists: "🎨 Artistas", global_feed: "Feed Global", badge_title: "🏆 Mostre sua Autoridade", badge_desc: "Está listado? Adicione o selo Fair Discovery ao seu site.", copy_code: "Copiar Código", footer_desc: "Fair Discovery classifica sites com base na interação humana real, bloqueando bots. Isso força as redes de anúncios a entregar tráfego real, protegendo seu orçamento.", footer_api: "Obter API JSON", footer_join: "Junte-se no GitHub", support: "Apoie o Dev", lbl_auth: "Autoridade", lbl_verified: "✓ Verificado" }
     };
     
     let currentLang = 'en';
@@ -356,12 +341,12 @@
                     domainMap[domain].totalScore += page.score;
                     domainMap[domain].pageCount++;
                     if (page.category) domainMap[domain].category = page.category;
-                    if (page.description) domainMap[domain].description = page.description;
+                    if (page.description && domainMap[domain].description.startsWith("Verified")) domainMap[domain].description = page.description;
                 } catch(e){}
             });
             allData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
             applyFilters();
-        } catch (err) { document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Database Building... Check back soon.</p>`; }
+        } catch (err) { document.getElementById('resultsGrid').innerHTML = `<p style="text-align:center">Loading...</p>`; }
     }
 
     function inferCategory(domain) {
@@ -373,7 +358,6 @@
         return 'Service';
     }
     
-    // BRAND NAME OVERRIDE LOGIC
     function formatTitle(domain) {
         if (domain.includes("greyzoneautoparts")) return "Grey Zone Auto Parts";
         if (domain.includes("aolocksmith")) return "AO Locksmith";
@@ -402,40 +386,32 @@
         currentPage = 1; render();
     }
 
-    // OPEN PROFILE MODAL (with Quote)
     function openProfile(index) {
         const item = filteredData[index];
         if (!item) return;
-        
         currentBusiness = formatTitle(item.domain); 
-        
-        // Random Quote
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        document.getElementById('quoteBanner').innerText = randomQuote;
-
+        document.getElementById('quoteBanner').innerText = quotes[Math.floor(Math.random() * quotes.length)];
         document.getElementById('pTitle').innerText = currentBusiness;
         document.getElementById('pMeta').innerText = `${item.category} • ${item.location}`;
         document.getElementById('pDesc').innerText = item.description;
         document.getElementById('pLoc').innerText = item.location;
         document.getElementById('pPhone').innerText = item.whatsapp ? '+' + item.whatsapp : 'N/A';
-        
         let visitLink = item.fullUrl;
         if (item.domain.includes(".local") && item.whatsapp) visitLink = `https://wa.me/${item.whatsapp}`;
         document.getElementById('pSiteBtn').href = visitLink;
-        
         let mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formatTitle(item.domain) + " " + item.location)}`;
         if (item.domain.includes("greyzone")) mapLink = "https://share.google/1O2Kl72Vige48vGsB";
         if (item.domain.includes("aolocksmith")) mapLink = "https://share.google/WNjzMAwNlj9tC3u6F";
         document.getElementById('pMapBtn').href = mapLink;
-
         document.getElementById('profileModal').style.display = 'flex';
     }
 
     function submitRating(stars) {
-        const title = `Rating: ${stars} Stars for ${currentBusiness}`;
-        const body = `I am rating **${currentBusiness}**.\n\nScore: ${stars}/5\n\n(The automated judge will analyze my history to prevent spam.)`;
-        const link = `https://github.com/fair-collective/fair-discovery/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
-        window.open(link, '_blank');
+        const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A/viewform";
+        const businessField = "entry.1871531298"; 
+        const ratingField = "entry.741708013";   
+        const finalUrl = `${baseUrl}?usp=pp_url&${businessField}=${encodeURIComponent(currentBusiness)}&${ratingField}=${stars}`;
+        window.open(finalUrl, '_blank');
     }
 
     function render() {
@@ -445,17 +421,13 @@
         const start = (currentPage - 1) * limit;
         const pageItems = filteredData.slice(start, start + limit);
         if (pageItems.length === 0) { grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>'; return; }
-        
         pageItems.forEach((item, index) => {
             let flag = '🌐'; if (item.domain.endsWith('.za')) flag = '🇿🇦'; if (item.domain.endsWith('.uk')) flag = '🇬🇧';
             let globalIndex = start + index;
             let actions = ''; 
             if (item.whatsapp) actions += `<a href="https://wa.me/${item.whatsapp}" target="_blank" class="btn-icon btn-whatsapp" title="WhatsApp" onclick="event.stopPropagation()">💬</a>`;
-            
-            const card = `
-            <div class="card" onclick="openProfile(${globalIndex})">
-                <div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><span class="card-title">${formatTitle(item.domain)}</span><span class="card-domain">${item.domain.replace('.local', '')}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div>
-            </div>`;
+            actions += `<a href="${item.fullUrl}" target="_blank" class="btn-icon" title="Visit Page">↗</a>`;
+            const card = `<div class="card" onclick="openProfile(${globalIndex})"><div class="card-header"><div class="card-brand"><div class="card-logo">${flag}</div><div class="card-text"><span class="card-title">${formatTitle(item.domain)}</span><span class="card-domain">${item.domain.replace('.local', '')}</span><span class="verified-badge">${dict.lbl_verified}</span></div></div></div><div class="card-desc">${item.description}</div><div class="card-footer"><div class="actions">${actions}</div><div class="score-box"><div class="score-val">${formatScore(item.totalScore)}</div><div class="score-lbl">${dict.lbl_auth}</div></div></div></div>`;
             grid.insertAdjacentHTML('beforeend', card);
         });
         renderPagination(totalPages);
