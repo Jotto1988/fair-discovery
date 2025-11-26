@@ -5,7 +5,7 @@ import time
 import os
 import urllib3
 
-# Disable SSL warnings for strict firewalls
+# Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ---------------------------------------------------------
@@ -16,7 +16,7 @@ SITES_FILE = os.path.join(ROOT, "sites.json")
 OUT_FILE = os.path.join(ROOT, "data.json")
 
 # ---------------------------------------------------------
-# CURATOR AI (Classification Logic)
+# CURATOR AI
 # ---------------------------------------------------------
 def ai_classify(domain, description, current_category):
     valid_cats = ["Auto", "Tech", "Health", "Retail", "Artists", "Service"]
@@ -62,7 +62,6 @@ def main():
     print(f"🔍 Scanning {len(sites)} network nodes...")
     merged_data = {}
 
-    # Headers to mimic a real browser
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "text/html,application/json",
@@ -90,6 +89,10 @@ def main():
 
             raw_cat = feed_json.get("category", "Service")
             desc = feed_json.get("description", "")
+            
+            # CAPTURE THE DEAL
+            deal_text = feed_json.get("deal", "") 
+            
             final_cat = ai_classify(domain, desc, raw_cat)
             
             pages = feed_json.get("pages", [])
@@ -111,7 +114,8 @@ def main():
                         "category": final_cat,
                         "description": desc,
                         "whatsapp": feed_json.get("whatsapp"),
-                        "location": feed_json.get("location", "Global")
+                        "location": feed_json.get("location", "Global"),
+                        "deal": deal_text # Pass it to the frontend
                     }
                 merged_data[full_url]["score"] += score
 
@@ -119,57 +123,59 @@ def main():
             print(f"   ❌ Connection Failed: {e}")
             continue
 
-    # 2. PREPARE OUTPUT LIST
     output_list = list(merged_data.values())
 
     # ---------------------------------------------------------
-    # 🛑 MANUAL OVERRIDES (SAFETY NET)
+    # 🛑 MANUAL OVERRIDES (With Deals)
     # ---------------------------------------------------------
     
     # 1. IntPanelShop
-    intpanel = { "url": "https://www.intpanelshop.co.za/", "score": 66100000, "category": "Auto", "description": "Expert panel beating and spray painting in Cape Town.", "whatsapp": "27821234567", "location": "Cape Town, SA" }
+    intpanel = { 
+        "url": "https://www.intpanelshop.co.za/", 
+        "score": 66100000, "category": "Auto", 
+        "description": "Expert panel beating and spray painting in Cape Town.", 
+        "whatsapp": "27821234567", "location": "Cape Town, SA",
+        "deal": "" # Empty = No Deal
+    }
     
     # 2. Sky Rope Specialist
-    sky_rope = { "url": "https://www.skyropespecialist.co.za/", "score": 2200, "category": "Service", "description": "Professional rope access and high-altitude maintenance specialists.", "whatsapp": "27000000000", "location": "Cape Town, SA" }
+    sky_rope = { 
+        "url": "https://www.skyropespecialist.co.za/", 
+        "score": 2200, "category": "Service", 
+        "description": "Professional rope access and high-altitude maintenance specialists.", 
+        "whatsapp": "27000000000", "location": "Cape Town, SA",
+        "deal": "10% Off Gutter Cleaning" # Example Deal
+    }
     
     # 3. Jotto's Portfolio
-    jotto_portfolio = { "url": "https://jotto1988.github.io/jotto.github.io/", "score": 500, "category": "Tech", "description": "Jotto's Portfolio: Open Source projects, Fair Discovery development, and AI innovations.", "whatsapp": "", "location": "Global" }
+    jotto_portfolio = { 
+        "url": "https://jotto1988.github.io/jotto.github.io/", 
+        "score": 500, "category": "Tech", 
+        "description": "Jotto's Portfolio: Open Source projects, Fair Discovery development, and AI innovations.", 
+        "whatsapp": "", "location": "Global",
+        "deal": "" 
+    }
     
     # 4. Seriti PBO
-    seriti = { "url": "https://www.seritipbo.org/", "score": 150, "category": "Service", "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", "whatsapp": "", "location": "South Africa" }
+    seriti = { "url": "https://www.seritipbo.org/", "score": 150, "category": "Service", "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", "whatsapp": "", "location": "South Africa", "deal": "" }
     
     # 5. Bookkeepers in Cape Town
-    bookkeeper = { "url": "https://bookkeepersincapetown.co.za/", "score": 4788, "category": "Service", "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", "whatsapp": "27000000000", "location": "Cape Town, SA" }
+    bookkeeper = { "url": "https://bookkeepersincapetown.co.za/", "score": 4788, "category": "Service", "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", "whatsapp": "27000000000", "location": "Cape Town, SA", "deal": "Free First Consultation" }
     
-    # 6. Grey Zone Auto Parts (WhatsApp is the site - Placeholder URL)
-    grey_zone = { 
-        "url": "https://greyzoneautoparts.local", 
-        "score": 150, 
-        "category": "Auto", 
-        "description": "Automotive parts sales based in Pretoria, delivering nationwide.", 
-        "whatsapp": "27817985689", # WhatsApp is the destination
-        "location": "Pretoria, SA" 
-    }
+    # 6. Grey Zone Auto Parts
+    grey_zone = { "url": "https://greyzoneautoparts.local", "score": 150, "category": "Auto", "description": "Automotive parts sales based in Pretoria, delivering nationwide.", "whatsapp": "27817985689", "location": "Pretoria, SA", "deal": "" }
 
-    # 7. AO Locksmith (WhatsApp is the site - Placeholder URL)
-    ao_locksmith = { 
-        "url": "https://aolocksmith.local", 
-        "score": 150, 
-        "category": "Auto", 
-        "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
-        "whatsapp": "27812099604", # WhatsApp is the destination
-        "location": "Cape Town, SA" 
-    }
+    # 7. AO Locksmith
+    ao_locksmith = { "url": "https://aolocksmith.local", "score": 150, "category": "Auto", "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", "whatsapp": "27812099604", "location": "Pretoria, SA", "deal": "" }
     
-    # 8. Auto Digital Solutions (AutoDS)
-    mobile_mechanic = { "url": "https://autods.co.za/", "score": 150, "category": "Auto", "description": "Top-rated mobile mechanic in Cape Town. We come to you.", "whatsapp": "27000000000", "location": "Cape Town, SA" }
+    # 8. Auto Digital Solutions
+    mobile_mechanic = { "url": "https://autods.co.za/", "score": 150, "category": "Auto", "description": "Top-rated mobile mechanic in Cape Town. We come to you.", "whatsapp": "27000000000", "location": "Cape Town, SA", "deal": "" }
     
-    # 9. Save Our Children (Scouts)
-    scouts = { "url": "https://scoutsforkids.org/", "score": 150, "category": "Service", "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.", "whatsapp": "27717990196", "location": "Cape Town, SA" }
+    # 9. Save Our Children
+    scouts = { "url": "https://scoutsforkids.org/", "score": 150, "category": "Service", "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.", "whatsapp": "27717990196", "location": "Cape Town, SA", "deal": "" }
 
-    # Injection Logic
+    # Inject Logic
     current_urls = [p['url'] for p in output_list]
-    
     if intpanel['url'] not in current_urls: output_list.append(intpanel)
     if sky_rope['url'] not in current_urls: output_list.append(sky_rope)
     if jotto_portfolio['url'] not in current_urls: output_list.append(jotto_portfolio)
@@ -182,7 +188,6 @@ def main():
         
     # ---------------------------------------------------------
 
-    # 3. FINAL SORT & SAVE
     output_list.sort(key=lambda x: x["score"], reverse=True)
 
     final_json = {
