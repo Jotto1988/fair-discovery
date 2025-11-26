@@ -7,6 +7,13 @@ on:
   # Allow manual trigger button
   workflow_dispatch:
 
+# --- TRAFFIC CONTROL ADDED HERE ---
+# This tells GitHub: "If I am already running, stop the old one and start the new one."
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+# ----------------------------------
+
 permissions:
   contents: write
 
