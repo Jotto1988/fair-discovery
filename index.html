@@ -6,13 +6,12 @@
 <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses." />
 <meta name="theme-color" content="#1a73e8" />
 <title>Fair Discovery Directory</title>
-
 <style>
   /* ---------- THEME / LAYOUT ---------- */
   :root{
-    --bg:#0f1723;        /* deep navy background for subtle futuristic */
-    --surface:#0b1220;   /* card surface */
-    --card-bg:#08101a;   /* inner card */
+    --bg:#0f1723; /* deep navy background for subtle futuristic */
+    --surface:#0b1220; /* card surface */
+    --card-bg:#08101a; /* inner card */
     --muted:#9aa4b2;
     --text:#e6eef7;
     --sub:#9fb0c8;
@@ -23,18 +22,15 @@
     --shadow: 0 8px 28px rgba(2,6,23,0.6);
     font-family: Inter, "Google Sans", Roboto, "Segoe UI", sans-serif;
   }
-
   /* Light-mode fallback */
   @media (prefers-color-scheme: light) {
     :root{
-      --bg:#f6f8fb; --surface:#ffffff; --card-bg:#ffffff; --muted:#9aa4b2; --text:#0b1220; --sub:#6b7280; --border:#e6e9ef; --glass: rgba(16,24,40,0.02); --shadow: 0 10px 30px rgba(16,24,40,0.06);
+      --bg:#f6f8fb; --surface:#ffffff; --card-bg:#ffffff; --muted:#6b7280; --text:#0b1220; --sub:#6b7280; --border:#e6e9ef; --glass: rgba(16,24,40,0.02); --shadow: 0 10px 30px rgba(16,24,40,0.06);
     }
   }
-
   html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg) 0%, #020212 100%);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-  a{color:inherit}
+  a{color:inherit;text-decoration:none}
   .container-wrap{max-width:1200px;margin:0 auto;padding:20px}
-
   /* ---------- HEADER ---------- */
   header{padding:22px 16px;border-bottom:1px solid var(--border);backdrop-filter: blur(6px);position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(0,0,0,0.25), transparent)}
   .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto}
@@ -42,27 +38,22 @@
   .brand svg{width:48px;height:48px}
   h1{font-size:1.15rem;margin:0;line-height:1;color:var(--text)}
   .subtitle{font-size:0.86rem;color:var(--sub);margin-top:4px}
-
   .controls{display:flex;gap:8px;align-items:center}
   .btn{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;box-shadow:0 6px 18px rgba(26,115,232,0.12)}
   .ghost{background:var(--glass);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
   select.lang{appearance:none;padding:8px 28px 8px 10px;border-radius:10px;border:1px solid var(--border);background:var(--glass);color:var(--text)}
-
   /* ---------- FILTERS ---------- */
   .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;padding:18px 12px;max-width:1200px;margin:10px auto}
   .search{flex:1;min-width:220px;position:relative}
   .search input{width:100%;padding:12px 44px 12px 14px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);color:var(--text);outline:none}
   .geo-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;opacity:.9;color:var(--sub);cursor:pointer}
   .select{padding:10px 36px 10px 12px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);color:var(--text);min-width:160px;appearance:none}
-
   /* cascading container */
   .loc-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-
   /* ---------- GRID & CARD ---------- */
   main{padding:10px 12px 40px}
   .stats{max-width:1200px;margin:8px auto;color:var(--sub);display:flex;justify-content:space-between;align-items:center}
   .grid{max-width:1200px;margin:16px auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:4px}
-
   .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;min-height:220px;position:relative;box-shadow:var(--shadow);transition:transform .18s}
   .card:focus{outline:2px solid rgba(255,255,255,0.04)}
   .card:hover{transform:translateY(-6px)}
@@ -73,14 +64,11 @@
   .title{font-weight:700;font-size:1rem;margin:0;color:var(--text)}
   .meta{color:var(--sub);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .desc{color:var(--muted);font-size:.9rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
   /* VERIFIED badge placed inside card, top-right */
   .badge-wrap{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:4}
   .verified{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.78rem;box-shadow:0 6px 18px rgba(26,115,232,0.12)}
   .deal{background:rgba(255,255,255,0.03);color:#ffd1c8;padding:6px 8px;border-radius:8px;font-weight:700;border:1px solid rgba(255,255,255,0.03);font-size:.78rem}
-
   .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);font-size:.9rem;color:var(--sub)}
-
   /* ---------- MODAL ---------- */
   .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6), rgba(2,6,23,0.8));z-index:200}
   .modal{width:calc(100% - 48px);max-width:720px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg, rgba(10,14,20,0.9), rgba(7,10,14,0.95));box-shadow:0 40px 80px rgba(2,6,23,0.7);max-height:90vh;display:flex;flex-direction:column}
@@ -94,7 +82,6 @@
   .info-box{background:transparent;padding:10px;border-radius:10px;border:1px solid var(--border);font-size:.9rem}
   .info-label{font-size:.72rem;color:var(--sub);font-weight:700;text-transform:uppercase;display:block;margin-bottom:8px}
   .btn-primary{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:10px;border-radius:10px;border:none;width:100%;cursor:pointer;font-weight:700;font-size:1rem}
-
   /* responsive tweaks */
   @media (max-width:880px){
     .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
@@ -110,7 +97,6 @@
   }
 </style>
 </head>
-
 <body>
 <header>
   <div class="header-inner container-wrap">
@@ -125,7 +111,6 @@
         <div class="subtitle">Business directory ranked by real humans — modern, fair, and transparent.</div>
       </div>
     </div>
-
     <div class="controls" role="toolbar" aria-label="site actions">
       <button class="btn" onclick="openJoin()">🚀 Join</button>
       <button class="ghost" id="installBtn" onclick="installPWA()" style="display:none">📲 Install</button>
@@ -137,13 +122,11 @@
     </div>
   </div>
 </header>
-
-<section class="filters container-wrap filters" aria-label="search and filters">
+<section class="filters container-wrap" aria-label="search and filters">
   <div class="search" style="flex:1">
     <input id="searchInput" placeholder="Search businesses, names, or descriptions..." aria-label="Search" />
     <button class="geo-btn" onclick="geoFindMe()" aria-label="use my location">📍</button>
   </div>
-
   <select id="catFilter" class="select" onchange="filter()" aria-label="Category">
     <option value="all">All categories</option>
     <option value="Auto">Auto</option>
@@ -155,7 +138,6 @@
     <option value="Real Estate">Property</option>
     <option value="Travel">Travel</option>
   </select>
-
   <div class="loc-wrap">
     <select id="countrySelect" class="select" onchange="onCountryChange()" aria-label="Country">
       <option value="all">All countries</option>
@@ -168,23 +150,18 @@
     </select>
   </div>
 </section>
-
 <main>
   <div class="container-wrap stats">
     <div id="countLabel">Loading…</div>
     <div style="color:var(--sub)">Network Live</div>
   </div>
-
   <div id="grid" class="grid" aria-live="polite" role="list"></div>
-
-  <div id="pagination" class="container-wrap" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"></div>
+  <div id="pagination" class="container-wrap" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;justify-content:center"></div>
 </main>
-
 <footer style="padding:28px 20px;text-align:center;color:var(--muted);border-top:1px solid var(--border)">
   <div>Fair Discovery &copy; 2025 • Decentralized & Open Source</div>
   <div style="margin-top:12px"><a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00;color:#111;padding:8px 14px;border-radius:18px;text-decoration:none;font-weight:700">☕ Support the Dev</a></div>
 </footer>
-
 <!-- Modal -->
 <div id="profileModal" class="modal-backdrop" onclick="closeModal()">
   <div class="modal" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
@@ -192,7 +169,6 @@
       <button class="modal-close" id="modalCloseBtn" aria-label="close">✕</button>
       <div style="z-index:5;color:white;font-style:italic" id="mQuote"></div>
     </div>
-
     <div class="modal-body">
       <div class="modal-header">
         <div class="modal-logo" id="mLogo">🌐</div>
@@ -201,16 +177,12 @@
           <div id="mMeta" style="color:var(--sub);margin-top:6px">Category • Location</div>
         </div>
       </div>
-
       <p id="mDesc" style="margin-top:12px;color:var(--muted);line-height:1.5">Description</p>
-
       <div class="info-grid">
         <div class="info-box"><span class="info-label">📍 Location</span><div id="mLoc">City</div></div>
         <div class="info-box"><span class="info-label">📞 Contact</span><div id="mPhone">N/A</div></div>
       </div>
-
       <a id="mLink" class="btn-primary" href="#" target="_blank" style="display:block;margin-top:8px">Visit Website ↗</a>
-
       <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;text-align:center">
         <div class="info-label" style="display:inline-block;margin-bottom:8px">Rate this Business</div>
         <div class="rating-stars" style="margin-top:6px">
@@ -225,7 +197,6 @@
     </div>
   </div>
 </div>
-
 <!-- Join modal (simple) -->
 <div id="joinModal" class="modal-backdrop" onclick="closeJoin()">
   <div class="modal" onclick="event.stopPropagation()">
@@ -237,14 +208,12 @@
     </div>
   </div>
 </div>
-
 <script>
 /* ---------- State ---------- */
 const FEED = 'data.json';
 let allData = [], filtered = [];
 let currentBiz = '', currentIdx = -1;
 let limit = 12, currentPage = 1;
-
 /* ---------- Quotes ---------- */
 const quotes = [
   "Quality means doing it right when no one is looking.",
@@ -253,35 +222,65 @@ const quotes = [
   "Consistency builds credibility.",
   "Good business is built on clear promises delivered."
 ];
-
 /* ---------- Images (neutral + category) ---------- */
 const images = {
   neutral: [
     'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80'
+    'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1522204523234-042ca7e6f639?auto=format&fit=crop&w=1200&q=80'
   ],
-  Auto: ['https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80'],
-  Tech: ['https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80'],
-  Health: ['https://images.unsplash.com/photo-1582719478183-933a1aa3e197?auto=format&fit=crop&w=1200&q=80'],
-  Service: ['https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80'],
-  Retail: ['https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80'],
-  Artists: ['https://images.unsplash.com/photo-1504198266284-1659872e6590?auto=format&fit=crop&w=1200&q=80'],
-  'Real Estate': ['https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=1200&q=80'],
-  Travel: ['https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1200&q=80']
+  Auto: [
+    'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1568605117036-5ecf0d9aed3f?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Tech: [
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Health: [
+    'https://images.unsplash.com/photo-1582719478183-933a1aa3e197?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1576091160399-112ba4d25aa5?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1554734867-d4eb2aac71fa?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Service: [
+    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45c?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Retail: [
+    'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Artists: [
+    'https://images.unsplash.com/photo-1504198266284-1659872e6590?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1542838132-92a6e376f72d?auto=format&fit=crop&w=1200&q=80'
+  ],
+  'Real Estate': [
+    'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1512917778734-df2b5082e743?auto=format&fit=crop&w=1200&q=80'
+  ],
+  Travel: [
+    'https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=80'
+  ]
 };
-
 /* ---------- UTIL ---------- */
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 function dailyQuote(){ const d = new Date(); return quotes[Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()/(1000*60*60*24)) % quotes.length]; }
 function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
 /* ---------- PWA ---------- */
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = 'inline-flex'; });
 function installPWA(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt = null; } }
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-
 /* ---------- DATA ---------- */
 async function init(){
   try{
@@ -293,7 +292,6 @@ async function init(){
     document.getElementById('grid').innerHTML = '<p style="text-align:center;color:var(--muted)">Could not load feed.</p>';
   }
 }
-
 function processData(pages){
   const map = {};
   pages.forEach(p=>{
@@ -302,31 +300,32 @@ function processData(pages){
       if(!url) return;
       if(!/^https?:\/\//i.test(url)) url = (url.startsWith('//')? 'https:' + url : 'https://' + url);
       const hostname = new URL(url).hostname;
-      if(!map[hostname]) map[hostname] = { domain: hostname, url: p.url, score:0, cat: p.category || inferCat(hostname), desc: p.description || 'Verified listing.', wa: p.whatsapp || '', loc: p.location || 'Global' };
+      if(!map[hostname]) map[hostname] = { domain: hostname, url: p.url, score:0, cat: p.category, desc: p.description || 'Verified listing.', wa: p.whatsapp || '', loc: p.location || 'Global' };
       map[hostname].score += Number(p.score) || 0;
       if(p.category) map[hostname].cat = p.category;
       if(p.description) map[hostname].desc = p.description;
     }catch(err){}
   });
-
   allData = Object.values(map).sort((a,b)=> (b.score||0) - (a.score||0));
+  allData.forEach(item => {
+    if (!item.cat) item.cat = inferCat(item.domain, item.desc);
+  });
   buildLocationIndex();
   filter();
 }
-
-/* ---------- CATEGORY INFERENCE (simple heuristic) ---------- */
-function inferCat(d){
-  const s = d.toLowerCase();
-  if(s.match(/auto|garage|car|panel/)) return 'Auto';
-  if(s.match(/tech|app|cloud|software|it|dev/)) return 'Tech';
-  if(s.match(/health|clinic|medical|dentist|pharm/)) return 'Health';
-  if(s.match(/art|gallery|studio|designer/)) return 'Artists';
-  if(s.match(/shop|store|boutique|retail/)) return 'Retail';
-  if(s.match(/property|estate|realtor|realestate/)) return 'Real Estate';
-  if(s.match(/travel|tour|trip|holiday/)) return 'Travel';
-  return 'Service';
+/* ---------- CATEGORY INFERENCE (improved heuristic) ---------- */
+function inferCat(domain, desc = '') {
+  const text = (domain + ' ' + desc).toLowerCase();
+  if (text.match(/auto|garage|car|panel|mechanic|repair|vehicle|dealership|tyre|tire|automotive/)) return 'Auto';
+  if (text.match(/tech|app|cloud|software|it|dev|programming|computer|electronics|gadget|hosting|web|ai|blockchain|crypto/)) return 'Tech';
+  if (text.match(/health|clinic|medical|dentist|pharm|doctor|hospital|wellness|fitness|gym|therapy|nutrition/)) return 'Health';
+  if (text.match(/art|gallery|studio|designer|paint|sculpt|music|photography|creative|illustration/)) return 'Artists';
+  if (text.match(/shop|store|boutique|retail|market|supermarket|ecommerce|merch|fashion|clothing|grocer/)) return 'Retail';
+  if (text.match(/property|estate|realtor|realestate|home|house|apartment|rent|buy|sell|broker|mortgage/)) return 'Real Estate';
+  if (text.match(/travel|tour|trip|holiday|vacation|hotel|resort|flight|adventure|tourism|backpack/)) return 'Travel';
+  if (text.match(/service|consult|agency|law|legal|finance|accounting|marketing|cleaning|plumb|electric/)) return 'Service';
+  return 'Service'; // default
 }
-
 /* ---------- SMART IMAGE PICKER (hybrid) ---------- */
 function smartImageFor(item){
   // prefer explicit category if safe
@@ -343,7 +342,6 @@ function smartImageFor(item){
   // fallback neutral
   return pick(images.neutral);
 }
-
 /* ---------- LOCATION INDEX FOR CASCADING ---------- */
 let locIndex = {};
 function buildLocationIndex(){
@@ -399,7 +397,6 @@ function onStateChange(){
   citySel.style.display='inline-block';
   filter();
 }
-
 /* ---------- FILTER / RENDER ---------- */
 function filter(){
   const cat = document.getElementById('catFilter').value;
@@ -407,7 +404,6 @@ function filter(){
   const country = document.getElementById('countrySelect').value || 'all';
   const state = document.getElementById('stateSelect').value || 'all';
   const city = document.getElementById('citySelect').value || 'all';
-
   filtered = allData.filter(i=>{
     const matchCat = cat === 'all' || (i.cat === cat);
     const text = (i.domain + ' ' + (i.desc||'') + ' ' + (i.cat||'') + ' ' + (i.loc||'')).toLowerCase();
@@ -420,19 +416,15 @@ function filter(){
     }
     return matchCat && matchText && matchLoc;
   });
-
   currentPage = 1;
   render();
 }
-
 function render(){
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
   document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
-
   const start = (currentPage - 1) * limit;
   const pageItems = filtered.slice(start, start + limit);
-
   pageItems.forEach((item, idx)=>{
     const globalIdx = start + idx;
     const flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
@@ -473,14 +465,11 @@ function render(){
     el.addEventListener('keypress', e => { if(e.key==='Enter') openModal(globalIdx); });
     grid.appendChild(el);
   });
-
   renderPagination();
 }
-
 /* ---------- MODAL behavior ---------- */
 const modalBackdrop = document.getElementById('profileModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
-
 function openModal(globalIdx){
   const item = filtered[globalIdx];
   if(!item) return;
@@ -497,29 +486,24 @@ function openModal(globalIdx){
   document.getElementById('mPhone').innerText = item.wa ? '+'+item.wa : 'N/A';
   document.getElementById('mLogo').innerText = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
   document.getElementById('mLink').href = item.url || (item.wa ? `https://wa.me/${item.wa}` : '#');
-
   // show modal and lock body scroll
   modalBackdrop.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   // focus close button for accessibility
   setTimeout(()=> modalCloseBtn && modalCloseBtn.focus(), 80);
 }
-
 function closeModal(){
   modalBackdrop.style.display = 'none';
   document.body.style.overflow = '';
 }
-
 /* hook close button and ESC key */
 document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-
 /* ---------- JOIN modal ---------- */
 const joinBackdrop = document.getElementById('joinModal');
 function openJoin(){ joinBackdrop.style.display = 'flex'; document.body.style.overflow='hidden'; }
 function closeJoin(){ joinBackdrop.style.display = 'none'; document.body.style.overflow=''; }
-
 /* ---------- Pagination ---------- */
 function renderPagination(){
   const pag = document.getElementById('pagination');
@@ -536,7 +520,6 @@ function renderPagination(){
     pag.appendChild(btn);
   }
 }
-
 /* ---------- Rating ---------- */
 function rate(stars){
   const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
@@ -544,7 +527,6 @@ function rate(stars){
   const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${entryBizField}&entry.741708013=${stars}`;
   window.open(url, '_blank');
 }
-
 /* ---------- small helpers ---------- */
 function formatTitle(d){
   try{ const host = d.split('.')[0]; return host.charAt(0).toUpperCase() + host.slice(1); }catch(e){ return d; }
@@ -552,10 +534,8 @@ function formatTitle(d){
 function geoFindMe(){ alert('Location search is not enabled in this demo.'); }
 function changeLanguage(v){ alert('Language support will be available in V2.'); }
 function toggleTheme(){ document.documentElement.classList.toggle('light'); }
-
 /* ---------- attach search listener ---------- */
 document.getElementById('searchInput').addEventListener('input', ()=> filter());
-
 /* ---------- init ---------- */
 init();
 </script>
