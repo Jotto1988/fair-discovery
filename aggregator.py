@@ -155,7 +155,7 @@ def main():
     ao_locksmith = { 
         "url": "https://aolocksmith.local", 
         "score": 150, 
-        "category": "Service", 
+        "category": "Auto", 
         "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
         "whatsapp": "27812099604", # WhatsApp is the destination
         "location": "Cape Town, SA" 
