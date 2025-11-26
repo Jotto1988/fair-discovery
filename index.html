@@ -49,7 +49,16 @@
         .btn-primary { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
         .btn-primary:hover { background: #155db1; color: white; }
 
-        h1 { margin: 0 auto 10px; font-size: 2.5rem; display: flex; justify-content: center; align-items: center; gap: 10px; letter-spacing: -1px; }
+        /* LOGO & TITLE */
+        h1 { 
+            margin: 0 auto 10px; 
+            font-size: 2.5rem; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 12px; 
+            letter-spacing: -1px;
+        }
         h1 span { font-weight: 300; opacity: 0.8; }
         .subtitle { color: var(--text-sub); margin-bottom: 35px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 
@@ -79,7 +88,7 @@
             background: var(--card-bg); border-radius: 12px; padding: 20px;
             border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;
             transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
-            cursor: pointer; /* Indicates clickable */
+            cursor: pointer;
         }
         .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--primary); }
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -124,19 +133,11 @@
         .fallback-content { display: none; margin-top: 15px; background: var(--bg); padding: 15px; border-radius: 8px; text-align: left; }
         .fallback-content pre { background: #000; color: #0f0; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.75rem; }
 
-        /* UPDATED PROFILE MODAL with QUOTE BANNER */
+        /* PROFILE MODAL */
         .profile-modal { z-index: 300; align-items: center; justify-content: center; display: none; }
         .profile-card { background: var(--card-bg); width: 90%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); display: flex; flex-direction: column; margin: 5% auto; position: relative; border: 1px solid var(--border); }
-        
-        .profile-cover { 
-            height: 140px; 
-            background: linear-gradient(135deg, var(--primary), #0d47a1); 
-            position: relative;
-            display: flex; align-items: center; justify-content: center;
-            padding: 20px; text-align: center; color: rgba(255,255,255,0.9);
-        }
+        .profile-cover { height: 140px; background: linear-gradient(135deg, var(--primary), #0d47a1); position: relative; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; color: rgba(255,255,255,0.9); }
         .quote-text { font-family: serif; font-style: italic; font-size: 1rem; line-height: 1.4; max-width: 80%; }
-        
         .profile-header { padding: 20px; margin-top: -40px; display: flex; align-items: flex-end; gap: 20px; }
         .profile-logo { width: 80px; height: 80px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid var(--card-bg); }
         .profile-info { flex: 1; }
@@ -179,7 +180,6 @@
             <div class="quote-text" id="quoteBanner">"Honesty is the first chapter in the book of wisdom."</div>
             <div class="close-profile" onclick="closeProfile(event)">✕</div>
         </div>
-        
         <div class="profile-header">
             <div class="profile-logo" id="pLogo">🌐</div>
             <div class="profile-info">
@@ -253,7 +253,22 @@
         </select>
         <button class="theme-toggle" onclick="toggleTheme()" data-i18n="theme">🌙 Theme</button>
     </div>
-    <h1>Fair <span>Discovery</span></h1>
+    
+    <h1 style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8ab4f8;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path d="M50 5 L90 20 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V20 Z" fill="url(#logoGrad)" />
+            <circle cx="50" cy="45" r="16" stroke="white" stroke-width="6" fill="none" />
+            <line x1="60" y1="55" x2="72" y2="67" stroke="white" stroke-width="6" stroke-linecap="round" />
+        </svg>
+        <span>Fair Discovery</span>
+    </h1>
+
     <p class="subtitle" data-i18n="subtitle">The directory ranked by real humans, not bots.</p>
     <div class="search-container"><input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Try 'auto cape town' or 'tech services'..."></div>
     <div class="categories" id="catFilters">
@@ -342,7 +357,7 @@
                     domainMap[domain].totalScore += page.score;
                     domainMap[domain].pageCount++;
                     if (page.category) domainMap[domain].category = page.category;
-                    if (page.description && domainMap[domain].description.startsWith("Verified")) domainMap[domain].description = page.description;
+                    if (page.description) domainMap[domain].description = page.description;
                 } catch(e){}
             });
             allData = Object.values(domainMap).sort((a, b) => b.totalScore - a.totalScore);
