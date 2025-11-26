@@ -92,7 +92,13 @@ def main():
 
             raw_cat = feed_json.get("category", "Service")
             desc = feed_json.get("description", "")
-            deal_text = feed_json.get("deal", "") 
+            deal_text = feed_json.get("deal", "")
+            
+            # --- NEW FIELDS ---
+            logo_url = feed_json.get("logo", "")
+            email_addr = feed_json.get("email", "")
+            tel_num = feed_json.get("telephone", "")
+            # ------------------
             
             final_cat = ai_classify(domain, desc, raw_cat)
             
@@ -116,7 +122,10 @@ def main():
                         "description": desc,
                         "whatsapp": feed_json.get("whatsapp"),
                         "location": feed_json.get("location", "Global"),
-                        "deal": deal_text
+                        "deal": deal_text,
+                        "logo": logo_url,       # Added
+                        "email": email_addr,    # Added
+                        "telephone": tel_num    # Added
                     }
                 merged_data[full_url]["score"] += score
 
@@ -129,13 +138,16 @@ def main():
     # ---------------------------------------------------------
     # 🛑 MANUAL OVERRIDES (VERIFIED DATA ONLY)
     # ---------------------------------------------------------
+    # Updated to include empty logo/email/telephone keys 
+    # to match the new structure.
     
     # 1. IntPanelShop
     intpanel = { 
         "url": "https://www.intpanelshop.co.za/", 
         "score": 66100000, "category": "Auto", 
         "description": "Expert panel beating and spray painting in Cape Town.", 
-        "whatsapp": "27716871308", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27716871308", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 2. Sky Rope Specialist
@@ -143,7 +155,8 @@ def main():
         "url": "https://www.skyropespecialist.co.za/", 
         "score": 2200, "category": "Service", 
         "description": "Professional rope access and high-altitude maintenance specialists.", 
-        "whatsapp": "27655038871", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27655038871", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 3. Jotto's Portfolio
@@ -151,7 +164,8 @@ def main():
         "url": "https://jotto1988.github.io/jotto.github.io/", 
         "score": 500, "category": "Tech", 
         "description": "Jotto's Portfolio: Open Source projects, Fair Discovery development, and AI innovations.", 
-        "whatsapp": "", "location": "Global", "deal": "" 
+        "whatsapp": "", "location": "Global", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 4. Seriti PBO
@@ -159,7 +173,8 @@ def main():
         "url": "https://www.seritipbo.org/", 
         "score": 150, "category": "Service", 
         "description": "Non-profit organization providing skill development training in plumbing and community upliftment.", 
-        "whatsapp": "27662316778", "location": "South Africa", "deal": "" 
+        "whatsapp": "27662316778", "location": "South Africa", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 5. Bookkeepers in Cape Town
@@ -167,7 +182,8 @@ def main():
         "url": "https://bookkeepersincapetown.co.za/", 
         "score": 4788, "category": "Service", 
         "description": "Professional bookkeeping and accounting services for businesses in South Africa and the UK.", 
-        "whatsapp": "27727791046", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27727791046", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 6. Grey Zone Auto Parts
@@ -175,7 +191,8 @@ def main():
         "url": "https://greyzoneautoparts.local", 
         "score": 150, "category": "Auto", 
         "description": "Automotive parts sales based in Pretoria, delivering nationwide.", 
-        "whatsapp": "27817985689", "location": "Pretoria, SA", "deal": "" 
+        "whatsapp": "27817985689", "location": "Pretoria, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
 
     # 7. AO Locksmith
@@ -183,7 +200,8 @@ def main():
         "url": "https://aolocksmith.local", 
         "score": 150, "category": "Auto", 
         "description": "Specialist car locksmith. Cutting, coding, and programming car keys.", 
-        "whatsapp": "27812099604", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27812099604", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 8. Auto Digital Solutions
@@ -191,7 +209,8 @@ def main():
         "url": "https://autods.co.za/", 
         "score": 150, "category": "Auto", 
         "description": "Top-rated mobile mechanic in Cape Town. We come to you.", 
-        "whatsapp": "27736795182", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27736795182", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
     
     # 9. Save Our Children (Scouts)
@@ -199,7 +218,8 @@ def main():
         "url": "https://scoutsforkids.org/", 
         "score": 150, "category": "Service", 
         "description": "Non-profit offering hiking, education, and community engagement to keep kids safe from drugs and violence.", 
-        "whatsapp": "27717990196", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27717990196", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
 
     # 10. CCG Auto Glass
@@ -207,7 +227,8 @@ def main():
         "url": "https://ccgautoglass.local", 
         "score": 150, "category": "Auto", 
         "description": "Windscreens, door glass, truck windscreens, and panel shop refits.", 
-        "whatsapp": "27828990541", "location": "Cape Town, SA", "deal": "" 
+        "whatsapp": "27828990541", "location": "Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
 
     # 11. Franic Trailers
@@ -215,7 +236,8 @@ def main():
         "url": "https://www.franic.co.za/", 
         "score": 1500, "category": "Service", 
         "description": "Reliable trailer rentals with a 15-year guarantee.", 
-        "whatsapp": "27849953076", "location": "Milnerton, Cape Town, SA", "deal": "" 
+        "whatsapp": "27849953076", "location": "Milnerton, Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
 
     # 12. Boxman
@@ -223,7 +245,8 @@ def main():
         "url": "https://www.boxman.co.za/", 
         "score": 1500, "category": "Service", 
         "description": "Secure self-storage and moving box solutions.", 
-        "whatsapp": "27748805160", "location": "Milnerton, Cape Town, SA", "deal": "" 
+        "whatsapp": "27748805160", "location": "Milnerton, Cape Town, SA", "deal": "",
+        "logo": "", "email": "", "telephone": ""
     }
 
     # Inject Logic
