@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fair Discovery - Merchant Dashboard</title>
+    <style>
+        :root {
+            --primary: #2c3e50; /* Adjust to your brand color */
+            --accent: #3498db;
+            --bg: #f4f6f9;
+            --white: #ffffff;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            color: var(--text);
+        }
+
+        /* --- Header / Logo Area --- */
+        .header {
+            background: var(--white);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- The Dashboard Card --- */
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .card-title {
+            margin-top: 0;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* --- Form Styling --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Fixes padding issues */
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        /* --- The Generated JSON Box --- */
+        .code-preview {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        /* --- The Explainer Section (Your Content) --- */
+        .explainer-section {
+            background: #eef2f5;
+            border-top: 4px solid var(--accent);
+            padding: 40px;
+            margin-top: 60px;
+            border-radius: 8px;
+        }
+        .explainer-section h1, .explainer-section h2, .explainer-section h3 {
+            color: var(--primary);
+        }
+        .explainer-section code {
+            background: #dfe6ed;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .step-box {
+            background: var(--white);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--accent);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Fair Discovery</h1> 
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <h2 class="card-title">Manage Profile</h2>
+            <p>Update your details below. This will generate your configuration file.</p>
+            
+            <form>
+                <div class="form-group">
+                    <label>Website URL</label>
+                    <input type="text" placeholder="e.g. your-website.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" placeholder="e.g. Tech, Bakery, Consulting">
+                </div>
+
+                <div class="form-group">
+                    <label>Description (Max 140 chars)</label>
+                    <textarea maxlength="140" placeholder="A short, punchy summary of what you do."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number</label>
+                    <input type="text" placeholder="e.g. 27820000000">
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="e.g. Cape Town, SA">
+                </div>
+
+                <button type="button" class="btn">Save & Generate Configuration</button>
+            </form>
+            
+            <h3>Your discovery.json Preview:</h3>
+            <div class="code-preview">
+{
+  "site": "your-website.com",
+  "category": "Tech", 
+  "description": "...",
+  "whatsapp": "...",
+  "location": "..."
+}
+            </div>
+        </div>
+
+        <div class="explainer-section">
+            <h1>Fair Discovery Engine 🌍</h1>
+            <p><strong>The decentralized, human-first website directory.</strong> Fair Discovery ranks websites based on verified human interaction, blocking bots to reveal true authority.</p>
+            
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+
+            <h2>🚀 How to Join (3 Simple Steps)</h2>
+
+            <div class="step-box">
+                <h3>Step 1: Download the Kit</h3>
+                <ol>
+                    <li>Go to the <a href="https://github.com/fair-collective/fair-discovery/tree/main/public" target="_blank">public folder</a> in this repository.</li>
+                    <li>Download the contents (or the whole zip).</li>
+                    <li>You need 3 specific files: <code>engagement.js</code>, <code>record.php</code>, and <code>discovery.json</code> (Use the code generated above for this file).</li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 2: Install on your Website</h3>
+                <ol>
+                    <li>Create a folder named <code>fair-discovery</code> in your website's root (public_html).</li>
+                    <li>Upload the 3 files into that folder.</li>
+                    <li>Add this script line to your website's <strong>Footer</strong> (before the closing <code>&lt;/body&gt;</code> tag):<br><br>
+                        <code>&lt;script src="/fair-discovery/engagement.js"&gt;&lt;/script&gt;</code>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 3: Join the Network</h3>
+                <ol>
+                    <li>Go to our <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site%3A%20[YOUR_URL_HERE]&body=Please%20add%20my%20feed:%20https://your-site.com/fair-discovery/discovery.json" target="_blank">Issues Page</a>.</li>
+                    <li>Paste your discovery link (e.g., <code>https://yoursite.com/fair-discovery/discovery.json</code>).</li>
+                    <li>Submit the issue. Our robot will verify your site and add you to the search engine automatically!</li>
+                </ol>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>
