@@ -45,9 +45,22 @@
   .brand { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: bold; }
   .brand svg { width: 32px; height: 32px; }
   
-  .controls { display: flex; gap: 8px; }
-  .btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; font-size: 0.85rem; }
+  .controls { display: flex; gap: 8px; align-items: center; }
+  
+  .btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--glass); color: var(--text); cursor: pointer; font-size: 0.85rem; display: inline-block; }
   .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SPECIAL STYLE FOR PORTAL BUTTON */
+  .btn-primary { 
+      background-color: var(--accent); 
+      color: white !important; 
+      border-color: var(--accent); 
+      font-weight: 600;
+  }
+  .btn-primary:hover { 
+      filter: brightness(1.1); 
+      box-shadow: 0 0 10px rgba(26, 115, 232, 0.4); 
+  }
 
   /* FILTERS */
   .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
@@ -105,6 +118,8 @@
         Fair Discovery
       </div>
       <div class="controls">
+        <a href="portal.html" class="btn btn-primary">🔑 Merchant Portal</a>
+        
         <button class="btn" onclick="openJoin()">🚀 Join</button>
         <button class="btn" onclick="toggleTheme()">🌙</button>
       </div>
