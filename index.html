@@ -1,543 +1,447 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <meta name="description" content="Fair Discovery: The decentralized, AI-ranked directory of authentic businesses." />
 <meta name="theme-color" content="#1a73e8" />
 <title>Fair Discovery Directory</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%231a73e8'/%3E%3Cstop offset='1' stop-color='%236ce0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M50 6 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 Z' fill='url(%23g)'/%3E%3Ccircle cx='50' cy='44' r='14' stroke='white' stroke-width='5' fill='none'/%3E%3C/svg%3E">
+
 <style>
-  /* ---------- THEME / LAYOUT ---------- */
-  :root{
-    --bg:#0f1723; /* deep navy background for subtle futuristic */
-    --surface:#0b1220; /* card surface */
-    --card-bg:#08101a; /* inner card */
-    --muted:#9aa4b2;
-    --text:#e6eef7;
-    --sub:#9fb0c8;
-    --border:rgba(255,255,255,0.04);
-    --accentA:#1a73e8;
-    --accentB:#6ce0ff;
-    --glass: rgba(255,255,255,0.03);
-    --shadow: 0 8px 28px rgba(2,6,23,0.6);
-    font-family: Inter, "Google Sans", Roboto, "Segoe UI", sans-serif;
+  /* ---------- THEME VARIABLES (Dark Default) ---------- */
+  :root {
+    --bg: #0f1723;
+    --surface: #0b1220;
+    --card-bg: #08101a;
+    --text: #e6eef7;
+    --sub: #9fb0c8;
+    --muted: #64748b;
+    --border: rgba(255,255,255,0.08);
+    --accentA: #1a73e8;
+    --accentB: #6ce0ff;
+    --glass: rgba(255,255,255,0.05);
+    --shadow: 0 8px 28px rgba(0,0,0,0.6);
+    --success: #1e8e3e;
+    font-family: Inter, "Google Sans", Roboto, sans-serif;
   }
-  /* Light-mode fallback */
-  @media (prefers-color-scheme: light) {
-    :root{
-      --bg:#f6f8fb; --surface:#ffffff; --card-bg:#ffffff; --muted:#6b7280; --text:#0b1220; --sub:#6b7280; --border:#e6e9ef; --glass: rgba(16,24,40,0.02); --shadow: 0 10px 30px rgba(16,24,40,0.06);
-    }
+
+  /* Light Mode Override */
+  :root[data-theme="light"] {
+    --bg: #f6f8fb;
+    --surface: #ffffff;
+    --card-bg: #ffffff;
+    --text: #0b1220;
+    --sub: #4b5563;
+    --muted: #9ca3af;
+    --border: #e5e7eb;
+    --glass: rgba(0,0,0,0.03);
+    --shadow: 0 10px 30px rgba(0,0,0,0.05);
   }
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg) 0%, #020212 100%);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-  a{color:inherit;text-decoration:none}
-  .container-wrap{max-width:1200px;margin:0 auto;padding:20px}
+
+  /* ---------- RESET & BASE ---------- */
+  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  
+  /* Main Container to prevent overflow */
+  .app-wrapper {
+    max-width: 1200px; margin: 0 auto; padding: 0 20px;
+    display: flex; flex-direction: column; min-height: 100vh;
+  }
+
   /* ---------- HEADER ---------- */
-  header{padding:22px 16px;border-bottom:1px solid var(--border);backdrop-filter: blur(6px);position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(0,0,0,0.25), transparent)}
-  .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto}
-  .brand{display:flex;gap:12px;align-items:center}
-  .brand svg{width:48px;height:48px}
-  h1{font-size:1.15rem;margin:0;line-height:1;color:var(--text)}
-  .subtitle{font-size:0.86rem;color:var(--sub);margin-top:4px}
-  .controls{display:flex;gap:8px;align-items:center}
-  .btn{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;box-shadow:0 6px 18px rgba(26,115,232,0.12)}
-  .ghost{background:var(--glass);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
-  select.lang{appearance:none;padding:8px 28px 8px 10px;border-radius:10px;border:1px solid var(--border);background:var(--glass);color:var(--text)}
-  /* ---------- FILTERS ---------- */
-  .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;padding:18px 12px;max-width:1200px;margin:10px auto}
-  .search{flex:1;min-width:220px;position:relative}
-  .search input{width:100%;padding:12px 44px 12px 14px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);color:var(--text);outline:none}
-  .geo-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;opacity:.9;color:var(--sub);cursor:pointer}
-  .select{padding:10px 36px 10px 12px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);color:var(--text);min-width:160px;appearance:none}
-  /* cascading container */
-  .loc-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  /* ---------- GRID & CARD ---------- */
-  main{padding:10px 12px 40px}
-  .stats{max-width:1200px;margin:8px auto;color:var(--sub);display:flex;justify-content:space-between;align-items:center}
-  .grid{max-width:1200px;margin:16px auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:4px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;min-height:220px;position:relative;box-shadow:var(--shadow);transition:transform .18s}
-  .card:focus{outline:2px solid rgba(255,255,255,0.04)}
-  .card:hover{transform:translateY(-6px)}
-  .banner{width:100%;aspect-ratio:16/9;background-size:cover;background-position:center;flex-shrink:0}
-  .card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .brand-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .logo{width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid var(--border)}
-  .title{font-weight:700;font-size:1rem;margin:0;color:var(--text)}
-  .meta{color:var(--sub);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .desc{color:var(--muted);font-size:.9rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  /* VERIFIED badge placed inside card, top-right */
-  .badge-wrap{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:4}
-  .verified{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.78rem;box-shadow:0 6px 18px rgba(26,115,232,0.12)}
-  .deal{background:rgba(255,255,255,0.03);color:#ffd1c8;padding:6px 8px;border-radius:8px;font-weight:700;border:1px solid rgba(255,255,255,0.03);font-size:.78rem}
-  .footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);font-size:.9rem;color:var(--sub)}
-  /* ---------- MODAL ---------- */
-  .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6), rgba(2,6,23,0.8));z-index:200}
-  .modal{width:calc(100% - 48px);max-width:720px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg, rgba(10,14,20,0.9), rgba(7,10,14,0.95));box-shadow:0 40px 80px rgba(2,6,23,0.7);max-height:90vh;display:flex;flex-direction:column}
-  .modal-banner{height:220px;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end;padding:18px;color:white}
-  .modal-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent);}
-  .modal-close{position:absolute;right:12px;top:12px;background:rgba(255,255,255,0.06);border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.06);z-index:6}
-  .modal-body{padding:16px;overflow:auto}
-  .modal-header{display:flex;gap:12px;align-items:flex-end;margin-top:-42px;position:relative;z-index:5}
-  .modal-logo{width:72px;height:72px;border-radius:12px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-size:26px;border:1px solid var(--border)}
-  .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
-  .info-box{background:transparent;padding:10px;border-radius:10px;border:1px solid var(--border);font-size:.9rem}
-  .info-label{font-size:.72rem;color:var(--sub);font-weight:700;text-transform:uppercase;display:block;margin-bottom:8px}
-  .btn-primary{background:linear-gradient(90deg,var(--accentA),var(--accentB));color:white;padding:10px;border-radius:10px;border:none;width:100%;cursor:pointer;font-weight:700;font-size:1rem}
-  /* responsive tweaks */
-  @media (max-width:880px){
-    .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-    .banner{aspect-ratio:4/3}
-    .modal-banner{height:180px}
-    .modal{max-width:640px}
+  header {
+    padding: 20px 0; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
   }
-  @media (max-width:520px){
-    .header-inner{flex-direction:column;align-items:flex-start;gap:8px}
-    .filters{padding:12px}
-    .grid{gap:12px}
-    .brand svg{width:40px;height:40px}
+  
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { width: 42px; height: 42px; flex-shrink: 0; }
+  h1 { font-size: 1.4rem; margin: 0; background: linear-gradient(90deg, var(--accentA), var(--accentB)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { font-size: 0.85rem; color: var(--sub); display: none; } /* Hidden on mobile to save space */
+
+  .controls { display: flex; gap: 8px; align-items: center; }
+  
+  .btn {
+    background: linear-gradient(90deg, var(--accentA), var(--accentB)); color: white;
+    padding: 8px 16px; border-radius: 50px; border: none; cursor: pointer;
+    font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(26,115,232,0.3);
+    transition: transform 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  
+  .btn-ghost {
+    background: var(--glass); border: 1px solid var(--border); color: var(--text);
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accentA); }
+
+  /* Dropdown Fix */
+  select.lang-select {
+    background: var(--glass); border: 1px solid var(--border); color: var(--text);
+    padding: 8px; border-radius: 8px; outline: none; cursor: pointer;
+  }
+  select.lang-select option { background: var(--bg); color: var(--text); } /* Fixes invisible text */
+
+  /* ---------- FILTERS ---------- */
+  .filters { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+  
+  .search-box {
+    flex: 2; min-width: 200px; position: relative;
+  }
+  .search-box input {
+    width: 100%; padding: 12px 40px 12px 15px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--glass); color: var(--text);
+    font-size: 1rem; outline: none;
+  }
+  .search-box input:focus { border-color: var(--accentA); }
+  
+  .select-box {
+    flex: 1; min-width: 140px; padding: 12px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--glass); color: var(--text);
+    cursor: pointer; outline: none;
+  }
+  .select-box option { background: var(--bg); color: var(--text); }
+
+  /* ---------- GRID ---------- */
+  .stats { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.85rem; margin-bottom: 15px; }
+  
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+    padding-bottom: 40px;
+  }
+
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; display: flex; flex-direction: column; position: relative;
+    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accentA); }
+  
+  .card-banner { height: 100px; background-size: cover; background-position: center; position: relative; }
+  .card-banner::after { content:''; position: absolute; inset:0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.6)); }
+  
+  .card-body { padding: 15px; position: relative; flex: 1; display: flex; flex-direction: column; }
+  
+  .card-logo {
+    width: 50px; height: 50px; background: var(--card-bg); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    position: absolute; top: -25px; left: 15px; border: 2px solid var(--card-bg);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  
+  .card-badges { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+  .badge-verified { background: rgba(30,142,62,0.15); color: #2e7d32; }
+  .badge-deal { background: linear-gradient(135deg, #FF512F, #DD2476); color: white; box-shadow: 0 2px 6px rgba(255,81,47,0.3); }
+
+  .card-title { margin: 25px 0 5px; font-size: 1.1rem; font-weight: 700; }
+  .card-meta { font-size: 0.85rem; color: var(--sub); margin-bottom: 10px; }
+  .card-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+  
+  .card-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--sub); }
+  .score { font-weight: 700; color: var(--accentA); font-size: 1rem; }
+
+  /* ---------- FOOTER ---------- */
+  footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); margin-top: auto; color: var(--muted); font-size: 0.9rem; }
+  footer a { color: var(--accentB); }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay { 
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+    z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-card {
+    background: var(--card-bg); width: 100%; max-width: 500px; border-radius: 20px;
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;
+    max-height: 90vh; overflow-y: auto; animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  
+  .modal-close { 
+    position: absolute; top: 15px; right: 15px; width: 32px; height: 32px;
+    background: rgba(255,255,255,0.2); border-radius: 50%; color: white;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10;
+  }
+
+  .modal-banner { height: 140px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 20px; }
+  .modal-quote { color: white; font-style: italic; font-size: 0.9rem; position: relative; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+  .modal-content { padding: 20px; }
+  .info-row { display: flex; gap: 10px; margin: 20px 0; }
+  .info-item { flex: 1; background: var(--bg); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; }
+  
+  .rating-stars { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
+  .star { font-size: 1.5rem; color: var(--border); cursor: pointer; transition: 0.2s; background: none; border: none; }
+  .star:hover { color: #fbbf24; transform: scale(1.2); }
+
+  @media (min-width: 768px) {
+    .subtitle { display: block; }
   }
 </style>
 </head>
 <body>
-<header>
-  <div class="header-inner container-wrap">
-    <div class="brand">
-      <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#6ce0ff"/></linearGradient></defs>
-        <path d="M50 6 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 Z" fill="url(#g)"/>
-        <circle cx="50" cy="44" r="14" stroke="white" stroke-width="5" fill="none"/>
-      </svg>
-      <div>
-        <h1>Fair Discovery</h1>
-        <div class="subtitle">Business directory ranked by real humans — modern, fair, and transparent.</div>
-      </div>
-    </div>
-    <div class="controls" role="toolbar" aria-label="site actions">
-      <button class="btn" onclick="openJoin()">🚀 Join</button>
-      <button class="ghost" id="installBtn" onclick="installPWA()" style="display:none">📲 Install</button>
-      <select class="lang" onchange="changeLanguage(this.value)" aria-label="language">
-        <option value="en">EN</option>
-        <option value="es">ES</option>
-      </select>
-      <button class="ghost" onclick="toggleTheme()" aria-label="toggle theme">🌓</button>
-    </div>
-  </div>
-</header>
-<section class="filters container-wrap" aria-label="search and filters">
-  <div class="search" style="flex:1">
-    <input id="searchInput" placeholder="Search businesses, names, or descriptions..." aria-label="Search" />
-    <button class="geo-btn" onclick="geoFindMe()" aria-label="use my location">📍</button>
-  </div>
-  <select id="catFilter" class="select" onchange="filter()" aria-label="Category">
-    <option value="all">All categories</option>
-    <option value="Auto">Auto</option>
-    <option value="Tech">Tech</option>
-    <option value="Health">Health</option>
-    <option value="Service">Services</option>
-    <option value="Retail">Retail</option>
-    <option value="Artists">Artists</option>
-    <option value="Real Estate">Property</option>
-    <option value="Travel">Travel</option>
-  </select>
-  <div class="loc-wrap">
-    <select id="countrySelect" class="select" onchange="onCountryChange()" aria-label="Country">
-      <option value="all">All countries</option>
-    </select>
-    <select id="stateSelect" class="select" onchange="onStateChange()" aria-label="State" style="display:none">
-      <option value="all">— State / Province —</option>
-    </select>
-    <select id="citySelect" class="select" onchange="filter()" aria-label="City" style="display:none">
-      <option value="all">— City —</option>
-    </select>
-  </div>
-</section>
-<main>
-  <div class="container-wrap stats">
-    <div id="countLabel">Loading…</div>
-    <div style="color:var(--sub)">Network Live</div>
-  </div>
-  <div id="grid" class="grid" aria-live="polite" role="list"></div>
-  <div id="pagination" class="container-wrap" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;justify-content:center"></div>
-</main>
-<footer style="padding:28px 20px;text-align:center;color:var(--muted);border-top:1px solid var(--border)">
-  <div>Fair Discovery &copy; 2025 • Decentralized & Open Source</div>
-  <div style="margin-top:12px"><a href="https://www.buymeacoffee.com/Prinymity" target="_blank" style="background:#FFDD00;color:#111;padding:8px 14px;border-radius:18px;text-decoration:none;font-weight:700">☕ Support the Dev</a></div>
-</footer>
-<!-- Modal -->
-<div id="profileModal" class="modal-backdrop" onclick="closeModal()">
-  <div class="modal" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
-    <div id="mBanner" class="modal-banner" style="background-image:linear-gradient(180deg, rgba(0,0,0,0.45), transparent), url('');">
-      <button class="modal-close" id="modalCloseBtn" aria-label="close">✕</button>
-      <div style="z-index:5;color:white;font-style:italic" id="mQuote"></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-header">
-        <div class="modal-logo" id="mLogo">🌐</div>
-        <div>
-          <h2 id="mTitle" style="margin:0">Business Name</h2>
-          <div id="mMeta" style="color:var(--sub);margin-top:6px">Category • Location</div>
+
+<div class="app-wrapper">
+    <header>
+        <div class="brand">
+            <svg viewBox="0 0 100 100" fill="none"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#6ce0ff"/></linearGradient></defs><path d="M50 6 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 Z" fill="url(#g)"/><circle cx="50" cy="44" r="14" stroke="white" stroke-width="5" fill="none"/></svg>
+            <h1>Fair Discovery</h1>
+            <div class="subtitle" data-i18n="subtitle">The decentralized, AI-ranked directory.</div>
         </div>
-      </div>
-      <p id="mDesc" style="margin-top:12px;color:var(--muted);line-height:1.5">Description</p>
-      <div class="info-grid">
-        <div class="info-box"><span class="info-label">📍 Location</span><div id="mLoc">City</div></div>
-        <div class="info-box"><span class="info-label">📞 Contact</span><div id="mPhone">N/A</div></div>
-      </div>
-      <a id="mLink" class="btn-primary" href="#" target="_blank" style="display:block;margin-top:8px">Visit Website ↗</a>
-      <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px;text-align:center">
-        <div class="info-label" style="display:inline-block;margin-bottom:8px">Rate this Business</div>
-        <div class="rating-stars" style="margin-top:6px">
-          <button class="star" onclick="rate(1)">★</button>
-          <button class="star" onclick="rate(2)">★</button>
-          <button class="star" onclick="rate(3)">★</button>
-          <button class="star" onclick="rate(4)">★</button>
-          <button class="star" onclick="rate(5)">★</button>
+        <div class="controls">
+            <button class="btn" onclick="openJoin()">🚀 <span data-i18n="join">Join</span></button>
+            <select class="lang-select" onchange="setLang(this.value)">
+                <option value="en">🇺🇸 EN</option>
+                <option value="es">🇪🇸 ES</option>
+                <option value="fr">🇫🇷 FR</option>
+            </select>
+            <button class="btn-ghost" onclick="toggleTheme()">🌓</button>
         </div>
-        <p style="color:var(--muted);font-size:.86rem;margin-top:8px">Rate anonymously via Google Forms</p>
-      </div>
+    </header>
+
+    <div class="filters">
+        <div class="search-box">
+            <input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Search services, shops...">
+        </div>
+        
+        <select id="catFilter" class="select-box" onchange="filter()">
+            <option value="all" data-i18n="cat_all">All Categories</option>
+            <option value="Auto" data-i18n="cat_auto">🚗 Auto</option>
+            <option value="Tech" data-i18n="cat_tech">💻 Tech</option>
+            <option value="Health" data-i18n="cat_health">🏥 Health</option>
+            <option value="Service" data-i18n="cat_service">🛠️ Services</option>
+            <option value="Retail" data-i18n="cat_retail">🛍️ Retail</option>
+            <option value="Artists" data-i18n="cat_artists">🎨 Artists</option>
+        </select>
+
+        <select id="locFilter" class="select-box" onchange="filter()">
+            <option value="all" data-i18n="loc_global">🌍 Global</option>
+        </select>
     </div>
-  </div>
-</div>
-<!-- Join modal (simple) -->
-<div id="joinModal" class="modal-backdrop" onclick="closeJoin()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div style="padding:18px">
-      <button class="modal-close" onclick="closeJoin()">✕</button>
-      <h3>How to Join</h3>
-      <p>1. Download the <code>fair-discovery</code> folder from GitHub.<br>2. Upload to your site root.<br>3. Submit your URL below.</p>
-      <a href="https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site" class="btn-primary" target="_blank">Submit Site</a>
+
+    <div class="stats">
+        <span id="countLabel">Loading...</span>
+        <span>Network Live</span>
     </div>
-  </div>
+
+    <div id="grid" class="grid"></div>
+
+    <footer>
+        <p>Fair Discovery © 2025 • Decentralized & Open Source</p>
+        <div style="margin: 20px 0;">
+            <a href="https://www.buymeacoffee.com/Prinymity" target="_blank" class="btn" style="background:#FFDD00; color:black; text-decoration:none;">☕ Support the Dev</a>
+        </div>
+        <p style="font-size:0.8rem;">Powered by Gemini • GitHub • The Fair Collective • <a href="data.json" target="_blank">API</a></p>
+    </footer>
 </div>
-<script>
-/* ---------- State ---------- */
-const FEED = 'data.json';
-let allData = [], filtered = [];
-let currentBiz = '', currentIdx = -1;
-let limit = 12, currentPage = 1;
-/* ---------- Quotes ---------- */
-const quotes = [
-  "Quality means doing it right when no one is looking.",
-  "Truth is the only safe ground.",
-  "Honesty is the first chapter of wisdom.",
-  "Consistency builds credibility.",
-  "Good business is built on clear promises delivered."
-];
-/* ---------- Images (neutral + category) ---------- */
-const images = {
-  neutral: [
-    'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1522204523234-042ca7e6f639?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Auto: [
-    'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1568605117036-5ecf0d9aed3f?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Tech: [
-    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Health: [
-    'https://images.unsplash.com/photo-1582719478183-933a1aa3e197?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1576091160399-112ba4d25aa5?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1554734867-d4eb2aac71fa?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Service: [
-    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45c?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Retail: [
-    'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Artists: [
-    'https://images.unsplash.com/photo-1504198266284-1659872e6590?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1542838132-92a6e376f72d?auto=format&fit=crop&w=1200&q=80'
-  ],
-  'Real Estate': [
-    'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1512917778734-df2b5082e743?auto=format&fit=crop&w=1200&q=80'
-  ],
-  Travel: [
-    'https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=80'
-  ]
-};
-/* ---------- UTIL ---------- */
-function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function dailyQuote(){ const d = new Date(); return quotes[Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()/(1000*60*60*24)) % quotes.length]; }
-function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-/* ---------- PWA ---------- */
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; document.getElementById('installBtn').style.display = 'inline-flex'; });
-function installPWA(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt = null; } }
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-/* ---------- DATA ---------- */
-async function init(){
-  try{
-    const res = await fetch(FEED + '?_=' + Date.now());
-    const json = await res.json();
-    processData(json.pages || []);
-  }catch(e){
-    console.error(e);
-    document.getElementById('grid').innerHTML = '<p style="text-align:center;color:var(--muted)">Could not load feed.</p>';
-  }
-}
-function processData(pages){
-  const map = {};
-  pages.forEach(p=>{
-    try{
-      let url = p.url || '';
-      if(!url) return;
-      if(!/^https?:\/\//i.test(url)) url = (url.startsWith('//')? 'https:' + url : 'https://' + url);
-      const hostname = new URL(url).hostname;
-      if(!map[hostname]) map[hostname] = { domain: hostname, url: p.url, score:0, cat: p.category, desc: p.description || 'Verified listing.', wa: p.whatsapp || '', loc: p.location || 'Global' };
-      map[hostname].score += Number(p.score) || 0;
-      if(p.category) map[hostname].cat = p.category;
-      if(p.description) map[hostname].desc = p.description;
-    }catch(err){}
-  });
-  allData = Object.values(map).sort((a,b)=> (b.score||0) - (a.score||0));
-  allData.forEach(item => {
-    if (!item.cat) item.cat = inferCat(item.domain, item.desc);
-  });
-  buildLocationIndex();
-  filter();
-}
-/* ---------- CATEGORY INFERENCE (improved heuristic) ---------- */
-function inferCat(domain, desc = '') {
-  const text = (domain + ' ' + desc).toLowerCase();
-  if (text.match(/auto|garage|car|panel|mechanic|repair|vehicle|dealership|tyre|tire|automotive/)) return 'Auto';
-  if (text.match(/tech|app|cloud|software|it|dev|programming|computer|electronics|gadget|hosting|web|ai|blockchain|crypto/)) return 'Tech';
-  if (text.match(/health|clinic|medical|dentist|pharm|doctor|hospital|wellness|fitness|gym|therapy|nutrition/)) return 'Health';
-  if (text.match(/art|gallery|studio|designer|paint|sculpt|music|photography|creative|illustration/)) return 'Artists';
-  if (text.match(/shop|store|boutique|retail|market|supermarket|ecommerce|merch|fashion|clothing|grocer/)) return 'Retail';
-  if (text.match(/property|estate|realtor|realestate|home|house|apartment|rent|buy|sell|broker|mortgage/)) return 'Real Estate';
-  if (text.match(/travel|tour|trip|holiday|vacation|hotel|resort|flight|adventure|tourism|backpack/)) return 'Travel';
-  if (text.match(/service|consult|agency|law|legal|finance|accounting|marketing|cleaning|plumb|electric/)) return 'Service';
-  return 'Service'; // default
-}
-/* ---------- SMART IMAGE PICKER (hybrid) ---------- */
-function smartImageFor(item){
-  // prefer explicit category if safe
-  if(item.cat && images[item.cat]) return pick(images[item.cat]);
-  // try to detect using domain/title/desc
-  const text = (item.domain + ' ' + (item.desc||'') + ' ' + (item.cat||'')).toLowerCase();
-  for(const k of Object.keys(images)){
-    if(k==='neutral') continue;
-    const key = k.toLowerCase();
-    if(text.includes(key) || text.match(new RegExp('\\b' + key.split(' ')[0] + '\\b'))) {
-      return pick(images[k]);
-    }
-  }
-  // fallback neutral
-  return pick(images.neutral);
-}
-/* ---------- LOCATION INDEX FOR CASCADING ---------- */
-let locIndex = {};
-function buildLocationIndex(){
-  locIndex = {};
-  allData.forEach(i=>{
-    const raw = (i.loc || '').trim();
-    const parts = raw.split(',').map(s=>s.trim()).filter(Boolean);
-    if(parts.length === 0) addToLoc('Global','All','All');
-    else if(parts.length === 1) addToLoc(parts[0],'All','All');
-    else if(parts.length === 2) addToLoc(parts[1],parts[0],'All');
-    else {
-      const city = parts[0], state = parts[1], country = parts.slice(2).join(', ');
-      addToLoc(country,state,city);
-    }
-  });
-  populateCountrySelect();
-}
-function addToLoc(country, state='All', city='All'){
-  if(!country) country = 'Global';
-  if(!locIndex[country]) locIndex[country] = {};
-  if(!locIndex[country][state]) locIndex[country][state] = new Set();
-  if(city) locIndex[country][state].add(city);
-}
-function populateCountrySelect(){
-  const sel = document.getElementById('countrySelect');
-  sel.innerHTML = '<option value="all">All countries</option>';
-  const countries = Object.keys(locIndex).sort();
-  countries.forEach(c => { if(c && c.toLowerCase() !== 'all') sel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`; });
-  document.getElementById('stateSelect').style.display='none';
-  document.getElementById('citySelect').style.display='none';
-}
-function onCountryChange(){
-  const country = document.getElementById('countrySelect').value;
-  const stateSel = document.getElementById('stateSelect');
-  const citySel = document.getElementById('citySelect');
-  stateSel.innerHTML = '<option value="all">— State / Province —</option>';
-  citySel.innerHTML = '<option value="all">— City —</option>';
-  citySel.style.display = 'none';
-  if(country === 'all'){ stateSel.style.display='none'; filter(); return; }
-  const states = Object.keys(locIndex[country] || {}).sort();
-  states.forEach(s => stateSel.innerHTML += `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`);
-  stateSel.style.display='inline-block';
-  filter();
-}
-function onStateChange(){
-  const country = document.getElementById('countrySelect').value;
-  const state = document.getElementById('stateSelect').value;
-  const citySel = document.getElementById('citySelect');
-  citySel.innerHTML = '<option value="all">— City —</option>';
-  if(!country || state === 'all'){ citySel.style.display='none'; filter(); return; }
-  const cities = Array.from(locIndex[country][state] || []).sort();
-  cities.forEach(c => citySel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`);
-  citySel.style.display='inline-block';
-  filter();
-}
-/* ---------- FILTER / RENDER ---------- */
-function filter(){
-  const cat = document.getElementById('catFilter').value;
-  const term = (document.getElementById('searchInput').value || '').toLowerCase();
-  const country = document.getElementById('countrySelect').value || 'all';
-  const state = document.getElementById('stateSelect').value || 'all';
-  const city = document.getElementById('citySelect').value || 'all';
-  filtered = allData.filter(i=>{
-    const matchCat = cat === 'all' || (i.cat === cat);
-    const text = (i.domain + ' ' + (i.desc||'') + ' ' + (i.cat||'') + ' ' + (i.loc||'')).toLowerCase();
-    const matchText = text.includes(term);
-    let matchLoc = true;
-    if(country !== 'all'){
-      matchLoc = (i.loc && i.loc.toLowerCase().includes(country.toLowerCase()));
-      if(matchLoc && state !== 'all') matchLoc = i.loc.toLowerCase().includes(state.toLowerCase());
-      if(matchLoc && city !== 'all') matchLoc = i.loc.toLowerCase().includes(city.toLowerCase());
-    }
-    return matchCat && matchText && matchLoc;
-  });
-  currentPage = 1;
-  render();
-}
-function render(){
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
-  const start = (currentPage - 1) * limit;
-  const pageItems = filtered.slice(start, start + limit);
-  pageItems.forEach((item, idx)=>{
-    const globalIdx = start + idx;
-    const flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-    const banner = smartImageFor(item);
-    const deal = item.deal ? escapeHtml(item.deal) : '';
-    const el = document.createElement('article');
-    el.className = 'card';
-    el.role = 'listitem';
-    el.tabIndex = 0;
-    el.innerHTML = `
-      <div class="banner" style="background-image:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.06)), url('${escapeHtml(banner)}')"></div>
-      <div class="badge-wrap">
-        <div class="verified">✓ Verified</div>
-        ${ deal ? `<div class="deal">${deal}</div>` : '' }
-      </div>
-      <div class="card-body">
-        <div class="brand-row">
-          <div style="display:flex;gap:10px;align-items:center">
-            <div class="logo">${flag}</div>
-            <div style="min-width:0">
-              <div class="title">${escapeHtml(formatTitle(item.domain))}</div>
-              <div class="meta">${escapeHtml(item.domain.replace('.local',''))}</div>
+
+<div id="modal" class="modal-overlay" onclick="closeModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div id="mBanner" class="modal-banner" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80')">
+            <div class="modal-close" onclick="closeModal()">✕</div>
+            <div class="modal-quote" id="mQuote"></div>
+        </div>
+        <div class="modal-content">
+            <div class="card-logo" id="mLogo">🌐</div>
+            <h2 id="mTitle" style="margin-top:10px;">Business Name</h2>
+            <p id="mMeta" style="color:var(--sub); margin:0;">Category</p>
+            <p id="mDesc" style="line-height:1.6; margin:20px 0;">Description...</p>
+            
+            <div class="info-row">
+                <div class="info-item"><strong>📍 Location</strong><br><span id="mLoc">City</span></div>
+                <div class="info-item"><strong>📞 Contact</strong><br><span id="mPhone">Num</span></div>
             </div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-weight:700;color:var(--accentA)">${(item.score>1000?(item.score/1000).toFixed(1)+'k': item.score||0)}</div>
-            <div style="font-size:.82rem;color:var(--muted)">Auth</div>
-          </div>
+            
+            <a id="mLink" href="#" target="_blank" class="btn" style="display:block; text-align:center; text-decoration:none;">Visit Website ↗</a>
+            
+            <div style="text-align:center; margin-top:25px; padding-top:15px; border-top:1px solid var(--border);">
+                <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; color:var(--sub);">Rate this Business</span>
+                <div class="rating-stars">
+                    <button class="star" onclick="rate(5)">★</button>
+                    <button class="star" onclick="rate(4)">★</button>
+                    <button class="star" onclick="rate(3)">★</button>
+                    <button class="star" onclick="rate(2)">★</button>
+                    <button class="star" onclick="rate(1)">★</button>
+                </div>
+                <p style="font-size:0.75rem; color:var(--muted);">Anonymous voting via Google Forms</p>
+            </div>
         </div>
-        <div class="desc">${escapeHtml(item.desc)}</div>
-        <div class="footer-row">
-          <div style="font-weight:600">${escapeHtml(item.cat)}</div>
-          <div style="color:var(--muted)">${escapeHtml(item.loc||'Global')}</div>
-        </div>
-      </div>
-    `;
-    el.addEventListener('click', ()=> openModal(globalIdx));
-    el.addEventListener('keypress', e => { if(e.key==='Enter') openModal(globalIdx); });
-    grid.appendChild(el);
-  });
-  renderPagination();
-}
-/* ---------- MODAL behavior ---------- */
-const modalBackdrop = document.getElementById('profileModal');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
-function openModal(globalIdx){
-  const item = filtered[globalIdx];
-  if(!item) return;
-  currentIdx = globalIdx;
-  currentBiz = formatTitle(item.domain);
-  // fill modal
-  const banner = document.getElementById('mBanner');
-  banner.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.45), transparent), url('${escapeHtml(smartImageFor(item))}')`;
-  document.getElementById('mQuote').innerText = dailyQuote();
-  document.getElementById('mTitle').innerText = currentBiz;
-  document.getElementById('mMeta').innerText = `${item.cat} • ${item.loc || 'Global'}`;
-  document.getElementById('mDesc').innerText = item.desc || 'Verified listing.';
-  document.getElementById('mLoc').innerText = item.loc || 'Global';
-  document.getElementById('mPhone').innerText = item.wa ? '+'+item.wa : 'N/A';
-  document.getElementById('mLogo').innerText = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
-  document.getElementById('mLink').href = item.url || (item.wa ? `https://wa.me/${item.wa}` : '#');
-  // show modal and lock body scroll
-  modalBackdrop.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  // focus close button for accessibility
-  setTimeout(()=> modalCloseBtn && modalCloseBtn.focus(), 80);
-}
-function closeModal(){
-  modalBackdrop.style.display = 'none';
-  document.body.style.overflow = '';
-}
-/* hook close button and ESC key */
-document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
-modalBackdrop.addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-/* ---------- JOIN modal ---------- */
-const joinBackdrop = document.getElementById('joinModal');
-function openJoin(){ joinBackdrop.style.display = 'flex'; document.body.style.overflow='hidden'; }
-function closeJoin(){ joinBackdrop.style.display = 'none'; document.body.style.overflow=''; }
-/* ---------- Pagination ---------- */
-function renderPagination(){
-  const pag = document.getElementById('pagination');
-  pag.innerHTML = '';
-  const pages = Math.ceil(filtered.length / limit) || 1;
-  if(pages <= 1) return;
-  for(let i=1;i<=pages;i++){
-    const btn = document.createElement('button');
-    btn.className = 'select';
-    btn.textContent = i;
-    btn.style.minWidth = '42px';
-    btn.onclick = (()=> { currentPage = i; window.scrollTo({top:0,behavior:'smooth'}); render(); });
-    if(i === currentPage){ btn.style.border = `1px solid ${getComputedStyle(document.documentElement).getPropertyValue('--accentA')}`; btn.style.fontWeight='700'; }
-    pag.appendChild(btn);
-  }
-}
-/* ---------- Rating ---------- */
-function rate(stars){
-  const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
-  const entryBizField = encodeURIComponent(currentBiz || '');
-  const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${entryBizField}&entry.741708013=${stars}`;
-  window.open(url, '_blank');
-}
-/* ---------- small helpers ---------- */
-function formatTitle(d){
-  try{ const host = d.split('.')[0]; return host.charAt(0).toUpperCase() + host.slice(1); }catch(e){ return d; }
-}
-function geoFindMe(){ alert('Location search is not enabled in this demo.'); }
-function changeLanguage(v){ alert('Language support will be available in V2.'); }
-function toggleTheme(){ document.documentElement.classList.toggle('light'); }
-/* ---------- attach search listener ---------- */
-document.getElementById('searchInput').addEventListener('input', ()=> filter());
-/* ---------- init ---------- */
-init();
+    </div>
+</div>
+
+<script>
+    // --- DATA & STATE ---
+    const FEED = 'data.json';
+    let allData = [], filtered = [];
+    let currentBiz = "";
+    
+    // --- TRANSLATIONS ---
+    const i18n = {
+        en: { subtitle: "The decentralized, AI-ranked directory.", search_ph: "Search services...", join: "Join", cat_all: "All Categories", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_service: "🛠️ Services", loc_global: "🌍 Global" },
+        es: { subtitle: "El directorio descentralizado.", search_ph: "Buscar servicios...", join: "Unirse", cat_all: "Todas", cat_auto: "🚗 Autos", cat_tech: "💻 Tec", cat_service: "🛠️ Servicios", loc_global: "🌍 Global" },
+        fr: { subtitle: "L'annuaire décentralisé.", search_ph: "Rechercher...", join: "Rejoindre", cat_all: "Toutes", cat_auto: "🚗 Auto", cat_tech: "💻 Tech", cat_service: "🛠️ Services", loc_global: "🌍 Global" }
+    };
+
+    // --- THEME & LANG LOGIC ---
+    function setLang(lang) {
+        const t = i18n[lang] || i18n.en;
+        document.querySelectorAll('[data-i18n]').forEach(e => e.innerText = t[e.dataset.i18n]);
+        document.querySelectorAll('[data-i18n-ph]').forEach(e => e.placeholder = t[e.dataset.i18nPh]);
+    }
+
+    function toggleTheme() {
+        const root = document.documentElement;
+        const newTheme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+    
+    // Load saved theme
+    if(localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light');
+
+    // --- MAIN LOGIC ---
+    async function init() {
+        try {
+            const res = await fetch(FEED + '?' + Date.now());
+            const json = await res.json();
+            
+            const map = {};
+            (json.pages || []).forEach(p => {
+                try {
+                    let d = new URL(p.url.startsWith('http')?p.url:'https://'+p.url).hostname;
+                    if(!map[d]) map[d] = {
+                        domain: d, url: p.url, score: 0, 
+                        cat: p.category || "Service", 
+                        desc: p.description || "Verified listing.",
+                        wa: p.whatsapp, loc: p.location, deal: p.deal
+                    };
+                    map[d].score += p.score;
+                } catch(e){}
+            });
+            allData = Object.values(map).sort((a,b) => b.score - a.score);
+            
+            // Populate Locations
+            const locs = new Set();
+            allData.forEach(i => {
+                if(i.loc) {
+                    locs.add(i.loc); // City, Country
+                    if(i.loc.includes(',')) locs.add(i.loc.split(',')[1].trim()); // Country only
+                }
+            });
+            const sel = document.getElementById('locFilter');
+            [...locs].sort().forEach(l => {
+                if(l) sel.innerHTML += `<option value="${l}">📍 ${l}</option>`;
+            });
+
+            filter();
+        } catch(e) { 
+            document.getElementById('grid').innerHTML = '<p style="text-align:center; color:var(--muted)">Loading network...</p>'; 
+        }
+    }
+
+    function filter() {
+        const cat = document.getElementById('catFilter').value;
+        const loc = document.getElementById('locFilter').value;
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        
+        filtered = allData.filter(i => {
+            const matchCat = cat === 'all' || i.cat === cat;
+            let matchLoc = loc === 'all';
+            if (!matchLoc && i.loc) matchLoc = i.loc.includes(loc);
+            const text = (i.domain + i.desc + i.cat).toLowerCase();
+            return matchCat && matchLoc && text.includes(term);
+        });
+        
+        render();
+    }
+
+    function render() {
+        const grid = document.getElementById('grid'); 
+        grid.innerHTML = '';
+        document.getElementById('countLabel').innerText = `Found ${filtered.length} sites`;
+        
+        filtered.forEach((item, idx) => {
+            let flag = item.domain.endsWith('.za') ? '🇿🇦' : '🌐';
+            let dealHtml = item.deal ? `<div class="badge badge-deal">🔥 ${item.deal}</div>` : '';
+            let title = formatTitle(item.domain);
+            
+            // Image logic
+            let bg = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80'; // Default Service
+            if(item.cat === 'Auto') bg = 'https://images.unsplash.com/photo-1486262715619-01b8c22973f5?auto=format&fit=crop&w=600&q=80';
+            if(item.cat === 'Tech') bg = 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80';
+            if(item.cat === 'Health') bg = 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80';
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(idx);
+            card.innerHTML = `
+                <div class="card-banner" style="background-image:url('${bg}')"></div>
+                <div class="card-body">
+                    <div class="card-logo">${flag}</div>
+                    <div class="card-badges">
+                        <div class="badge badge-verified">✓ Verified</div>
+                        ${dealHtml}
+                    </div>
+                    <h3 class="card-title">${title}</h3>
+                    <p class="card-meta">${item.domain.replace('.local','')}</p>
+                    <p class="card-desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <span>${item.cat}</span>
+                        <span class="score">${(item.score>1000?(item.score/1000).toFixed(1)+'k':item.score)} <span style="font-size:0.7em;color:var(--muted)">AUTH</span></span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function openModal(idx) {
+        const i = filtered[idx];
+        currentBiz = formatTitle(i.domain);
+        
+        document.getElementById('mTitle').innerText = currentBiz;
+        document.getElementById('mDesc').innerText = i.desc;
+        document.getElementById('mLoc').innerText = i.loc || 'Global';
+        document.getElementById('mPhone').innerText = i.wa ? '+' + i.wa : 'N/A';
+        
+        // Smart Link
+        let link = i.url;
+        if(i.domain.includes('.local') && i.wa) link = `https://wa.me/${i.wa}`;
+        document.getElementById('mLink').href = link;
+        
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function openJoin() { window.open("https://github.com/fair-collective/fair-discovery/issues/new?title=Add%20Site", '_blank'); }
+
+    function rate(stars) {
+        const formId = "1FAIpQLSefrTrv68_G_l-6-6J41szCGqg_DcTxklCcWAPJ6e-_oV0k8A";
+        const url = `https://docs.google.com/forms/d/e/${formId}/viewform?usp=pp_url&entry.1871531298=${encodeURIComponent(currentBiz)}&entry.741708013=${stars}`;
+        window.open(url, '_blank');
+    }
+
+    function formatTitle(d) {
+        if(d.includes("greyzone")) return "Grey Zone Auto Parts";
+        if(d.includes("aolocksmith")) return "AO Locksmith";
+        if(d.includes("autods")) return "Auto Digital Solutions";
+        if(d.includes("bookkeepers")) return "Bookkeepers SA";
+        if(d.includes("seritipbo")) return "Seriti PBO";
+        if(d.includes("scouts")) return "Save Our Children";
+        if(d.includes("jotto")) return "Jotto's Portfolio";
+        if(d.includes("skyrope")) return "Sky Rope Specialist";
+        if(d.includes("intpanel")) return "International Panel Shop";
+        return d.split('.')[0].charAt(0).toUpperCase() + d.split('.')[0].slice(1);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filter);
+    init();
 </script>
 </body>
 </html>
